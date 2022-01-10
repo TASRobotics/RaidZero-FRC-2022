@@ -53,7 +53,6 @@ dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
 
-    implementation 'org.apache.commons:commons-lang3:3.6'
     implementation 'org.apache.commons:commons-math3:3.6.1'
 
     roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
