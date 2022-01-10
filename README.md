@@ -4,7 +4,7 @@ Robot code for the 2021 FRC competition
 
 1/10/2022 
 
-Summary: Updated 2021 code with GradleRIO changes and 2022 api libraries, replaced deprecated code support
+Summary: Updated 2021 code with GradleRIO changes and 2022 api libraries, replaced deprecated code support 
 
 ToDo: Confirm that the updated code with the new api functions properly on the 2021 bot; test new swerve code on prototype base
 
