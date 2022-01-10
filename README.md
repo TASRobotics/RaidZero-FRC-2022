@@ -1,5 +1,5 @@
 # RaidZero-FRC-2022
-Robot code for the 2021 FRC competition
+Robot code for the 2022 FRC competition
 
 
 1/10/2022 
