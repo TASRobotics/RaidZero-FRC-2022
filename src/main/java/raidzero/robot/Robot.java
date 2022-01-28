@@ -6,16 +6,15 @@ import edu.wpi.first.wpilibj.Timer;
 import raidzero.robot.auto.AutoRunner;
 import raidzero.robot.teleop.Teleop;
 import raidzero.robot.submodules.AdjustableHood;
+import raidzero.robot.submodules.Climb;
 import raidzero.robot.submodules.ThroatLong;
 import raidzero.robot.submodules.ThroatShort;
 import raidzero.robot.submodules.Intake;
 import raidzero.robot.submodules.Led;
 import raidzero.robot.submodules.Shooter;
-import raidzero.robot.submodules.Spindexer;
 import raidzero.robot.submodules.SubmoduleManager;
 import raidzero.robot.submodules.Swerve;
 import raidzero.robot.submodules.Extension;
-import raidzero.robot.submodules.Superstructure;
 
 /**
  * The main robot class.
@@ -25,6 +24,7 @@ public class Robot extends TimedRobot {
     private static final SubmoduleManager submoduleManager = SubmoduleManager.getInstance();
 
     private static final Teleop teleop = Teleop.getInstance();
+    private static final Climb climb = Climb.getInstance();
     private static final Swerve swerve = Swerve.getInstance();
     private static final Intake intake = Intake.getInstance();
     private static final ThroatShort throatShort = ThroatShort.getInstance();
@@ -36,8 +36,6 @@ public class Robot extends TimedRobot {
     // private static final Turret turret = Turret.getInstance();
     private static final Led led = Led.getInstance();
 
-    private static final Superstructure superstructure = Superstructure.getInstance();
-
     private AutoRunner autoRunner;
 
     /**
@@ -48,8 +46,8 @@ public class Robot extends TimedRobot {
         // Register all submodules here
         submoduleManager.setSubmodules(
             // swerve,
-            superstructure,
             swerve,
+            climb,
             intake,
             throatShort,
             throatLong,

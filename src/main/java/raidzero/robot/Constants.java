@@ -113,6 +113,18 @@ public class Constants {
     }
 
     /**
+     * Climb Constants
+     */
+    public static final class ClimbConstants {
+        public static final int MOTOR_ID = 30;
+        public static final int MOTOR_ID_2 = 31;
+
+        public static final NeutralMode NEUTRAL_MODE = NeutralMode.Brake;
+        public static final InvertType INVERSION = InvertType.InvertMotorOutput;
+    }
+
+
+    /**
      * Throat Constants
      */
     public static final class ThroatShortConstants {

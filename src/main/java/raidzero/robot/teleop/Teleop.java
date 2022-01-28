@@ -3,8 +3,8 @@ package raidzero.robot.teleop;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID;
 
-import raidzero.robot.submodules.Superstructure;
 import raidzero.robot.submodules.Swerve;
+import raidzero.robot.submodules.Climb;
 import raidzero.robot.Constants.HoodConstants.HoodAngle;
 import raidzero.robot.Constants.IntakeConstants;
 import raidzero.robot.Constants.SpindexerConstants;
@@ -13,7 +13,6 @@ import raidzero.robot.submodules.ThroatShort;
 import raidzero.robot.submodules.AdjustableHood;
 import raidzero.robot.submodules.Intake;
 import raidzero.robot.submodules.Shooter;
-import raidzero.robot.submodules.Spindexer;
 import raidzero.robot.submodules.Extension;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.utils.JoystickUtils;
@@ -25,6 +24,7 @@ public class Teleop {
     private static XboxController p2 = new XboxController(1);
 
     private static final Swerve swerve = Swerve.getInstance();
+    private static final Climb climb = Climb.getInstance();
     private static final Intake intake = Intake.getInstance();
     private static final ThroatShort throatShort = ThroatShort.getInstance();
     private static final ThroatLong throatLong = ThroatLong.getInstance();
@@ -186,6 +186,15 @@ public class Teleop {
             shooter.shoot(0.0, false);
         }
 
+        /**
+         * Climb
+        */
+        climb.climb(p.getRightTriggerAxis() - p.getLeftTriggerAxis());
+        if (p.getStartButton()){
+            climb.run();
+        }else{
+            climb.stop();
+        }
 
         /**
          * Adjustable hood
