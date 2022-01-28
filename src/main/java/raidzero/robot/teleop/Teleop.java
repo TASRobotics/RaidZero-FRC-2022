@@ -8,12 +8,13 @@ import raidzero.robot.submodules.Swerve;
 import raidzero.robot.Constants.HoodConstants.HoodAngle;
 import raidzero.robot.Constants.IntakeConstants;
 import raidzero.robot.Constants.SpindexerConstants;
-import raidzero.robot.submodules.Conveyor;
+import raidzero.robot.submodules.ThroatLong;
+import raidzero.robot.submodules.ThroatShort;
 import raidzero.robot.submodules.AdjustableHood;
 import raidzero.robot.submodules.Intake;
 import raidzero.robot.submodules.Shooter;
 import raidzero.robot.submodules.Spindexer;
-import raidzero.robot.submodules.Turret;
+import raidzero.robot.submodules.Extension;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.utils.JoystickUtils;
 
@@ -25,12 +26,14 @@ public class Teleop {
 
     private static final Swerve swerve = Swerve.getInstance();
     private static final Intake intake = Intake.getInstance();
-    private static final Conveyor conveyor = Conveyor.getInstance();
-    private static final Spindexer spindexer = Spindexer.getInstance();
-    private static final Superstructure superstructure = Superstructure.getInstance();
+    private static final ThroatShort throatShort = ThroatShort.getInstance();
+    private static final ThroatLong throatLong = ThroatLong.getInstance();
+    private static final Extension extension = Extension.getInstance();
+    // private static final Spindexer spindexer = Spindexer.getInstance();
+    // private static final Superstructure superstructure = Superstructure.getInstance();
     private static final AdjustableHood hood = AdjustableHood.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
-    private static final Turret turret = Turret.getInstance();
+    // private static final Turret turret = Turret.getInstance();
     private static final Limelight limelight = Limelight.getInstance();
 
     private static boolean shift1 = false;
@@ -98,12 +101,15 @@ public class Teleop {
         /**
          * Intake
         */
-        shift1 = p.getRawButton(8);
-        // intakeOut is used to passively shuffle the spindexer
-        intakeOut = ((p.getRawButton(7) || shift1) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
-      
-        intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
-        intake.setMotorDirection(shift1);
+        if (p.getRawButton(7)) {
+            intake.intakeBalls(0.5);
+        }
+        else if (p.getRawButton(8)) {
+            intake.intakeBalls(-0.5);
+        }
+        else {
+            intake.intakeBalls(0.0);
+        }
         
     }
 
@@ -114,59 +120,89 @@ public class Teleop {
          * Turret
          */
         // Turn turret using right joystick
-        if (JoystickUtils.deadband(p.getRightX()) != 0 || autoDisabled) {
-            superstructure.setAiming(false);
-            turret.rotateManual(JoystickUtils.deadband(p.getRightX()));
-        } else {
-            superstructure.setAiming(true);
+        // if (JoystickUtils.deadband(p.getRightX()) != 0 || autoDisabled) {
+        //     superstructure.setAiming(false);
+        //     turret.rotateManual(JoystickUtils.deadband(p.getRightX()));
+        // } else {
+        //     superstructure.setAiming(true);
+        // }
+
+        /**
+         * Shooter
+         */
+        // if (p.getRightBumperPressed()) {
+        //     shooter.shoot(1.0, false);
+        // } else if (p.getRightBumperReleased()) {
+        //     shooter.shoot(0.0, false);
+        // }
+
+        /**
+         * Spindexer
+         */
+        // spindexer.rotate(JoystickUtils.deadband( ((shift2 ? -1 : 1) * p.getRightTriggerAxis()) +
+        // ((intakeOut > 0) ? 0.13 : 0)));
+        // if(p.getStartButton()) {
+        //     spindexer.rampUp();
+        // } else {
+        //     spindexer.rampDown();
+        // }
+
+        /**
+         * Throat
+         */
+        if (p.getYButton()) {
+            throatLong.moveBalls(1.0);
+            throatShort.moveBalls(1.0);
+        }
+        else if (p.getBButton()) {
+            throatLong.moveBalls(-1.0);
+            throatShort.moveBalls(-1.0);
+        }
+        else {
+            throatLong.moveBalls(0.0);
+            throatShort.moveBalls(0.0);
+        }
+
+        /**
+         * Extension
+         */
+        if (p.getRightBumper()) {
+            extension.extendManual(1.0);
+        }
+        else if (p.getLeftBumper()) {
+            extension.extendManual(-1.0);
+        }
+        else {
+            extension.extendManual(0);
         }
 
         /**
          * Shooter
          */
-        if (p.getRightBumperPressed()) {
+        if (p.getAButton()) {
             shooter.shoot(1.0, false);
-        } else if (p.getRightBumperReleased()) {
+        }
+        else {
             shooter.shoot(0.0, false);
         }
 
-        /**
-         * Spindexer
-         */
-        spindexer.rotate(JoystickUtils.deadband( ((shift2 ? -1 : 1) * p.getRightTriggerAxis()) +
-        ((intakeOut > 0) ? 0.13 : 0)));
-        if(p.getStartButton()) {
-            spindexer.rampUp();
-        } else {
-            spindexer.rampDown();
-        }
-
-        /**
-         * Conveyor
-         */
-        if (p.getYButton()) {
-            conveyor.moveBalls(1.0);
-            spindexer.shoot();
-        } else {
-            conveyor.moveBalls(-JoystickUtils.deadband(p.getLeftY()));
-        }
 
         /**
          * Adjustable hood
          */
-        if(p.getBackButtonPressed()) hood.goToZero();
-        if(!autoDisabled)hood.autoPosition(limelight.getTa());
-        else hood.adjust(p.getLeftTriggerAxis() * (shift2 ? 1 : -1));
+        // if(p.getBackButtonPressed()) hood.goToZero();
+        // if(!autoDisabled)hood.autoPosition(limelight.getTa());
+        // else hood.adjust(p.getLeftTriggerAxis() * (shift2 ? 1 : -1));
 
-        int pPov = p.getPOV();
-        if (pPov == 0) {
-            hood.moveToTick(HoodAngle.RETRACTED.ticks);
-        } else if (pPov == 90) {
-            hood.moveToTick(HoodAngle.HIGH.ticks);
-        } else if (pPov == 180) {
-            hood.moveToTick(HoodAngle.MEDIUM.ticks);
-        } else if (pPov == 270) {
-            hood.moveToTick(HoodAngle.LOW.ticks);
-        }
+        // int pPov = p.getPOV();
+        // if (pPov == 0) {
+        //     hood.moveToTick(HoodAngle.RETRACTED.ticks);
+        // } else if (pPov == 90) {
+        //     hood.moveToTick(HoodAngle.HIGH.ticks);
+        // } else if (pPov == 180) {
+        //     hood.moveToTick(HoodAngle.MEDIUM.ticks);
+        // } else if (pPov == 270) {
+        //     hood.moveToTick(HoodAngle.LOW.ticks);
+        // }
     }
 }
