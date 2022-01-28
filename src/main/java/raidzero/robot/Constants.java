@@ -102,14 +102,43 @@ public class Constants {
         public static final double CONTROL_SCALING_FACTOR = 0.5;
     }
 
+    public static final class NewIntakeConstants {
+        public static final int LEFT_MOTOR_ID = 15;
+        public static final int RIGHT_MOTOR_ID = 16;
+
+        public static final IdleMode NEUTRAL_MODE = IdleMode.kCoast;
+
+        public static final boolean LEFT_INVERSION = false;
+        public static final boolean RIGHT_INVERSION = true;
+    }
+
     /**
-     * Conveyor Constants
+     * Throat Constants
      */
-    public static final class ConveyorConstants {
-        public static final int MOTOR_ID = 31;
+    public static final class ThroatShortConstants {
+        public static final int MOTOR_ID = 10;
 
         public static final NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
         public static final boolean MOTOR_INVERSION = false;
+        public static final boolean SENSOR_PHASE = false;
+
+        public static final double KF = 0.010;
+        public static final double KP = 0.00022;
+        public static final double KI = 0;
+        public static final double KD = 0.003;
+    
+        public static final double IZONE = 0;
+        public static final double MINOUT = -1;
+        public static final double MAXOUT = 1;
+
+        public static final double MAXSPEED = 5000 * 2048;
+    }
+
+    public static final class ThroatLongConstants {
+        public static final int MOTOR_ID = 11;
+
+        public static final NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
+        public static final boolean MOTOR_INVERSION = true;
         public static final boolean SENSOR_PHASE = false;
 
         public static final double KF = 0.010;
@@ -193,7 +222,7 @@ public class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final int MOTOR_ID = 40;
+        // public static final int MOTOR_ID = 40;
 
         public static final NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
         public static final InvertType INVERSION = InvertType.None;
@@ -208,6 +237,47 @@ public class Constants {
         public static final double K_I = 0; // Shouldn't be touched
         public static final double K_D = 5.0; // Shouldn't be touched
         public static final int K_INTEGRAL_ZONE = 0; // Shouldn't be touched
+    }
+
+    public static final class NewShooterConstants {
+        public static final int LEFT_MOTOR_ID = 20;
+        public static final int RIGHT_MOTOR_ID = 21;
+
+        public static final IdleMode NEUTRAL_MODE = IdleMode.kCoast;
+
+        public static final boolean LEFT_INVERSION = true;
+        public static final boolean RIGHT_INVERSION = false;
+
+        public static final double KF = 1023.0;
+        public static final double KP = 0.6;
+        public static final double KI = 0.0;
+        public static final double KD = 5.0;
+        public static final int IZONE = 0;
+    }
+
+    public static final class ExtensionConstants {
+        public static final int MOTOR_ID = 40;
+
+        public static final IdleMode NEUTRAL_MODE = IdleMode.kBrake;
+        public static final boolean INVERSION = false;
+
+        public static final double TICKS_PER_DEGREE = 10732 / 90;
+
+        public static final double MAX_INPUT_PERCENTAGE = 1;
+
+        public static final double KF = 0.0;
+        public static final double KP = 0.07;
+        public static final double KI = 0.0;
+        public static final double KD = 0.001;
+        public static final int IZONE = 0;
+
+        public static final double MINOUT = -1;
+        public static final double MAXOUT = 1;
+        public static final double MAXRPM = 5000;
+
+        public static final int TOLERANCE = 1000;
+        public static final double MANUAL_COEF = 0.3;
+        public static final double AT_SETPOINT_DURATION = 0.05;
     }
 
     /**
@@ -234,7 +304,7 @@ public class Constants {
      * Spindexer Constants
      */
     public static final class SpindexerConstants {
-        public static final int MOTOR_ID = 20;
+        public static final int MOTOR_ID = 100;
         public static final int SERVO_ID = 0;
 
         public static final double SERVO_UP = 0.2
