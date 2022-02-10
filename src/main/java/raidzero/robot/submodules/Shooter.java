@@ -120,17 +120,17 @@ public class Shooter extends Submodule {
 
     @Override
     public void run() {
-        // motorLeftPidController.setReference(outputPercentSpeed, ControlType.kVelocity);
-        // motorRightPidController.setReference(outputPercentSpeed, ControlType.kVelocity);
-        motorLeft.set(outputPercentSpeed);
-        motorRight.set(outputPercentSpeed);
+        motorLeftPidController.setReference(outputPercentSpeed, ControlType.kVelocity);
+        motorRightPidController.setReference(outputPercentSpeed, ControlType.kVelocity);
+        // motorLeft.set(outputPercentSpeed);
+        // motorRight.set(outputPercentSpeed);
     }
 
     @Override
     public void stop() {
         outputPercentSpeed = 0.0;
-        // motorLeftPidController.setReference(0.0, ControlType.kVelocity);
-        // motorRightPidController.setReference(0.0, ControlType.kVelocity);
+        motorLeftPidController.setReference(0.0, ControlType.kVelocity);
+        motorRightPidController.setReference(0.0, ControlType.kVelocity);
         motorLeft.set(0);
         motorRight.set(0);
     }

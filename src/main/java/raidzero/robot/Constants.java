@@ -260,10 +260,10 @@ public class Constants {
         public static final boolean LEFT_INVERSION = true;
         public static final boolean RIGHT_INVERSION = false;
 
-        public static final double KF = 1023.0;
-        public static final double KP = 0.6;
+        public static final double KF = 1.0;
+        public static final double KP = -0.6;
         public static final double KI = 0.0;
-        public static final double KD = 5.0;
+        public static final double KD = -5.0;
         public static final int IZONE = 0;
     }
 
