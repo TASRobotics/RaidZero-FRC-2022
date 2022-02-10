@@ -15,7 +15,7 @@ public class Constants {
     public static final class SwerveConstants {
         // Motor IDs in the order of motor, rotor, motor, rotor etc.
         public static final int[] SWERVE_IDS = {2, 3, 0, 1, 6, 7, 4, 5};
-        public static final double[] INIT_MODULES_DEGREES = new double[] {197.402, 282.656, 182.988, 120.410}; //pretty bot - olds are //{32, 205, 41, 92};// new double[] {30, 205, 41, 92};
+        public static final double[] INIT_MODULES_DEGREES = new double[] {195.820, 278.789, 180.0, 107.139}; //pretty bot - olds are //{32, 205, 41, 92};// new double[] {30, 205, 41, 92};
         // 2021 home challenge bot: 329.941, 118.037, 121.729, 215.859   
         // old: 327.393, 115.137, 118.564, 214.014
         // 327.144 116.455 121.553 215.775
