@@ -13,8 +13,8 @@ public class Constants {
      * Swerve Constants
      */
     public static final class SwerveConstants {
-        public static final int MODULE_ID_TOP_RIGHT = 0;
-        public static final int MODULE_ID_TOP_LEFT = 2;
+        public static final int MODULE_ID_TOP_RIGHT = 2;
+        public static final int MODULE_ID_TOP_LEFT = 0;
         public static final int MODULE_ID_BOTTOM_LEFT = 4;
         public static final int MODULE_ID_BOTTOM_RIGHT = 6;
         public static final double[] INIT_MODULES_DEGREES = new double[] {
