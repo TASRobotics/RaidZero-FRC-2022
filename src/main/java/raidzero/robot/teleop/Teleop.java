@@ -75,7 +75,7 @@ public class Teleop {
         swerve.drive(
             JoystickUtils.deadband(-p.getLeftY()) * SwerveConstants.MAX_SPEED_MPS * (p.getRawButton(1) ? 1 : 0.5),
             JoystickUtils.deadband(-p.getLeftX()) * SwerveConstants.MAX_SPEED_MPS * (p.getRawButton(1) ? 1 : 0.5),
-            (turning) ? JoystickUtils.deadband(p.getRawAxis(2)) * (p.getRawButton(1) ? 0.5 : 0.25) : 0,
+            (turning) ? JoystickUtils.deadband(-p.getRawAxis(2)) * SwerveConstants.MAX_ANGULAR_SPEED_RPS * (p.getRawButton(1) ? 0.5 : 0.25) : 0,
             true
         );
         // swerve.fieldOrientedDrive(
