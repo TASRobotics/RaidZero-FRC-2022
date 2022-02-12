@@ -10,16 +10,16 @@ import raidzero.robot.auto.DetermineGSCPath;
 import raidzero.robot.auto.sequences.EmptySequence;
 import raidzero.robot.dashboard.Tab;
 import raidzero.robot.teleop.Teleop;
-import raidzero.robot.submodules.AdjustableHood;
-import raidzero.robot.submodules.Conveyor;
+import raidzero.robot.submodules.Climb;
+import raidzero.robot.submodules.ThroatLong;
+import raidzero.robot.submodules.ThroatShort;
+import raidzero.robot.submodules.Extension;
 import raidzero.robot.submodules.Intake;
 import raidzero.robot.submodules.Led;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.submodules.Shooter;
-import raidzero.robot.submodules.Spindexer;
 import raidzero.robot.submodules.SubmoduleManager;
 import raidzero.robot.submodules.Swerve;
-import raidzero.robot.submodules.Turret;
 import raidzero.robot.submodules.Limelight.LedMode;
 import raidzero.robot.submodules.Superstructure;
 
@@ -31,13 +31,13 @@ public class Robot extends TimedRobot {
     private static final SubmoduleManager submoduleManager = SubmoduleManager.getInstance();
 
     private static final Teleop teleop = Teleop.getInstance();
+    private static final Climb climb = Climb.getInstance();
     private static final Swerve swerve = Swerve.getInstance();
     private static final Intake intake = Intake.getInstance();
-    private static final Conveyor conveyor = Conveyor.getInstance();
-    private static final Spindexer spindexer = Spindexer.getInstance();
-    private static final AdjustableHood hood = AdjustableHood.getInstance();
+    private static final ThroatShort throatShort = ThroatShort.getInstance();
+    private static final ThroatLong throatLong = ThroatLong.getInstance();
+    private static final Extension extension = Extension.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
-    private static final Turret turret = Turret.getInstance();
     private static final Led led = Led.getInstance();
 
     private static final Superstructure superstructure = Superstructure.getInstance();
@@ -58,15 +58,13 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         // Register all submodules here
         submoduleManager.setSubmodules(
-            // swerve,
-            superstructure,
             swerve,
+            climb,
             intake,
-            conveyor,
-            spindexer, 
-            hood,
+            throatShort,
+            throatLong,
+            extension,
             shooter,
-            turret,
             led
         );
         submoduleManager.onInit();
@@ -92,32 +90,8 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         submoduleManager.onStart(Timer.getFPGATimestamp());
-        
-        // if (shouldCheckGSCEntry.getBoolean(false)) {
-        if (false) {
-            var result = DetermineGSCPath.lookForPath();
-            System.out.println("Found path: " + result.name());
-            // autoRunner.selectSequence(new EmptySequence());
-            switch (result) {
-            case PATH_A_RED:
-                autoRunner.selectSequence("Search Path A Sequence Red");
-                break;
-            case PATH_A_BLUE:
-                autoRunner.selectSequence("Search Path A Sequence Blue");
-                break;
-            case PATH_B_RED:
-                autoRunner.selectSequence("Search Path B Sequence Red");
-                break;
-            case PATH_B_BLUE:
-                autoRunner.selectSequence("Search Path B Sequence Blue");
-                break;
-            default:
-                autoRunner.selectSequence(new EmptySequence());
-                break;
-            }
-        } else {
-            autoRunner.readSendableSequence();
-        }
+
+        autoRunner.readSendableSequence();
         autoRunner.start();
     }
 
