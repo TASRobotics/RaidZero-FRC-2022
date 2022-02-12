@@ -209,7 +209,7 @@ public class Swerve extends Submodule {
                   )
                 : new ChassisSpeeds(xSpeed, ySpeed, angularSpeed)
             );
-        SwerveDriveKinematics.normalizeWheelSpeeds(targetState, SwerveConstants.MAX_SPEED_MPS);
+        SwerveDriveKinematics.desaturateWheelSpeeds(targetState, SwerveConstants.MAX_SPEED_MPS);
         topLeftModule.setTargetState(targetState[0], ignoreAngle, true);
         topRightModule.setTargetState(targetState[1], ignoreAngle, true);
         bottomLeftModule.setTargetState(targetState[2], ignoreAngle, true);

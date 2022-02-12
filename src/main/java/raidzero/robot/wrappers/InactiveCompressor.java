@@ -1,6 +1,7 @@
 package raidzero.robot.wrappers;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public class InactiveCompressor extends Compressor {
 
@@ -16,7 +17,7 @@ public class InactiveCompressor extends Compressor {
     }
 
     public InactiveCompressor() {
-        super();
+        super(PneumaticsModuleType.CTREPCM);
     }
 
     public boolean getState() {
