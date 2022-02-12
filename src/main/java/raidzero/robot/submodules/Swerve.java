@@ -158,6 +158,7 @@ public class Swerve extends Submodule {
     @Override
     public void zero() {
         zeroHeading();
+        pigeon.setFusedHeading(0, Constants.TIMEOUT_MS);
         setPose(new Pose2d());
         topRightModule.zero();
         topLeftModule.zero();
