@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import raidzero.robot.auto.AutoRunner;
 import raidzero.robot.auto.DetermineGSCPath;
 import raidzero.robot.auto.sequences.EmptySequence;
+import raidzero.robot.auto.sequences.TestRotationSequence;
 import raidzero.robot.dashboard.Tab;
 import raidzero.robot.teleop.Teleop;
 import raidzero.robot.submodules.Climb;
@@ -90,7 +91,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         submoduleManager.onStart(Timer.getFPGATimestamp());
-
+        
         autoRunner.readSendableSequence();
         autoRunner.start();
     }
