@@ -1,10 +1,11 @@
 package raidzero.robot.wrappers;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
-public class SendablePigeon extends PigeonIMU implements Sendable {
+public class SendablePigeon extends Pigeon2 implements Sendable {
 
     protected double[] ypr = new double[3];
 

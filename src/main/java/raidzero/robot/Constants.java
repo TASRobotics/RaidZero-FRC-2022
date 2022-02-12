@@ -13,16 +13,23 @@ public class Constants {
      * Swerve Constants
      */
     public static final class SwerveConstants {
-        public static final int MODULE_ID_TOP_RIGHT = 2;
-        public static final int MODULE_ID_TOP_LEFT = 0;
-        public static final int MODULE_ID_BOTTOM_LEFT = 6;
-        public static final int MODULE_ID_BOTTOM_RIGHT = 4;
+        public static final int MODULE_ID_TOP_RIGHT = 0;
+        public static final int MODULE_ID_TOP_LEFT = 2;
+        public static final int MODULE_ID_BOTTOM_LEFT = 4;
+        public static final int MODULE_ID_BOTTOM_RIGHT = 6;
         public static final double[] INIT_MODULES_DEGREES = new double[] {
             (195.820 + 90) % 360.0, 
             (278.789 + 90) % 360.0, 
             (180.000 + 90) % 360.0, 
             (107.139 + 90) % 360.0
         };
+
+        // Prettybot
+        // (239.414 + 90) % 360.0, 
+        // (96.416 + 90) % 360.0, 
+        // (276.855 + 90) % 360.0, 
+        // (81.475 + 90) % 360.0
+
         //new double[] {(57.832 + 0) % 360.0, (205.576 + 0) % 360.0, (212.520 + 0) % 360.0, (308.232 + 0) % 360.0};
 
         // Robot dimensions
@@ -63,8 +70,8 @@ public class Constants {
 
         public static final double ROTOR_MAX_VELOCITY_TICKS_PER_100MS = 3600.0;
         public static final double ROTOR_KF = 1.0 * 1023 / ROTOR_MAX_VELOCITY_TICKS_PER_100MS;
-        public static final double ROTOR_KP = 1.35;
-        public static final double ROTOR_KD = 0.2;
+        public static final double ROTOR_KP = 0.8; //1.35
+        public static final double ROTOR_KD = 2.0; //0.2
         public static final double ROTOR_TARG_VELO = 1.0 * ROTOR_MAX_VELOCITY_TICKS_PER_100MS;
         public static final double ROTOR_TARG_ACCEL = 10 * ROTOR_TARG_VELO;
     }
