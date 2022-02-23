@@ -27,6 +27,8 @@ public class TestRotationSequence extends AutoSequence {
         false, 2.5, 2.5
     );
 
+    
+
     private static final Path PATH2 = Path.fromWaypoints(
         Arrays.asList(
             new Pose2d(
@@ -42,35 +44,63 @@ public class TestRotationSequence extends AutoSequence {
     );
 
     private static final Path PATH3 = Path.fromWaypoints(
-        Arrays.asList(  
+        Arrays.asList(
             new Pose2d(
-                Units.inchesToMeters(17.8), Units.inchesToMeters(-170.8),
+                Units.inchesToMeters(17.8), Units.inchesToMeters(0),
                 Rotation2d.fromDegrees(0)
-            ),   
-                
+            ),
             new Pose2d(
-                Units.inchesToMeters(18.7), Units.inchesToMeters(-242.8),
+                Units.inchesToMeters(-17.0), Units.inchesToMeters(-65.0),
                 Rotation2d.fromDegrees(0)
             )
-        
         ),
-        false, 1.69, 0.79
+        false, 2.69, 1.69
     );
 
     private static final Path PATH4 = Path.fromWaypoints(
         Arrays.asList(  
-            new Pose2d( 
-                Units.inchesToMeters(18.7), Units.inchesToMeters(-242.8),
-                Rotation2d.fromDegrees(0)
-            ),      
-                
             new Pose2d(
-                Units.inchesToMeters(1.06), Units.inchesToMeters(-266.2),
+                Units.inchesToMeters(-17.0), Units.inchesToMeters(-65.0),
+                Rotation2d.fromDegrees(0)
+            ),
+            new Pose2d(
+                Units.inchesToMeters(18.7), Units.inchesToMeters(-192.8),
+                Rotation2d.fromDegrees(0)
+            )
+        
+        ),
+        false, 1.69, 1.69
+    );
+
+    private static final Path PATH5 = Path.fromWaypoints(
+        Arrays.asList(  
+            new Pose2d( 
+                Units.inchesToMeters(18.7), Units.inchesToMeters(-192.8),
+                Rotation2d.fromDegrees(0)
+            ),
+            new Pose2d(
+                Units.inchesToMeters(1.06), Units.inchesToMeters(-216.2),
                 Rotation2d.fromDegrees(0)
             )
         
         ),
         false, 1.33, 1.33 
+    );
+
+    private static final Path PATH6 = Path.fromWaypoints(
+        Arrays.asList(  
+            new Pose2d(
+                Units.inchesToMeters(1.06), Units.inchesToMeters(-266.2),
+                Rotation2d.fromDegrees(0)
+            ),
+
+            new Pose2d(
+                Units.inchesToMeters(-20), Units.inchesToMeters(-70),
+                Rotation2d.fromDegrees(0)
+            )
+
+        ),
+        false, 1.69, 1.69
     );
 
     private static final Swerve swerve = Swerve.getInstance();
@@ -98,6 +128,7 @@ public class TestRotationSequence extends AutoSequence {
             }),
 
             new DrivePath(PATH),
+            
             new LambdaAction(() -> {
                 intake.intakeBalls(0.3);
                 throatlong.moveBalls(0.2);
@@ -109,8 +140,9 @@ public class TestRotationSequence extends AutoSequence {
                 shooter.shoot(0.0, false);
             }),
 
-            new DrivePath(PATH2, Rotation2d.fromDegrees(-57.67)),
-            new DrivePath(PATH3, Rotation2d.fromDegrees(-57.67)),
+            new DrivePath(PATH2),
+
+            new DrivePath(PATH3, Rotation2d.fromDegrees(-90)),
 
             new LambdaAction(() -> {
                 intake.intakeBalls(0.3);
@@ -123,7 +155,7 @@ public class TestRotationSequence extends AutoSequence {
                 shooter.shoot(0.0, false);
             }),
 
-            new DrivePath(PATH4, Rotation2d.fromDegrees(-72.79)),
+            new DrivePath(PATH4, Rotation2d.fromDegrees(-58.67)),
 
             new LambdaAction(() -> {
                 intake.intakeBalls(0.3);
@@ -134,7 +166,14 @@ public class TestRotationSequence extends AutoSequence {
             new LambdaAction(() -> {
                 Timer.delay(2);
                 shooter.shoot(0.0, false);
-            })
+            }),
+
+            new DrivePath(PATH5, Rotation2d.fromDegrees(-72.79))
+
+            
+
+            // new DrivePath(PATH6, Rotation2d.fromDegrees(90))
+
         
         )));
         System.out.println("Added actions.");
