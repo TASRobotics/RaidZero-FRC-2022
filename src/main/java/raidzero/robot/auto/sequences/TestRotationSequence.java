@@ -1,6 +1,9 @@
 package raidzero.robot.auto.sequences;
 
 import java.util.Arrays;
+
+import javax.xml.namespace.QName;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -50,21 +53,21 @@ public class TestRotationSequence extends AutoSequence {
                 Rotation2d.fromDegrees(0)
             ),
             new Pose2d(
-                Units.inchesToMeters(-17.0), Units.inchesToMeters(-65.0),
+                Units.inchesToMeters(-6.8), Units.inchesToMeters(-68.0),
                 Rotation2d.fromDegrees(0)
             )
         ),
-        false, 2.69, 1.69
+        false, 1.99, 1.69
     );
 
     private static final Path PATH4 = Path.fromWaypoints(
         Arrays.asList(  
             new Pose2d(
-                Units.inchesToMeters(-17.0), Units.inchesToMeters(-65.0),
+                Units.inchesToMeters(-6.8), Units.inchesToMeters(-68.0),
                 Rotation2d.fromDegrees(0)
             ),
             new Pose2d(
-                Units.inchesToMeters(18.7), Units.inchesToMeters(-192.8),
+                Units.inchesToMeters(22.7), Units.inchesToMeters(-195.8),
                 Rotation2d.fromDegrees(0)
             )
         
@@ -74,26 +77,10 @@ public class TestRotationSequence extends AutoSequence {
 
     private static final Path PATH5 = Path.fromWaypoints(
         Arrays.asList(  
-            new Pose2d( 
-                Units.inchesToMeters(18.7), Units.inchesToMeters(-192.8),
+            new Pose2d(
+                Units.inchesToMeters(22.7), Units.inchesToMeters(-195.8),
                 Rotation2d.fromDegrees(0)
             ),
-            new Pose2d(
-                Units.inchesToMeters(1.06), Units.inchesToMeters(-216.2),
-                Rotation2d.fromDegrees(0)
-            )
-        
-        ),
-        false, 1.33, 1.33 
-    );
-
-    private static final Path PATH6 = Path.fromWaypoints(
-        Arrays.asList(  
-            new Pose2d(
-                Units.inchesToMeters(1.06), Units.inchesToMeters(-266.2),
-                Rotation2d.fromDegrees(0)
-            ),
-
             new Pose2d(
                 Units.inchesToMeters(-20), Units.inchesToMeters(-70),
                 Rotation2d.fromDegrees(0)
@@ -101,6 +88,21 @@ public class TestRotationSequence extends AutoSequence {
 
         ),
         false, 1.69, 1.69
+    );
+
+    private static final Path PATH6 = Path.fromWaypoints(
+        Arrays.asList(  
+            new Pose2d(
+                Units.inchesToMeters(-20), Units.inchesToMeters(-70),
+                Rotation2d.fromDegrees(0)
+            ),
+            new Pose2d(
+                Units.inchesToMeters(-25.06), Units.inchesToMeters(-201.2),
+                Rotation2d.fromDegrees(0)
+            )
+        
+        ),
+        false, 1.33, 1.33 
     );
 
     private static final Swerve swerve = Swerve.getInstance();
@@ -168,12 +170,14 @@ public class TestRotationSequence extends AutoSequence {
                 shooter.shoot(0.0, false);
             }),
 
-            new DrivePath(PATH5, Rotation2d.fromDegrees(-72.79))
+            new DrivePath(PATH5, Rotation2d.fromDegrees(-72.79)),
 
+            new LambdaAction(() -> {
+                Timer.delay(2);
+                shooter.shoot(0.0, false);
+            }),
             
-
-            // new DrivePath(PATH6, Rotation2d.fromDegrees(90))
-
+            new DrivePath(PATH6, Rotation2d.fromDegrees(-90))
         
         )));
         System.out.println("Added actions.");
