@@ -2,18 +2,11 @@ package raidzero.robot.teleop;
 
 import edu.wpi.first.wpilibj.XboxController;
 
-import raidzero.robot.submodules.Superstructure;
 import raidzero.robot.submodules.Swerve;
 import raidzero.robot.submodules.*;
-import raidzero.robot.Constants.HoodConstants.HoodAngle;
-import raidzero.robot.Constants.IntakeConstants;
-import raidzero.robot.Constants.ClimbConstants;
 import raidzero.robot.Constants.SwerveConstants;
 import raidzero.robot.submodules.Intake;
 import raidzero.robot.submodules.Shooter;
-import raidzero.robot.submodules.ThroatLong;
-import raidzero.robot.submodules.ThroatShort;
-import raidzero.robot.submodules.Extension;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.utils.JoystickUtils;
 
@@ -26,14 +19,7 @@ public class Teleop {
     private static final Swerve swerve = Swerve.getInstance();
     private static final Climb climb = Climb.getInstance();
     private static final Intake intake = Intake.getInstance();
-    private static final ThroatShort throatShort = ThroatShort.getInstance();
-    private static final ThroatLong throatLong = ThroatLong.getInstance();
-    private static final Extension extension = Extension.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
-
-    private static boolean shift1 = false;
-    private static boolean shift2 = false;
-    private static double intakeOut = 0;
 
     public static Teleop getInstance() {
         if (instance == null) {
@@ -107,38 +93,6 @@ public class Teleop {
     }
 
     private void p2Loop(XboxController p) {
-        shift2 = p.getLeftBumper();
-
-        
-        /**
-         * Throat
-         */
-        if (p.getYButton()) {
-            throatLong.moveBalls(1.0);
-            throatShort.moveBalls(1.0);
-        }
-        else if (p.getBButton()) {
-            throatLong.moveBalls(-1.0);
-            throatShort.moveBalls(-1.0);
-        }
-        else {
-            throatLong.moveBalls(0.0);
-            throatShort.moveBalls(0.0);
-        }
-
-        /**
-         * Extension
-         */
-        if (p.getRightBumper()) {
-            extension.extendManual(1.0);
-        }
-        else if (p.getLeftBumper()) {
-            extension.extendManual(-1.0);
-        }
-        else {
-            extension.extendManual(0);
-        }
-
         /**
          * Shooter
          */

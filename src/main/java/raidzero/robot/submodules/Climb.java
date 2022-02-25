@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import raidzero.robot.Constants.ClimbConstants;
 import raidzero.robot.wrappers.LazyTalonSRX;
+import raidzero.robot.wrappers.InactiveCompressor;
 
 public class Climb extends Submodule {
 
@@ -19,23 +20,15 @@ public class Climb extends Submodule {
     private Climb() {
     }
 
-    private LazyTalonSRX climbRight;
-    private LazyTalonSRX climbLeft;
-
     private double outputOpenLoop = 0.0;
+
+    private LazyTalonSRX extensionMotor;
+    private InactiveCompressor leftCompressor;
+    private InactiveCompressor rightCompressor;
 
     @Override
     public void onInit() {
-        climbRight = new LazyTalonSRX(ClimbConstants.MOTOR_ID_2);
-        climbLeft = new LazyTalonSRX(ClimbConstants.MOTOR_ID);
-        climbRight.configFactoryDefault();
-        climbLeft.configFactoryDefault();
-
-        climbRight.setNeutralMode(ClimbConstants.NEUTRAL_MODE);
-        climbLeft.setNeutralMode(ClimbConstants.NEUTRAL_MODE);
-
-        climbRight.setInverted(ClimbConstants.INVERSION);
-        climbLeft.setInverted(false);
+        
     }
 
     @Override
@@ -50,14 +43,10 @@ public class Climb extends Submodule {
 
     @Override
     public void run() {
-        climbRight.set(ControlMode.PercentOutput, outputOpenLoop);
-        climbLeft.set(ControlMode.PercentOutput, outputOpenLoop);
     }
 
     @Override
     public void stop() {
-        climbRight.set(ControlMode.PercentOutput, 0);
-        climbLeft.set(ControlMode.PercentOutput, 0);
     }
 
 
