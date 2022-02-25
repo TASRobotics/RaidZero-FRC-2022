@@ -64,8 +64,8 @@ public class Intake extends Submodule {
         motorRight = new LazyCANSparkMax(IntakeConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
         motorRight.restoreFactoryDefaults();
         motorRight.setIdleMode(IntakeConstants.NEUTRAL_MODE);
-        motorRight.setInverted(IntakeConstants.RIGHT_INVERSION);
-        motorRight.follow(motorLeft);
+        // motorRight.setInverted(IntakeConstants.RIGHT_INVERSION);
+        motorRight.follow(motorLeft, true);
     }
 
     @Override

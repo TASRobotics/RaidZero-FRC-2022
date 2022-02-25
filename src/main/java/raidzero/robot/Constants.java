@@ -113,7 +113,7 @@ public class Constants {
         public static final int MOTOR_ID = 25; 
 
         public static final IdleMode NEUTRAL_MODE = IdleMode.kBrake;
-        public static final boolean MOTOR_INVERSION = false;
+        public static final boolean MOTOR_INVERSION = true;
 
         public static final double KF = 0.010;
         public static final double KP = 0.00022;
@@ -131,7 +131,7 @@ public class Constants {
         public static final int MOTOR_ID = 26;
 
         public static final NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
-        public static final boolean MOTOR_INVERSION = true;
+        public static final boolean MOTOR_INVERSION = false;
 
         public static final double KF = 0.010;
         public static final double KP = 0.00022;
