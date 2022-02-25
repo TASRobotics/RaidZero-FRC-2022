@@ -82,10 +82,10 @@ public class Teleop {
          * Intake
         */
         if (p.getRawButton(7)) {
-            intake.intakeBalls(0.5);
+            intake.intakeBalls(0.3);
         }
         else if (p.getRawButton(8)) {
-            intake.intakeBalls(-0.5);
+            intake.intakeBalls(-0.3);
         }
         else {
             intake.intakeBalls(0.0);
