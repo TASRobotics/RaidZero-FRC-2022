@@ -76,8 +76,8 @@ public class TestRotationSequence extends AutoSequence {
     private static final Swerve swerve = Swerve.getInstance();
     private static final Intake intake = Intake.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
-    private static final ThroatLong throatlong = ThroatLong.getInstance();
-    private static final ThroatShort throatshort = ThroatShort.getInstance();
+    // private static final ThroatLong throatlong = ThroatLong.getInstance();
+    // private static final ThroatShort throatshort = ThroatShort.getInstance();
 
 
     public TestRotationSequence() {
@@ -100,8 +100,8 @@ public class TestRotationSequence extends AutoSequence {
             new DrivePath(PATH),
             new LambdaAction(() -> {
                 intake.intakeBalls(0.3);
-                throatlong.moveBalls(0.2);
-                throatshort.moveBalls(0.2);
+                // throatlong.moveBalls(0.2);
+                // throatshort.moveBalls(0.2);
                 shooter.shoot(1.0, false);
             }),
             new LambdaAction(() -> {
@@ -114,8 +114,8 @@ public class TestRotationSequence extends AutoSequence {
 
             new LambdaAction(() -> {
                 intake.intakeBalls(0.3);
-                throatlong.moveBalls(0.2);
-                throatshort.moveBalls(0.2);
+                // throatlong.moveBalls(0.2);
+                // throatshort.moveBalls(0.2);
                 shooter.shoot(1.0, false);
             }),
             new LambdaAction(() -> {
@@ -127,8 +127,8 @@ public class TestRotationSequence extends AutoSequence {
 
             new LambdaAction(() -> {
                 intake.intakeBalls(0.3);
-                throatlong.moveBalls(0.3);
-                throatshort.moveBalls(0.2);
+                // throatlong.moveBalls(0.3);
+                // throatshort.moveBalls(0.2);
                 shooter.shoot(1.0, false);
             }),
             new LambdaAction(() -> {

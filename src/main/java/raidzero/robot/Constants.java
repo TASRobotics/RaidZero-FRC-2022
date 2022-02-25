@@ -18,10 +18,10 @@ public class Constants {
         public static final int MODULE_ID_BOTTOM_LEFT = 5;
         public static final int MODULE_ID_BOTTOM_RIGHT = 7;
         public static final double[] INIT_MODULES_DEGREES = new double[] {
-            (239.414 + 90) % 360.0, 
-            (96.416 + 90) % 360.0, 
-            (276.855 + 90) % 360.0, 
-            (81.475 + 90) % 360.0
+            (349.893 + 90) % 360.0, 
+            (149.854 + 90) % 360.0, 
+            (6.416 + 90) % 360.0, 
+            (182.637 + 90) % 360.0
         };
 
         // Ugly Bot
@@ -228,8 +228,8 @@ public class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final int MOTOR_LEFT_ID = 40;
-        public static final int MOTOR_RIGHT_ID = 40;
+        public static final int MOTOR_LEFT_ID = 21;
+        public static final int MOTOR_RIGHT_ID = 20;
 
         public static final NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
         public static final InvertType INVERSION = InvertType.None;
