@@ -125,27 +125,36 @@ public class Teleop {
         // /**
         //  * Climb
         // */
-        // climb.climb(p.getRightTriggerAxis() - p.getLeftTriggerAxis());
-        // if (p.getStartButton()){
-        //     climb.run();
-        // }else{
-        //     climb.stop();
-        // }
+        if (p.getYButton())
+        {
+            climb.climb(0.5);
+        }
+        else if (p.getBButton())
+        {
+            climb.climb(-0.5);
+        }
+        else
+        {
+            climb.climb(0.0);
+        }
+
+
+
 
         /**
          * Throat
          */
-        if (p.getRawButton(4)) {
-            throatx.moveBalls(0.3);
-            throaty.moveBalls(0.3);
-        }
-        else if (p.getRawButton(2)) {
-            throatx.moveBalls(-0.3);
-            throaty.moveBalls(-0.3);
-        }
-        else {
-            throatx.moveBalls(0.0);
-            throaty.moveBalls(0.0);
-        }
+        // if (p.getRawButton(4)) {
+        //     throatx.moveBalls(0.3);
+        //     throaty.moveBalls(0.3);
+        // }
+        // else if (p.getRawButton(2)) {
+        //     throatx.moveBalls(-0.3);
+        //     throaty.moveBalls(-0.3);
+        // }
+        // else {
+        //     throatx.moveBalls(0.0);
+        //     throaty.moveBalls(0.0);
+        // }
     }
 }
