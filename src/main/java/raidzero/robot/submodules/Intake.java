@@ -16,7 +16,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import raidzero.robot.Constants;
-import raidzero.robot.Constants.NewIntakeConstants;
+import raidzero.robot.Constants.IntakeConstants;
 import raidzero.robot.dashboard.Tab;
 
 
@@ -58,63 +58,40 @@ public class Intake extends Submodule {
         /**
          * motorLeft config
          */
-        motorLeft = new LazyCANSparkMax(NewIntakeConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
+        motorLeft = new LazyCANSparkMax(IntakeConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
         motorLeft.restoreFactoryDefaults();
-        motorLeft.setIdleMode(NewIntakeConstants.NEUTRAL_MODE);
-        motorLeft.setInverted(NewIntakeConstants.LEFT_INVERSION);
+        motorLeft.setIdleMode(IntakeConstants.NEUTRAL_MODE);
+        motorLeft.setInverted(IntakeConstants.LEFT_INVERSION);
 
-
-        /**
-         * motorRight config
-         */
-        motorRight = new LazyCANSparkMax(NewIntakeConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
+        motorRight = new LazyCANSparkMax(IntakeConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
         motorRight.restoreFactoryDefaults();
-        motorRight.setIdleMode(NewIntakeConstants.NEUTRAL_MODE);
-        motorRight.setInverted(NewIntakeConstants.RIGHT_INVERSION);
+        motorRight.setIdleMode(IntakeConstants.NEUTRAL_MODE);
+        motorRight.setInverted(IntakeConstants.RIGHT_INVERSION);
+        motorRight.follow(motorLeft);
     }
 
     @Override
     public void onStart(double timestamp) {
         outputPercentSpeed = 0.0;
-        zero();
     }
 
     @Override
     public void run() {
         motorLeft.set(outputPercentSpeed);
-        motorRight.set(outputPercentSpeed);
     }
 
     @Override
     public void stop() {
         outputPercentSpeed = 0.0;
-        motorLeft.set(0);
-        motorRight.set(0);
-    }
-
-    @Override
-    public void zero() {
-        motorLeft.getEncoder();
-        motorRight.getEncoder();
+        motorLeft.set(outputPercentSpeed);
     }
 
     /**
-     * Fires up the shooter.
+     * Spins the intake using open-loop control
      * 
-     * @param percentSpeed speed of the shooter in [-1.0, 1.0]
-     * @param freeze       whether to disregard the speed and keep the previous speed
+     * @param percentOutput the percent output is [-1, 1]
      */
-    public void intakeBalls(double percentSpeed) {
-        outputPercentSpeed = percentSpeed;
+    public void intakeBalls(double percentOutput) {
+        outputPercentSpeed = percentOutput;
     }
-
-    /**
-     * Returns whether the shooter is up to the setpoint speed.
-     * 
-     * @return whether the shooter is up to speed
-     */
-    // public boolean isUpToSpeed() {
-    //     return Math.abs(outputPercentSpeed) > 0.1
-    //             && Math.abs(shooterMotor.getClosedLoopError()) < ShooterConstants.ERROR_TOLERANCE;
-    // }
 }

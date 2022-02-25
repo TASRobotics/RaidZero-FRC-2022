@@ -1,10 +1,10 @@
 package raidzero.robot.submodules;
 
-import com.revrobotics.CANPIDController;
-import com.revrobotics.ControlType;
-import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import raidzero.robot.wrappers.LazyCANSparkMax;
+import com.revrobotics.SparkMaxLimitSwitch;
 
 import raidzero.robot.Constants.TurretConstants;
 
@@ -30,7 +30,7 @@ public class Turret extends Submodule {
     }
 
     private LazyCANSparkMax turretMotor;
-    private CANPIDController turretPidController;
+    private SparkMaxPIDController turretPidController;
 
     private double outputOpenLoop = 0.0;
     private double outputPosition = 0.0;
@@ -45,8 +45,6 @@ public class Turret extends Submodule {
         
         turretPidController = turretMotor.getPIDController();
 
-        // TODO(jimmy): Tune PID constants
-        // turretPidController.setReference(0, ControlType.kVelocity);
         turretPidController.setFF(TurretConstants.KF);
         turretPidController.setP(TurretConstants.KP);
         turretPidController.setI(TurretConstants.KI);
@@ -66,7 +64,7 @@ public class Turret extends Submodule {
 
     @Override
     public void update(double timestamp) {
-        if (turretMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyClosed).get()) {
+        if (turretMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed).isPressed()) {
             zero();
         }
     }

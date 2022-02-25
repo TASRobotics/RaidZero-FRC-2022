@@ -89,15 +89,6 @@ public class Constants {
      * Intake Constants
      */
     public static final class IntakeConstants {
-        public static final int TOP_MOTOR_ID = 10;
-
-        public static final NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
-        public static final boolean MOTOR_INVERSION = true;
-
-        public static final double CONTROL_SCALING_FACTOR = 0.5;
-    }
-
-    public static final class NewIntakeConstants {
         public static final int LEFT_MOTOR_ID = 15;
         public static final int RIGHT_MOTOR_ID = 16;
 
