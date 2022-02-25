@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import raidzero.robot.submodules.Swerve;
 import raidzero.robot.submodules.*;
 import raidzero.robot.Constants.SwerveConstants;
-import raidzero.robot.submodules.Intake;
-import raidzero.robot.submodules.Shooter;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.utils.JoystickUtils;
 
@@ -20,6 +18,11 @@ public class Teleop {
     private static final Climb climb = Climb.getInstance();
     private static final Intake intake = Intake.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
+    private static final ThroatX throatx = ThroatX.getInstance();
+    private static final ThroatY throaty = ThroatY.getInstance();
+    private static final AdjustableHood hood = AdjustableHood.getInstance();
+    private static final Turret turret = Turret.getInstance();
+
 
     public static Teleop getInstance() {
         if (instance == null) {
@@ -90,9 +93,25 @@ public class Teleop {
         else {
             intake.intakeBalls(0.0);
         }
+
+
     }
 
     private void p2Loop(XboxController p) {
+        
+        /**
+         * Turret
+        */
+        if (p.getRawButton(5)) {
+            turret.spin(0.5);
+        }
+        else if (p.getRawButton(6)) {
+            turret.spin(-0.5);
+        }
+        else {
+            turret.spin(0.0);
+        }
+
         /**
          * Shooter
          */
@@ -103,14 +122,30 @@ public class Teleop {
             shooter.shoot(0.0, false);
         }
 
+        // /**
+        //  * Climb
+        // */
+        // climb.climb(p.getRightTriggerAxis() - p.getLeftTriggerAxis());
+        // if (p.getStartButton()){
+        //     climb.run();
+        // }else{
+        //     climb.stop();
+        // }
+
         /**
-         * Climb
-        */
-        climb.climb(p.getRightTriggerAxis() - p.getLeftTriggerAxis());
-        if (p.getStartButton()){
-            climb.run();
-        }else{
-            climb.stop();
+         * Throat
+         */
+        if (p.getRawButton(4)) {
+            throatx.moveBalls(0.3);
+            throaty.moveBalls(0.3);
+        }
+        else if (p.getRawButton(2)) {
+            throatx.moveBalls(-0.3);
+            throaty.moveBalls(-0.3);
+        }
+        else {
+            throatx.moveBalls(0.0);
+            throaty.moveBalls(0.0);
         }
     }
 }

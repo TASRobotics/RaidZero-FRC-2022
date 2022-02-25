@@ -11,6 +11,7 @@ import raidzero.robot.auto.sequences.EmptySequence;
 import raidzero.robot.auto.sequences.TestRotationSequence;
 import raidzero.robot.dashboard.Tab;
 import raidzero.robot.teleop.Teleop;
+import raidzero.robot.submodules.AdjustableHood;
 import raidzero.robot.submodules.Climb;
 import raidzero.robot.submodules.Intake;
 import raidzero.robot.submodules.Led;
@@ -19,6 +20,7 @@ import raidzero.robot.submodules.Shooter;
 import raidzero.robot.submodules.SubmoduleManager;
 import raidzero.robot.submodules.Swerve;
 import raidzero.robot.submodules.Limelight.LedMode;
+import raidzero.robot.submodules.*;
 
 /**
  * The main robot class.
@@ -32,6 +34,10 @@ public class Robot extends TimedRobot {
     private static final Swerve swerve = Swerve.getInstance();
     private static final Intake intake = Intake.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
+    private static final ThroatX throatx = ThroatX.getInstance();
+    private static final ThroatY throaty = ThroatY.getInstance();
+    private static final AdjustableHood hood = AdjustableHood.getInstance();
+    private static final Turret turret = Turret.getInstance();
     private static final Led led = Led.getInstance();
 
 
@@ -55,6 +61,10 @@ public class Robot extends TimedRobot {
             climb,
             intake,
             shooter,
+            throatx,
+            throaty,
+            hood,
+            turret,
             led
         );
         submoduleManager.onInit();

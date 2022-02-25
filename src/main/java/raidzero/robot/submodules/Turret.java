@@ -1,21 +1,28 @@
 package raidzero.robot.submodules;
 
+import raidzero.robot.wrappers.LazyTalonFX;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import raidzero.robot.wrappers.LazyCANSparkMax;
+
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import raidzero.robot.Constants;
+import raidzero.robot.Constants.TurretConstants;
+import raidzero.robot.dashboard.Tab;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import raidzero.robot.wrappers.LazyCANSparkMax;
-import com.revrobotics.SparkMaxLimitSwitch;
 
-import raidzero.robot.Constants.TurretConstants;
 
 public class Turret extends Submodule {
-
-    /**
-     * 63:1
-     */
-    public static enum ControlState {
-        OPEN_LOOP, POSITION
-    };
 
     private static Turret instance = null;
 
@@ -29,72 +36,60 @@ public class Turret extends Submodule {
     private Turret() {
     }
 
-    private LazyCANSparkMax turretMotor;
-    private SparkMaxPIDController turretPidController;
+    private LazyCANSparkMax turret;
+
+    public static enum ControlState {
+        OPEN_LOOP, POSITION
+    };
+    // private LazyTalonFX shooterMotor;
+
+    private double outputPercentSpeed = 0.0;
 
     private double outputOpenLoop = 0.0;
     private double outputPosition = 0.0;
     private ControlState controlState = ControlState.OPEN_LOOP;
 
+    // private NetworkTableEntry shooterVelocityEntry =
+    //         Shuffleboard.getTab(Tab.MAIN).add("Shooter Vel", 0).withWidget(BuiltInWidgets.kTextView)
+    //                 .withSize(1, 1).withPosition(0, 2).getEntry();
+    // private NetworkTableEntry shooterUpToSpeedEntry = Shuffleboard.getTab(Tab.MAIN)
+    //         .add("Up To Speed", false).withWidget(BuiltInWidgets.kBooleanBox).withSize(1, 1)
+    //         .withPosition(1, 2).getEntry();
+
     @Override
     public void onInit() {
-        turretMotor = new LazyCANSparkMax(TurretConstants.MOTOR_ID, MotorType.kBrushless);
-        turretMotor.restoreFactoryDefaults();
-        turretMotor.setIdleMode(TurretConstants.NEUTRAL_MODE);
-        turretMotor.setInverted(TurretConstants.INVERSION);
-        
-        turretPidController = turretMotor.getPIDController();
 
-        turretPidController.setFF(TurretConstants.KF);
-        turretPidController.setP(TurretConstants.KP);
-        turretPidController.setI(TurretConstants.KI);
-        turretPidController.setD(TurretConstants.KD);
-        turretPidController.setIZone(TurretConstants.IZONE);
-        turretPidController.setOutputRange(TurretConstants.MINOUT, TurretConstants.MAXOUT);
-        turretPidController.setFeedbackDevice(turretMotor.getEncoder());
+        /**
+         * motorLeft config
+         */
+        turret = new LazyCANSparkMax(TurretConstants.MOTOR_ID, MotorType.kBrushless);
+        turret.restoreFactoryDefaults();
+        turret.setIdleMode(TurretConstants.NEUTRAL_MODE);
+        turret.setInverted(TurretConstants.INVERSION);
+
     }
 
     @Override
     public void onStart(double timestamp) {
-        controlState = ControlState.OPEN_LOOP;
-        outputOpenLoop = 0.0;
-        outputPosition = 0.0;
-        zero();
-    }
-
-    @Override
-    public void update(double timestamp) {
-        if (turretMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed).isPressed()) {
-            zero();
-        }
+        outputPercentSpeed = 0.0;
     }
 
     @Override
     public void run() {
-        switch (controlState) {
-            case OPEN_LOOP:
-                turretMotor.set(outputOpenLoop);
-                break;
-            case POSITION:
-                turretPidController.setReference(outputPosition, ControlType.kPosition);
-                break;
-        }
+        turret.set(outputPercentSpeed);
     }
 
     @Override
     public void stop() {
-        controlState = ControlState.OPEN_LOOP;
-        outputOpenLoop = 0.0;
-        outputPosition = 0.0;
-        turretMotor.set(0);
+        outputPercentSpeed = 0.0;
+        turret.set(outputPercentSpeed);
     }
 
-    @Override
-    public void zero() {
-        turretMotor.getEncoder();   
+    public void spin(double percentOutput) {
+        outputPercentSpeed = percentOutput;
     }
 
-    /**
+     /**
      * Rotates the turret to the specified angle using closed-loop control.
      * 
      * @param angle the angle to rotate to
@@ -122,6 +117,6 @@ public class Turret extends Submodule {
 
     public boolean isAtPosition() {
         return controlState == ControlState.POSITION &&
-               Math.abs(turretMotor.getEncoder().getPosition()) < TurretConstants.TOLERANCE;
+               Math.abs(turret.getEncoder().getPosition()) < TurretConstants.TOLERANCE;
     }
 }
