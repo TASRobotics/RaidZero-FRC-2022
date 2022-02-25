@@ -112,17 +112,19 @@ public class Constants {
      * Climb Constants
      */
     public static final class ClimbConstants {
-        public static final int MOTOR_ID = 20;
+        public static final int MOTOR_ID = 27;
 
         public static final NeutralMode NEUTRAL_MODE = NeutralMode.Brake;
         public static final InvertType INVERSION = InvertType.InvertMotorOutput;
     }
 
+    
+    //Throat X : 25 Throat Y:26
     /**
      * Throat Constants
      */
     public static final class ThroatShortConstants {
-        public static final int MOTOR_ID = 10;
+        public static final int MOTOR_ID = 10; 
 
         public static final NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
         public static final boolean MOTOR_INVERSION = false;
@@ -160,7 +162,7 @@ public class Constants {
     }
 
     public static final class TurretConstants {
-        public static final int MOTOR_ID = 30;
+        public static final int MOTOR_ID = 40;
 
         public static final IdleMode NEUTRAL_MODE = IdleMode.kBrake;
         public static final boolean INVERSION = false;
@@ -185,7 +187,7 @@ public class Constants {
     }
 
     public static final class HoodConstants {
-        public static final int MOTOR_ID = 21;
+        public static final int MOTOR_ID = 30;
 
         public static final IdleMode IDLE_MODE = IdleMode.kBrake;
         public static final boolean INVERSION = true;
