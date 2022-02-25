@@ -228,7 +228,8 @@ public class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final int MOTOR_ID = 40;
+        public static final int MOTOR_LEFT_ID = 40;
+        public static final int MOTOR_RIGHT_ID = 40;
 
         public static final NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
         public static final InvertType INVERSION = InvertType.None;
@@ -263,22 +264,6 @@ public class Constants {
         public static final double ANGLE_ADJUST_THRESHOLD = 2.0;
 
         public static final double AIM_ON_TARGET_DURATION = 0.2;
-    }
-
-    public static final class NewShooterConstants {
-        public static final int LEFT_MOTOR_ID = 20;
-        public static final int RIGHT_MOTOR_ID = 21;
-
-        public static final IdleMode NEUTRAL_MODE = IdleMode.kCoast;
-
-        public static final boolean LEFT_INVERSION = true;
-        public static final boolean RIGHT_INVERSION = false;
-
-        public static final double KF = 1.0;
-        public static final double KP = -0.6;
-        public static final double KI = 0.0;
-        public static final double KD = -5.0;
-        public static final int IZONE = 0;
     }
 
     public static final class ExtensionConstants {
