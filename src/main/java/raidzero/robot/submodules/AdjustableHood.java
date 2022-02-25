@@ -2,28 +2,19 @@ package raidzero.robot.submodules;
 
 import java.util.Map;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
-import com.revrobotics.CANDigitalInput;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
-import com.revrobotics.ControlType;
-import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
-import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.SparkMaxLimitSwitch.Type;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import raidzero.robot.wrappers.LazyCANSparkMax;
-import raidzero.robot.wrappers.LazyTalonSRX;
 import raidzero.robot.Constants.HoodConstants;
-import raidzero.robot.Constants.HoodConstants.HoodAngle;
 import raidzero.robot.dashboard.Tab;
-import org.apache.commons.math3.analysis.function.Logistic;
 
 public class AdjustableHood extends Submodule {
 
@@ -44,10 +35,10 @@ public class AdjustableHood extends Submodule {
     }
 
     private LazyCANSparkMax hoodMotor;
-    private CANPIDController pidController;
-    private CANEncoder encoder;
-    private CANDigitalInput reverseLimitSwitch;
-    private CANDigitalInput forwardLimitSwitch;
+    private SparkMaxPIDController pidController;
+    private RelativeEncoder encoder;
+    private SparkMaxLimitSwitch reverseLimitSwitch;
+    private SparkMaxLimitSwitch forwardLimitSwitch;
 
     private double outputOpenLoop = 0.0;
     private double outputPosition = 0.0;
@@ -69,8 +60,8 @@ public class AdjustableHood extends Submodule {
 
         encoder = hoodMotor.getEncoder();
 
-        forwardLimitSwitch = hoodMotor.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyClosed);
-        reverseLimitSwitch = hoodMotor.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyClosed);
+        forwardLimitSwitch = hoodMotor.getForwardLimitSwitch(Type.kNormallyClosed);
+        reverseLimitSwitch = hoodMotor.getReverseLimitSwitch(Type.kNormallyClosed);
         forwardLimitSwitch.enableLimitSwitch(true);
         reverseLimitSwitch.enableLimitSwitch(true);
 
@@ -92,7 +83,7 @@ public class AdjustableHood extends Submodule {
 
     @Override
     public void update(double timestamp) {
-        if (reverseLimitSwitch.get() && zeroing) {
+        if (reverseLimitSwitch.isPressed() && zeroing) {
             zero();
             zeroing = false;
         }

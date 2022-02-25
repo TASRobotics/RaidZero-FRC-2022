@@ -1,10 +1,10 @@
 package raidzero.robot.submodules;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import raidzero.robot.Constants.ClimbConstants;
-import raidzero.robot.wrappers.LazyTalonSRX;
-import raidzero.robot.wrappers.InactiveCompressor;
+import raidzero.robot.wrappers.InactiveDoubleSolenoid;
+import raidzero.robot.wrappers.LazyTalonFX;
+
 
 public class Climb extends Submodule {
 
@@ -21,10 +21,10 @@ public class Climb extends Submodule {
     }
 
     private double outputOpenLoop = 0.0;
-
-    private LazyTalonSRX extensionMotor;
-    private InactiveCompressor leftCompressor;
-    private InactiveCompressor rightCompressor;
+    
+    private LazyTalonFX extensionMotor;
+    private InactiveDoubleSolenoid solenoidLeft;
+    private InactiveDoubleSolenoid solenoidRight;
 
     @Override
     public void onInit() {
