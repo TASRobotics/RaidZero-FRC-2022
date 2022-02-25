@@ -98,8 +98,8 @@ public class Constants {
     }
 
     public static final class NewIntakeConstants {
-        public static final int LEFT_MOTOR_ID = 15;
-        public static final int RIGHT_MOTOR_ID = 16;
+        public static final int LEFT_MOTOR_ID = 16;
+        public static final int RIGHT_MOTOR_ID = 15;
 
         public static final IdleMode NEUTRAL_MODE = IdleMode.kCoast;
 
@@ -111,8 +111,7 @@ public class Constants {
      * Climb Constants
      */
     public static final class ClimbConstants {
-        public static final int MOTOR_ID = 30;
-        public static final int MOTOR_ID_2 = 31;
+        public static final int MOTOR_ID = 20;
 
         public static final NeutralMode NEUTRAL_MODE = NeutralMode.Brake;
         public static final InvertType INVERSION = InvertType.InvertMotorOutput;
@@ -160,7 +159,7 @@ public class Constants {
     }
 
     public static final class TurretConstants {
-        public static final int MOTOR_ID = 51;
+        public static final int MOTOR_ID = 30;
 
         public static final IdleMode NEUTRAL_MODE = IdleMode.kBrake;
         public static final boolean INVERSION = false;
@@ -185,7 +184,7 @@ public class Constants {
     }
 
     public static final class HoodConstants {
-        public static final int MOTOR_ID = 52;
+        public static final int MOTOR_ID = 21;
 
         public static final IdleMode IDLE_MODE = IdleMode.kBrake;
         public static final boolean INVERSION = true;
