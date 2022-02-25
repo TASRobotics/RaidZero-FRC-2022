@@ -8,7 +8,7 @@ public class InactiveDoubleSolenoid extends DoubleSolenoid {
     protected boolean active = true;
 
     public InactiveDoubleSolenoid(final int forwardChannel, final int reverseChannel) {
-        super(PneumaticsModuleType.CTREPCM, forwardChannel, reverseChannel);
+        super(PneumaticsModuleType.REVPH, forwardChannel, reverseChannel);
     }
  
     public void setActive(boolean state) {
