@@ -36,10 +36,8 @@ public class Intake extends Submodule {
     }
 
     private LazyCANSparkMax motorLeft;
-    private SparkMaxPIDController motorLeftPidController;
-
     private LazyCANSparkMax motorRight;
-    private SparkMaxPIDController motorRightPidController;
+
 
     // private LazyTalonFX shooterMotor;
 
