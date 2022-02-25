@@ -11,7 +11,7 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
 // import raidzero.robot.Constants.ConveyorConstants;
-import raidzero.robot.Constants.ThroatShortConstants;
+import raidzero.robot.Constants.ThroatXConstants;;
 
 public class ThroatX extends Submodule {
 
@@ -28,17 +28,15 @@ public class ThroatX extends Submodule {
     }
 
     private LazyCANSparkMax conveyorMotor;
-    // private LazyTalonSRX conveyorMotor;
 
     private double outputOpenLoop = 0.0;
 
     @Override
     public void onInit() {
-        conveyorMotor = new LazyCANSparkMax(ThroatShortConstants.MOTOR_ID, MotorType.kBrushless);
+        conveyorMotor = new LazyCANSparkMax(ThroatXConstants.MOTOR_ID, MotorType.kBrushless);
         conveyorMotor.restoreFactoryDefaults();
-        conveyorMotor.setIdleMode(ThroatShortConstants.NEUTRAL_MODE);
-        conveyorMotor.setInverted(ThroatShortConstants.MOTOR_INVERSION);
-        // conveyorMotor.setSensorPhase(ThroatShortConstants.SENSOR_PHASE);
+        conveyorMotor.setIdleMode(ThroatXConstants.NEUTRAL_MODE);
+        conveyorMotor.setInverted(ThroatXConstants.MOTOR_INVERSION);
     }
 
     @Override
