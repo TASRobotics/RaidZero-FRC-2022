@@ -98,16 +98,6 @@ public class Constants {
         public static final boolean RIGHT_INVERSION = true;
     }
 
-    public static final class NewIntakeConstants {
-        public static final int LEFT_MOTOR_ID = 16;
-        public static final int RIGHT_MOTOR_ID = 15;
-
-        public static final IdleMode NEUTRAL_MODE = IdleMode.kCoast;
-
-        public static final boolean LEFT_INVERSION = false;
-        public static final boolean RIGHT_INVERSION = true;
-    }
-
     /**
      * Climb Constants
      */
