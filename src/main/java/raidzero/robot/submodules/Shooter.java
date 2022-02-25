@@ -13,7 +13,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import raidzero.robot.Constants;
-import raidzero.robot.Constants.ShooterConstants;
+import raidzero.robot.Constants.NewShooterConstants;
 import raidzero.robot.dashboard.Tab;
 
 public class Shooter extends Submodule {
@@ -30,7 +30,8 @@ public class Shooter extends Submodule {
     private Shooter() {
     }
 
-    private LazyCANSparkMax shooterMotor;
+    private LazyCANSparkMax shooterMotorRight;
+    private LazyCANSparkMax shooterMotorLeft;
     private SparkMaxPIDController shooterPidController;
 
     private double outputPercentSpeed = 0.0;
@@ -38,24 +39,34 @@ public class Shooter extends Submodule {
     private NetworkTableEntry shooterVelocityEntry =
             Shuffleboard.getTab(Tab.MAIN).add("Shooter Vel", 0).withWidget(BuiltInWidgets.kTextView)
                     .withSize(1, 1).withPosition(0, 2).getEntry();
-    private NetworkTableEntry shooterUpToSpeedEntry = Shuffleboard.getTab(Tab.MAIN)
-            .add("Up To Speed", false).withWidget(BuiltInWidgets.kBooleanBox).withSize(1, 1)
-            .withPosition(0, 3).getEntry();
+
+    // private NetworkTableEntry shooterUpToSpeedEntry = Shuffleboard.getTab(Tab.MAIN)
+    //         .add("Up To Speed", false).withWidget(BuiltInWidgets.kBooleanBox).withSize(1, 1)
+    //         .withPosition(0, 3).getEntry();
 
     @Override
     public void onInit() {
-        shooterMotor = new LazyCANSparkMax(ShooterConstants.MOTOR_ID, MotorType.kBrushless);
-        shooterMotor.restoreFactoryDefaults();
-        shooterMotor.setIdleMode(ShooterConstants.NEUTRAL_MODE);
-        shooterMotor.setInverted(ShooterConstants.INVERSION);
+        shooterMotorRight = new LazyCANSparkMax(NewShooterConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
+        shooterMotorLeft = new LazyCANSparkMax(NewShooterConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
 
-        shooterPidController = shooterMotor.getPIDController();
+        shooterMotorRight.restoreFactoryDefaults();
+        shooterMotorLeft.restoreFactoryDefaults();
 
-        shooterPidController.setFF(ShooterConstants.K_F);
-        shooterPidController.setP(ShooterConstants.K_P);
-        shooterPidController.setI(ShooterConstants.K_I);
-        shooterPidController.setD(ShooterConstants.K_D);
-        shooterPidController.setIZone(ShooterConstants.K_INTEGRAL_ZONE);
+        shooterMotorRight.setIdleMode(NewShooterConstants.NEUTRAL_MODE);
+        shooterMotorRight.setIdleMode(NewShooterConstants.NEUTRAL_MODE);
+
+        shooterMotorRight.setInverted(NewShooterConstants.RIGHT_INVERSION);
+        shooterMotorRight.setInverted(NewShooterConstants.LEFT_INVERSION);
+
+        shooterPidController = shooterMotorRight.getPIDController();
+
+        shooterPidController.setFF(NewShooterConstants.KF);
+        shooterPidController.setP(NewShooterConstants.KP);
+        shooterPidController.setI(NewShooterConstants.KI);
+        shooterPidController.setD(NewShooterConstants.KD);
+        shooterPidController.setIZone(NewShooterConstants.IZONE);
+
+        shooterMotorLeft.follow(shooterMotorRight);
     }
 
     @Override
@@ -66,8 +77,8 @@ public class Shooter extends Submodule {
 
     @Override
     public void update(double timestamp) {
-        shooterVelocityEntry.setNumber(shooterMotor.getEncoder().getVelocity());
-        shooterUpToSpeedEntry.setBoolean(isUpToSpeed());
+        shooterVelocityEntry.setNumber(shooterMotorRight.getEncoder().getVelocity());
+        // shooterUpToSpeedEntry.setBoolean(isUpToSpeed());
     }
 
     @Override
@@ -75,19 +86,20 @@ public class Shooter extends Submodule {
         if (Math.abs(outputPercentSpeed) < 0.1) {
             stop();
         } else {
-            shooterPidController.setReference(outputPercentSpeed * ShooterConstants.FAKE_MAX_SPEED, ControlType.kVelocity);
+            shooterPidController.setReference(outputPercentSpeed * NewShooterConstants.FAKE_MAX_SPEED, ControlType.kVelocity);
         }
     }
 
     @Override
     public void stop() {
         outputPercentSpeed = 0.0;
-        shooterMotor.set(0);
+        shooterMotorRight.set(0);
     }
 
     @Override
     public void zero() {
-        shooterMotor.getSensorCollection().setIntegratedSensorPosition(0.0, Constants.TIMEOUT_MS);
+        // shooterMotor.getSensorCollection().setIntegratedSensorPosition(0.0, Constants.TIMEOUT_MS);
+        shooterMotorRight.getEncoder().setPosition(0.0);
     }
 
     /**
@@ -108,8 +120,8 @@ public class Shooter extends Submodule {
      * 
      * @return whether the shooter is up to speed
      */
-    public boolean isUpToSpeed() {
-        return Math.abs(outputPercentSpeed) > 0.1
-                && Math.abs(shooterMotor.getClosedLoopError()) < ShooterConstants.ERROR_TOLERANCE;
-    }
+    // public boolean isUpToSpeed() {
+    //     return Math.abs(outputPercentSpeed) > 0.1
+    //             && Math.abs(shooterMotor.getClosedLoopError()) < ShooterConstants.ERROR_TOLERANCE;
+    // }
 }
