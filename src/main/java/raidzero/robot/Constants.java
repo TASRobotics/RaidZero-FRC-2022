@@ -228,10 +228,11 @@ public class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final int MOTOR_ID = 40;
+        public static final int MOTOR_LEFT_ID = 21;
+        public static final int MOTOR_RIGHT_ID = 20;
 
-        public static final IdleMode NEUTRAL_MODE = IdleMode.kCoast;
-        public static final boolean INVERSION = false;
+        public static final NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
+        public static final InvertType INVERSION = InvertType.None;
 
         public static final double MAX_SPEED = 20000; // in ticks per 100ms
         public static final double FAKE_MAX_SPEED = 17000; // in ticks per 100ms

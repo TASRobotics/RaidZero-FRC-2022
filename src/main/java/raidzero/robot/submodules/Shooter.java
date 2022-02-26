@@ -1,19 +1,18 @@
 package raidzero.robot.submodules;
 
-import raidzero.robot.wrappers.LazyCANSparkMax;
+import raidzero.robot.wrappers.LazyTalonFX;
+import raidzero.robot.wrappers.LazyTalonSRX;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import raidzero.robot.Constants;
-import raidzero.robot.Constants.NewShooterConstants;
+import raidzero.robot.Constants.ShooterConstants;
 import raidzero.robot.dashboard.Tab;
 
 public class Shooter extends Submodule {
@@ -30,43 +29,44 @@ public class Shooter extends Submodule {
     private Shooter() {
     }
 
-    private LazyCANSparkMax shooterMotorRight;
-    private LazyCANSparkMax shooterMotorLeft;
-    private SparkMaxPIDController shooterPidController;
+    private LazyTalonFX motorLeft;
+    private LazyTalonFX motorRight;
 
     private double outputPercentSpeed = 0.0;
 
     private NetworkTableEntry shooterVelocityEntry =
             Shuffleboard.getTab(Tab.MAIN).add("Shooter Vel", 0).withWidget(BuiltInWidgets.kTextView)
                     .withSize(1, 1).withPosition(0, 2).getEntry();
-
-    // private NetworkTableEntry shooterUpToSpeedEntry = Shuffleboard.getTab(Tab.MAIN)
-    //         .add("Up To Speed", false).withWidget(BuiltInWidgets.kBooleanBox).withSize(1, 1)
-    //         .withPosition(0, 3).getEntry();
+    private NetworkTableEntry shooterUpToSpeedEntry = Shuffleboard.getTab(Tab.MAIN)
+            .add("Up To Speed", false).withWidget(BuiltInWidgets.kBooleanBox).withSize(1, 1)
+            .withPosition(0, 3).getEntry();
 
     @Override
     public void onInit() {
-        shooterMotorRight = new LazyCANSparkMax(NewShooterConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
-        shooterMotorLeft = new LazyCANSparkMax(NewShooterConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
+        motorLeft = new LazyTalonFX(ShooterConstants.MOTOR_LEFT_ID);
+        motorRight = new LazyTalonFX(ShooterConstants.MOTOR_RIGHT_ID);
 
-        shooterMotorRight.restoreFactoryDefaults();
-        shooterMotorLeft.restoreFactoryDefaults();
+        motorLeft.configFactoryDefault();
+        motorRight.configFactoryDefault();
 
-        shooterMotorRight.setIdleMode(NewShooterConstants.NEUTRAL_MODE);
-        shooterMotorRight.setIdleMode(NewShooterConstants.NEUTRAL_MODE);
+        motorLeft.setNeutralMode(ShooterConstants.NEUTRAL_MODE);
+        motorRight.setNeutralMode(ShooterConstants.NEUTRAL_MODE);
+        
+        motorRight.follow(motorLeft);
+        
+        motorRight.setInverted(InvertType.OpposeMaster);
+        motorLeft.setInverted(ShooterConstants.INVERSION);
+        
+        TalonFXConfiguration config = new TalonFXConfiguration();
+        config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+        config.slot0.kF = ShooterConstants.K_F;
+        config.slot0.kP = ShooterConstants.K_P;
+        config.slot0.kI = ShooterConstants.K_I;
+        config.slot0.kD = ShooterConstants.K_D;
+        config.slot0.integralZone = ShooterConstants.K_INTEGRAL_ZONE;
 
-        shooterMotorRight.setInverted(NewShooterConstants.RIGHT_INVERSION);
-        shooterMotorRight.setInverted(NewShooterConstants.LEFT_INVERSION);
-
-        shooterPidController = shooterMotorRight.getPIDController();
-
-        shooterPidController.setFF(NewShooterConstants.KF);
-        shooterPidController.setP(NewShooterConstants.KP);
-        shooterPidController.setI(NewShooterConstants.KI);
-        shooterPidController.setD(NewShooterConstants.KD);
-        shooterPidController.setIZone(NewShooterConstants.IZONE);
-
-        shooterMotorLeft.follow(shooterMotorRight);
+        motorLeft.configAllSettings(config);
+        motorRight.configAllSettings(config);
     }
 
     @Override
@@ -77,8 +77,8 @@ public class Shooter extends Submodule {
 
     @Override
     public void update(double timestamp) {
-        shooterVelocityEntry.setNumber(shooterMotorRight.getEncoder().getVelocity());
-        // shooterUpToSpeedEntry.setBoolean(isUpToSpeed());
+        shooterVelocityEntry.setNumber(motorLeft.getSelectedSensorVelocity());
+        shooterUpToSpeedEntry.setBoolean(isUpToSpeed());
     }
 
     @Override
@@ -86,20 +86,20 @@ public class Shooter extends Submodule {
         if (Math.abs(outputPercentSpeed) < 0.1) {
             stop();
         } else {
-            shooterPidController.setReference(outputPercentSpeed * NewShooterConstants.FAKE_MAX_SPEED, ControlType.kVelocity);
+            motorLeft.set(ControlMode.Velocity,
+                    outputPercentSpeed * ShooterConstants.FAKE_MAX_SPEED);
         }
     }
 
     @Override
     public void stop() {
         outputPercentSpeed = 0.0;
-        shooterMotorRight.set(0);
+        motorLeft.set(ControlMode.PercentOutput, 0);
     }
 
     @Override
     public void zero() {
-        // shooterMotor.getSensorCollection().setIntegratedSensorPosition(0.0, Constants.TIMEOUT_MS);
-        shooterMotorRight.getEncoder().setPosition(0.0);
+        motorLeft.getSensorCollection().setIntegratedSensorPosition(0.0, Constants.TIMEOUT_MS);
     }
 
     /**
@@ -120,8 +120,8 @@ public class Shooter extends Submodule {
      * 
      * @return whether the shooter is up to speed
      */
-    // public boolean isUpToSpeed() {
-    //     return Math.abs(outputPercentSpeed) > 0.1
-    //             && Math.abs(shooterMotor.getClosedLoopError()) < ShooterConstants.ERROR_TOLERANCE;
-    // }
+    public boolean isUpToSpeed() {
+        return Math.abs(outputPercentSpeed) > 0.1
+                && Math.abs(motorLeft.getClosedLoopError()) < ShooterConstants.ERROR_TOLERANCE;
+    }
 }
