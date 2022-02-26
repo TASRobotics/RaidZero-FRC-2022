@@ -110,7 +110,7 @@ public class Teleop {
         //    throaty.moveBalls(0.0);
         }
 
-        if (shooter.isUpToSpeed() && p.getRawButton(1)){
+        if (shooter.isUpToSpeed() && p.getRawButton(2)){
             throaty.moveBalls(0.3);
         }
         else if (p.getRawButton(12)){
@@ -119,6 +119,7 @@ public class Teleop {
         else{
             throaty.moveBalls(0.0);
         }
+
 
         /**
          * Hood
@@ -153,9 +154,9 @@ public class Teleop {
          * Shooter
          */
         if (p.getAButton()) {
-            shooter.shoot(1.0, false);
+            shooter.shoot(0.4, false);
         }
-        else {
+        else if (p.getAButtonReleased()) {
             shooter.shoot(0.0, false);
         }
 

@@ -174,7 +174,7 @@ public class Constants {
         public static final int MOTOR_ID = 30;
 
         public static final IdleMode IDLE_MODE = IdleMode.kBrake;
-        public static final boolean INVERSION = true;
+        public static final boolean INVERSION = false;
 
         public static final double GEAR_RATIO = 45.0;
 

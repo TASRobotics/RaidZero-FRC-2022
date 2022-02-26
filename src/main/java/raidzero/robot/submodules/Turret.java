@@ -59,9 +59,7 @@ public class Turret extends Submodule {
     @Override
     public void onInit() {
 
-        /**
-         * motorLeft config
-         */
+
         turret = new LazyCANSparkMax(TurretConstants.MOTOR_ID, MotorType.kBrushless);
         turret.restoreFactoryDefaults();
         turret.setIdleMode(TurretConstants.NEUTRAL_MODE);

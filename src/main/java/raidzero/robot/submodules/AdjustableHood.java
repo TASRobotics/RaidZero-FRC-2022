@@ -83,10 +83,11 @@ public class AdjustableHood extends Submodule {
 
     @Override
     public void update(double timestamp) {
-        if (reverseLimitSwitch.isPressed() && zeroing) {
+        if ((reverseLimitSwitch.isPressed() || forwardLimitSwitch.isPressed()) && zeroing) {
             zero();
             zeroing = false;
         }
+
         SmartDashboard.putNumber("Hood Angle", encoder.getPosition());
         hoodPositionEntry.setNumber(encoder.getPosition());
     }
