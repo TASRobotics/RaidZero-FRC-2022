@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import raidzero.robot.submodules.Swerve;
 import raidzero.robot.submodules.*;
 import raidzero.robot.Constants.SwerveConstants;
+import raidzero.robot.Constants.IntakeConstants;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.utils.JoystickUtils;
 
@@ -23,6 +24,8 @@ public class Teleop {
     private static final AdjustableHood hood = AdjustableHood.getInstance();
     private static final Turret turret = Turret.getInstance();
 
+    private static boolean intakeshift = false;
+    private static double intakeOut = 0;
 
     public static Teleop getInstance() {
         if (instance == null) {
@@ -81,19 +84,35 @@ public class Teleop {
             return;
         }
         
+        // /**
+        //  * Intake 
+        // */
+        // if (p.getRawButton(7)) {
+        //     intake.intakeBalls(0.3);
+        // }
+        // else if (p.getRawButton(8)) {
+        //     intake.intakeBalls(-0.3);
+        // }
+        // else {
+        //     intake.intakeBalls(0.0);
+        // }
+
         /**
-         * Intake 
-         * ToDO fix intake flap speed
+         * Intake
         */
+        intakeshift =  p.getRawButton(8);
+        intakeOut = ((p.getRawButton(7) || intakeshift) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
+        System.out.println("intake: " + intakeOut);
         if (p.getRawButton(7)) {
-            intake.intakeBalls(0.3);
+            intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
         }
         else if (p.getRawButton(8)) {
-            intake.intakeBalls(-0.3);
+            intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
         }
         else {
-            intake.intakeBalls(0.0);
+            intake.intakeBalls(0.0) ;
         }
+
 
         /**
          * Throat

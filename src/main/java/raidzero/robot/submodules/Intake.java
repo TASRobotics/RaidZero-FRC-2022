@@ -38,10 +38,8 @@ public class Intake extends Submodule {
     private LazyCANSparkMax motorLeft;
     private LazyCANSparkMax motorRight;
 
-
-    // private LazyTalonFX shooterMotor;
-
     private double outputPercentSpeed = 0.0;
+
 
     // private NetworkTableEntry shooterVelocityEntry =
     //         Shuffleboard.getTab(Tab.MAIN).add("Shooter Vel", 0).withWidget(BuiltInWidgets.kTextView)
@@ -92,4 +90,5 @@ public class Intake extends Submodule {
     public void intakeBalls(double percentOutput) {
         outputPercentSpeed = percentOutput;
     }
+    
 }

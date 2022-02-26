@@ -94,8 +94,10 @@ public class Constants {
 
         public static final IdleMode NEUTRAL_MODE = IdleMode.kCoast;
 
-        public static final boolean LEFT_INVERSION = false;
-        public static final boolean RIGHT_INVERSION = true;
+        public static final boolean LEFT_INVERSION = true;
+        public static final boolean RIGHT_INVERSION = false;
+
+        public static final double CONTROL_SCALING_FACTOR = 0.5;
     }
 
     /**
