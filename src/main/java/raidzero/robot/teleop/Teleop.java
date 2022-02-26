@@ -67,7 +67,7 @@ public class Teleop {
         swerve.drive(
             JoystickUtils.deadband(-p.getLeftY()) * SwerveConstants.MAX_SPEED_MPS * (p.getRawButton(1) ? 1 : 0.5),
             JoystickUtils.deadband(-p.getLeftX()) * SwerveConstants.MAX_SPEED_MPS * (p.getRawButton(1) ? 1 : 0.5),
-            (turning) ? JoystickUtils.deadband(p.getRawAxis(2)) * (p.getRawButton(1) ? 0.5 : 0.25) : 0,
+            (turning) ? JoystickUtils.deadband(p.getRawAxis(2)) * (p.getRawButton(1) ? -0.9 : -0.9) : 0,
             true
         );
         // swerve.fieldOrientedDrive(
@@ -79,55 +79,11 @@ public class Teleop {
          * DO NOT CONTINUOUSLY CALL THE ZERO FUNCTION its not that bad but the absolute encoders are
          * not good to PID off of so a quick setting of the relative encoder is better
          */
-        if (p.getXButtonPressed()) {
+        if (p.getRawButton(2)) {
             swerve.zero();
             return;
         }
         
-        /**
-         * Intake
-        */
-        intakeshift =  p.getRawButton(8);
-        intakeOut = ((p.getRawButton(7) || intakeshift) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
-        System.out.println("intake: " + intakeOut);
-        if (p.getRawButton(7)) {
-            intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
-        }
-        else if (p.getRawButton(8)) {
-            intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
-        }
-        else {
-            intake.intakeBalls(0.0) ;
-        }
-
-
-        /**
-         * Throat
-         */
-        if (p.getRawButton(9)) {
-            throatx.moveBalls(0.3);
-        //    throaty.moveBalls(0.3);
-        }
-        else if (p.getRawButton(10)) {
-            throatx.moveBalls(-0.3);
-        //    throaty.moveBalls(-0.3);
-        }
-        else {
-            throatx.moveBalls(0.0);
-        //    throaty.moveBalls(0.0);
-        }
-
-        if (shooter.isUpToSpeed() && p.getRawButton(2)){
-            throaty.moveBalls(0.3);
-        }
-        else if (p.getRawButton(13)){
-            throaty.moveBalls(-0.3);
-        }
-        else{
-            throaty.moveBalls(0.0);
-        }
-
-
         /**
          * Hood
         */
@@ -154,6 +110,43 @@ public class Teleop {
             turret.spin(0.0);
         }
 
+        /**
+         * Intake Release
+        */
+        if (p.getRawButton(11)){
+            intake.setSolenoid(true);
+        }
+        else if(p.getRawButton(12)){
+            intake.setSolenoid(false);
+        }
+
+        /**
+         * Climb Hook
+        */
+        if (p.getRawButton(9)){
+            intake.setSolenoid(true);
+        }
+        else if(p.getRawButton(10)){
+            intake.setSolenoid(false);
+        }
+
+        /**
+         * Climb
+        */
+        if (p.getRawButton(7))
+        {
+            climb.climb(0.5);
+        }
+        else if (p.getRawButton(8))
+        {
+            climb.climb(-0.5);
+        }
+        else
+        {
+            climb.climb(0.0);
+        }
+
+
     }
 
     private void p2Loop(XboxController p) {
@@ -169,29 +162,36 @@ public class Teleop {
         }
 
         /**
-         * Climb
-        */
-        if (p.getYButton())
-        {
-            climb.climb(0.5);
+         * Fire
+         */
+        if (shooter.isUpToSpeed() && p.getXButton()){
+            throaty.moveBalls(1.0);
         }
-        else if (p.getBButton())
-        {
-            climb.climb(-0.5);
+        else if (p.getRawButton(13)){
+            throaty.moveBalls(-0.3);
         }
-        else
-        {
-            climb.climb(0.0);
+        else{
+            throaty.moveBalls(0.0);
         }
 
+
         /**
-         * Climb Hook
+         * Intake
         */
-        if (p.getRawButton(5)){
-            intake.setSolenoid(true);
+        intakeshift =  p.getRawButton(6);
+        intakeOut = ((p.getRawButton(5) || intakeshift) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
+        System.out.println("intake: " + intakeOut);
+        if (p.getRawButton(5)) {
+            intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
+            throatx.moveBalls(0.7);
         }
-        else if(p.getRawButton(6)){
-            intake.setSolenoid(false);
+        else if (p.getRawButton(6)) {
+            intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
+            throatx.moveBalls(-0.7);
+        }
+        else {
+            intake.intakeBalls(0.0);
+            throatx.moveBalls(0.0);
         }
 
         /**
@@ -203,6 +203,20 @@ public class Teleop {
         else if(p.getRawButton(8)){
             intake.setSolenoid(false);
         }
+
+        // /**
+        //  * ThroatX
+        //  */
+        // if (p.getYButton()){
+        //     throatx.moveBalls(0.7);
+        // }
+        // else if (p.getBButton()){
+        //     throaty.moveBalls(-0.7);
+        // }
+        // else{
+        //     throaty.moveBalls(0.0);
+        // }
+
 
 
     }
