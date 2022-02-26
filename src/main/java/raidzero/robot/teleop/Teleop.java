@@ -94,7 +94,44 @@ public class Teleop {
             intake.intakeBalls(0.0);
         }
 
+        /**
+         * Throat
+         */
+        if (p.getRawButton(9)) {
+            throatx.moveBalls(0.3);
+        //    throaty.moveBalls(0.3);
+        }
+        else if (p.getRawButton(10)) {
+            throatx.moveBalls(-0.3);
+        //    throaty.moveBalls(-0.3);
+        }
+        else {
+            throatx.moveBalls(0.0);
+        //    throaty.moveBalls(0.0);
+        }
 
+        if (shooter.isUpToSpeed() && p.getRawButton(1)){
+            throaty.moveBalls(0.3);
+        }
+        else if (p.getRawButton(12)){
+            throaty.moveBalls(-0.3);
+        }
+        else{
+            throaty.moveBalls(0.0);
+        }
+
+        /**
+         * Hood
+        */
+        if (p.getRawButton(5)) {
+            hood.adjust(0.2);
+        }
+        else if (p.getRawButton(6)) {
+            hood.adjust(-0.2);
+        }
+        else {
+            hood.adjust(0.0);
+        }
     }
 
     private void p2Loop(XboxController p) {
@@ -141,20 +178,6 @@ public class Teleop {
 
 
 
-        /**
-         * Throat
-         */
-        // if (p.getRawButton(4)) {
-        //     throatx.moveBalls(0.3);
-        //     throaty.moveBalls(0.3);
-        // }
-        // else if (p.getRawButton(2)) {
-        //     throatx.moveBalls(-0.3);
-        //     throaty.moveBalls(-0.3);
-        // }
-        // else {
-        //     throatx.moveBalls(0.0);
-        //     throaty.moveBalls(0.0);
-        // }
+
     }
 }

@@ -27,9 +27,9 @@ public class InactiveCompressor extends Compressor {
     public void changeState() {
         state = !state;
         if (state) {
-            super.start();
+            super.enableDigital();
         } else {
-            super.stop();
+            super.disable();
         }
     }
 }
