@@ -82,7 +82,8 @@ public class Teleop {
         }
         
         /**
-         * Intake
+         * Intake 
+         * ToDO fix intake flap speed
         */
         if (p.getRawButton(7)) {
             intake.intakeBalls(0.3);
@@ -113,7 +114,7 @@ public class Teleop {
         if (shooter.isUpToSpeed() && p.getRawButton(2)){
             throaty.moveBalls(0.3);
         }
-        else if (p.getRawButton(12)){
+        else if (p.getRawButton(13)){
             throaty.moveBalls(-0.3);
         }
         else{
