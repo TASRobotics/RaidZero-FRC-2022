@@ -37,7 +37,6 @@ public class ThroatY extends Submodule {
         conveyorMotor.setNeutralMode(ThroatYConstants.NEUTRAL_MODE);
         conveyorMotor.setInverted(ThroatYConstants.MOTOR_INVERSION);
 
-        // TODO(jimmy): Tune PID constants
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
         config.slot0.kF = ThroatYConstants.KF;

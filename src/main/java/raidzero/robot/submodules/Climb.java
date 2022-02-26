@@ -26,6 +26,7 @@ public class Climb extends Submodule {
 
     private LazyTalonFX extensionMotor;
     private InactiveDoubleSolenoid solenoid;
+    
 
     @Override
     public void onInit() {

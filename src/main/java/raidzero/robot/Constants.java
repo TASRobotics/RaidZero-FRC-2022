@@ -151,7 +151,7 @@ public class Constants {
         public static final int MOTOR_ID = 40;
 
         public static final IdleMode NEUTRAL_MODE = IdleMode.kBrake;
-        public static final boolean INVERSION = false;
+        public static final boolean INVERSION = true;
 
         public static final double TICKS_PER_DEGREE = 10732 / 90;
 

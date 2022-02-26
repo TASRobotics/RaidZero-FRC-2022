@@ -84,19 +84,6 @@ public class Teleop {
             return;
         }
         
-        // /**
-        //  * Intake 
-        // */
-        // if (p.getRawButton(7)) {
-        //     intake.intakeBalls(0.3);
-        // }
-        // else if (p.getRawButton(8)) {
-        //     intake.intakeBalls(-0.3);
-        // }
-        // else {
-        //     intake.intakeBalls(0.0);
-        // }
-
         /**
          * Intake
         */
@@ -153,6 +140,8 @@ public class Teleop {
         else {
             hood.adjust(0.0);
         }
+
+
     }
 
     private void p2Loop(XboxController p) {
@@ -161,10 +150,10 @@ public class Teleop {
          * Turret
         */
         if (p.getRawButton(5)) {
-            turret.spin(0.5);
+            turret.spin(0.3);
         }
         else if (p.getRawButton(6)) {
-            turret.spin(-0.5);
+            turret.spin(-0.3);
         }
         else {
             turret.spin(0.0);
@@ -196,8 +185,15 @@ public class Teleop {
             climb.climb(0.0);
         }
 
-
-
+        /**
+         * Intake Release
+        */
+        if (p.getRawButton(7)){
+            intake.setSolenoid(true);
+        }
+        else if(p.getRawButton(8)){
+            intake.setSolenoid(false);
+        }
 
 
     }

@@ -1,24 +1,14 @@
 package raidzero.robot.submodules;
 
-import raidzero.robot.wrappers.LazyTalonFX;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
-import raidzero.robot.wrappers.LazyCANSparkMax;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import raidzero.robot.Constants;
 import raidzero.robot.Constants.IntakeConstants;
-import raidzero.robot.dashboard.Tab;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import raidzero.robot.wrappers.InactiveDoubleSolenoid;
+import raidzero.robot.wrappers.LazyCANSparkMax;
 
 
 public class Intake extends Submodule {
@@ -35,10 +25,12 @@ public class Intake extends Submodule {
     private Intake() {
     }
 
+    private double outputPercentSpeed = 0.0;
+
     private LazyCANSparkMax motorLeft;
     private LazyCANSparkMax motorRight;
 
-    private double outputPercentSpeed = 0.0;
+    private InactiveDoubleSolenoid s_intake;
 
 
     // private NetworkTableEntry shooterVelocityEntry =
@@ -51,9 +43,6 @@ public class Intake extends Submodule {
     @Override
     public void onInit() {
 
-        /**
-         * motorLeft config
-         */
         motorLeft = new LazyCANSparkMax(IntakeConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
         motorLeft.restoreFactoryDefaults();
         motorLeft.setIdleMode(IntakeConstants.NEUTRAL_MODE);
@@ -64,11 +53,21 @@ public class Intake extends Submodule {
         motorRight.setIdleMode(IntakeConstants.NEUTRAL_MODE);
         // motorRight.setInverted(IntakeConstants.RIGHT_INVERSION);
         motorRight.follow(motorLeft, true);
+
+        s_intake = new InactiveDoubleSolenoid(2, 3);
     }
 
     @Override
     public void onStart(double timestamp) {
         outputPercentSpeed = 0.0;
+
+        s_intake.setActive(true);
+        s_intake.set(Value.kForward);
+    }
+
+    
+    @Override
+    public void update(double timestamp) {
     }
 
     @Override
@@ -80,6 +79,12 @@ public class Intake extends Submodule {
     public void stop() {
         outputPercentSpeed = 0.0;
         motorLeft.set(outputPercentSpeed);
+
+        s_intake.setActive(false);
+    }
+
+    @Override
+    public void zero() {
     }
 
     /**
@@ -91,4 +96,11 @@ public class Intake extends Submodule {
         outputPercentSpeed = percentOutput;
     }
     
+    public void setSolenoid(boolean value)
+    {
+        if (value)
+            s_intake.set(Value.kForward);
+        else 
+            s_intake.set(Value.kReverse);
+    }
 }
