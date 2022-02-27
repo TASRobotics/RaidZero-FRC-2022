@@ -11,6 +11,8 @@ import raidzero.robot.Constants.TurretConstants;
 import raidzero.robot.dashboard.Tab;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.submodules.Turret;
+import raidzero.robot.submodules.AdjustableHood;
+import raidzero.robot.submodules.Shooter;
 import raidzero.robot.submodules.Limelight.CameraMode;
 import raidzero.robot.submodules.Limelight.LedMode;
 
@@ -26,6 +28,8 @@ public class TurnToGoal implements Action {
     }
 
     private static final Turret turret = Turret.getInstance();
+    private static final AdjustableHood hood = AdjustableHood.getInstance();
+    private static final Shooter shooter = Shooter.getInstance();
     private static final Limelight limelight = Limelight.getInstance();
 
     private PIDController pidController;
@@ -91,6 +95,8 @@ public class TurnToGoal implements Action {
         );
         System.out.println(headingError);
         turret.rotateManual(output);
+        shooter.shoot(this.calculateSpeed(), false);
+        hood.moveToTick(this.calculateHood());
         
         onTarget.update(pidController.atSetpoint());
     }
@@ -100,5 +106,15 @@ public class TurnToGoal implements Action {
         System.out.println("[Auto] Action '" + getClass().getSimpleName() + "' finished!");
         //limelight.setLedMode(LedMode.Off);
         turret.stop();
+        shooter.shoot(0.0, false);
+        hood.adjust(0.0);
+    }
+
+    private int calculateSpeed() {
+        return (int)limelight.getTy();
+    }
+
+    private int calculateHood() {
+        return (int)limelight.getTy();
     }
 }

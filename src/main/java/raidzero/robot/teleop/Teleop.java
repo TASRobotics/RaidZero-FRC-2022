@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import raidzero.robot.submodules.Swerve;
 import raidzero.robot.submodules.*;
 import raidzero.robot.Constants.SwerveConstants;
+import raidzero.robot.auto.actions.TurnToGoal;
 import raidzero.robot.Constants.IntakeConstants;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.utils.JoystickUtils;
@@ -23,6 +24,7 @@ public class Teleop {
     private static final ThroatY throaty = ThroatY.getInstance();
     private static final AdjustableHood hood = AdjustableHood.getInstance();
     private static final Turret turret = Turret.getInstance();
+    private static final TurnToGoal teleautoaim = new TurnToGoal();
 
     private static boolean intakeshift = false;
     private static double intakeOut = 0;
@@ -36,6 +38,7 @@ public class Teleop {
 
     public void onStart() {
         swerve.zero();
+        teleautoaim.start();
     }
 
     /**
@@ -161,6 +164,11 @@ public class Teleop {
             shooter.shoot(0.0, false);
         }
 
+        if (p.getBButtonPressed()){
+            teleautoaim.update();
+        } else {
+            teleautoaim.done();
+        }
         /**
          * Fire
          */
