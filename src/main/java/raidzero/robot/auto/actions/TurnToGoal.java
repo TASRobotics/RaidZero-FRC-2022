@@ -1,9 +1,11 @@
 package raidzero.robot.auto.actions;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.MathUtil;
 
 import raidzero.robot.Constants.LimelightConstants;
@@ -35,6 +37,7 @@ public class TurnToGoal implements Action {
     private PIDController pidController;
     private double headingError;
     private DefaultMode defaultMode = DefaultMode.STOP;
+    private NetworkTableInstance inst = NetworkTableInstance.getDefault();
 
     private TimedBoolean onTarget = new TimedBoolean(LimelightConstants.AIM_ON_TARGET_DURATION);
 
@@ -108,6 +111,9 @@ public class TurnToGoal implements Action {
         turret.stop();
         shooter.shoot(0.0, false);
         hood.adjust(0.0);
+
+        double offset = inst.getTable("limelight").getEntry("<tx>").getDouble(0);
+        Shuffleboard.getTab("Limelight").add("Value Offset", offset);
     }
 
     private int calculateSpeed() {
