@@ -110,4 +110,12 @@ public class Intake extends Submodule {
     {
         s_intake.toggle();
     }
+
+    public boolean getSolenoid()
+    {
+        if(s_intake.get() == Value.kForward)
+            return true;
+        else
+            return false;
+    }
 }
