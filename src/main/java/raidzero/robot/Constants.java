@@ -33,7 +33,7 @@ public class Constants {
         //new double[] {(57.832 + 0) % 360.0, (205.576 + 0) % 360.0, (212.520 + 0) % 360.0, (308.232 + 0) % 360.0};
 
         // Robot dimensions
-        public static final double ROBOT_WIDTH_INCHES = 23.0; // 23.0 inches
+        public static final double ROBOT_WIDTH_INCHES = 25.25; // 23.0 inches on ugly bot
         public static final double ROBOT_HALF_WIDTH_METERS = Units.inchesToMeters(ROBOT_WIDTH_INCHES) / 2.0;
         public static final double ROBOT_RADIUS_INCHES = FastMath.hypot(ROBOT_WIDTH_INCHES, ROBOT_WIDTH_INCHES) / 2.0;
         public static final double WHEEL_DIAMETER_INCHES = 4.0;
@@ -46,12 +46,14 @@ public class Constants {
 
         public static final double FALCON_TICKS = 2048.0;
 
-        public static final double MOTOR_RATIO = 7.2;
+        // This changes depending on the swerve module used - swerveX has several.  2022 we're using 5.50:1
+        // was 7.2 on ugly bot
+        public static final double MOTOR_RATIO = 5.5;
         public static final double MOTOR_TICKS_TO_METERS = Math.PI * WHEEL_DIAMETER_METERS / (FALCON_TICKS * MOTOR_RATIO);
 
         public static final double CANCODER_TO_DEGREES = 360.0 / 4096.0;
 
-        public static final double MAX_SPEED_MPS = 4.0;
+        public static final double MAX_SPEED_MPS = 5.0;  //was 4.0
         public static final double MAX_ANGULAR_SPEED_RPS = 2 * Math.PI;
 
         public static final boolean MOTOR_INVERSION = false;
