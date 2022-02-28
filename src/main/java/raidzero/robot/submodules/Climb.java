@@ -61,6 +61,7 @@ public class Climb extends Submodule {
     public void stop() {
         outputOpenLoop = 0.0;
         extensionMotor.set(ControlMode.PercentOutput, 0.0);
+
         solenoid.setActive(false);
     }
 
@@ -80,9 +81,16 @@ public class Climb extends Submodule {
 
     public void setSolenoid(boolean value)
     {
-        if (value)
+        if (value){
             solenoid.set(Value.kForward);
-        else 
+        }
+        else {
             solenoid.set(Value.kReverse);
+        }
+    }
+
+    public void toggleSolenoid()
+    {
+        solenoid.toggle();
     }
 }

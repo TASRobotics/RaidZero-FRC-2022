@@ -3,6 +3,7 @@ package raidzero.robot.teleop;
 import edu.wpi.first.wpilibj.XboxController;
 
 import raidzero.robot.submodules.Swerve;
+import raidzero.robot.submodules.Limelight.LedMode;
 import raidzero.robot.submodules.*;
 import raidzero.robot.Constants.SwerveConstants;
 import raidzero.robot.Constants.IntakeConstants;
@@ -36,6 +37,7 @@ public class Teleop {
 
     public void onStart() {
         swerve.zero();
+        Limelight.getInstance().setLedMode(LedMode.On);
     }
 
     /**
@@ -114,10 +116,7 @@ public class Teleop {
          * Climb Hook
         */
         if (p.getRawButton(9)){
-            climb.setSolenoid(true);
-        }
-        else if(p.getRawButton(10)){
-            climb.setSolenoid(false);
+            climb.toggleSolenoid();
         }
 
         /**
@@ -145,7 +144,7 @@ public class Teleop {
          * Shooter
          */
         if (p.getAButton()) {
-            shooter.shoot(0.4, false);
+            shooter.shoot(0.363, false);
         }
         else if (p.getAButtonReleased()) {
             shooter.shoot(0.0, false);
@@ -188,10 +187,7 @@ public class Teleop {
          * Intake Release
         */
         if (p.getRawButton(7)){
-            intake.setSolenoid(true);
-        }
-        else if(p.getRawButton(8)){
-            intake.setSolenoid(false);
+            intake.toggleSolenoid();
         }
 
         // /**

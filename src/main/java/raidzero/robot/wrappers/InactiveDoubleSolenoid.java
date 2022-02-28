@@ -22,4 +22,9 @@ public class InactiveDoubleSolenoid extends DoubleSolenoid {
         }
         super.set(value);
     }
+
+    @Override
+    public void toggle() {
+        super.toggle();
+    }
 }
