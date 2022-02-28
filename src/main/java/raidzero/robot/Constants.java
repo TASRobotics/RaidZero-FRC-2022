@@ -109,7 +109,7 @@ public class Constants {
         public static final int MOTOR_ID = 27;
 
         public static final NeutralMode NEUTRAL_MODE = NeutralMode.Brake;
-        public static final InvertType INVERSION = InvertType.InvertMotorOutput;
+        public static final InvertType INVERSION = InvertType.None;
     }
 
 
