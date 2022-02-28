@@ -97,7 +97,7 @@ public class Constants {
         public static final boolean LEFT_INVERSION = true;
         public static final boolean RIGHT_INVERSION = false;
 
-        public static final double CONTROL_SCALING_FACTOR = 0.5;
+        public static final double CONTROL_SCALING_FACTOR = 2;
     }
 
     /**
