@@ -76,8 +76,8 @@ public class TestRotationSequence extends AutoSequence {
     private static final Swerve swerve = Swerve.getInstance();
     private static final Intake intake = Intake.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
-    // private static final ThroatLong throatlong = ThroatLong.getInstance();
-    // private static final ThroatShort throatshort = ThroatShort.getInstance();
+    private static final ThroatX throatx = ThroatX.getInstance();
+    private static final ThroatY throaty = ThroatY.getInstance();
 
 
     public TestRotationSequence() {
@@ -95,14 +95,15 @@ public class TestRotationSequence extends AutoSequence {
                         new Rotation2d()
                     )
                 );
+                intake.setSolenoid(false);
             }),
 
             new DrivePath(PATH),
             new LambdaAction(() -> {
-                intake.intakeBalls(0.3);
-                // throatlong.moveBalls(0.2);
-                // throatshort.moveBalls(0.2);
-                shooter.shoot(1.0, false);
+                intake.intakeBalls(1.0);
+                throatx.moveBalls(0.7);
+                throaty.moveBalls(1.0);
+                shooter.shoot(0.4, false);
             }),
             new LambdaAction(() -> {
                 Timer.delay(2);

@@ -101,13 +101,13 @@ public class Teleop {
          * Turret
         */
         if (p.getRawButton(3)) {
-            turret.spin(0.2);
+            turret.rotateManual(0.2);
         }
         else if (p.getRawButton(4)) {
-            turret.spin(-0.2);
+            turret.rotateManual(-0.2);
         }
         else {
-            turret.spin(0.0);
+            turret.rotateManual(0.0);
         }
 
         /**
