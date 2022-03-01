@@ -103,12 +103,12 @@ public class Teleop {
 
 
 
-        // /**
-        //  * Climb Hook
-        // */
-        // if (p.getRawButton(9)){
-        //     climb.toggleSolenoid();
-        // }
+        /**
+         * Climb Hook
+        */
+        if (p.getRawButton(9)){
+            climb.toggleSolenoid();
+        }
 
         // /**
         //  * Intake Release
@@ -142,7 +142,7 @@ public class Teleop {
          * Shooter
          */
         if (p.getAButtonPressed()) {
-            shooter.shoot(autoaim.shooterVelocity, false); //Manual shooter power: 0.412
+            shooter.shoot(autoaim.getspeed(), false); //Manual shooter power: 0.412
         }
         else if (p.getBButtonPressed()) {
             shooter.shoot(0.0, false);
