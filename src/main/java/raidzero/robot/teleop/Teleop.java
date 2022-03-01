@@ -115,21 +115,21 @@ public class Teleop {
         //     intake.toggleSolenoid();
         // }
 
-        // /**
-        //  * Climb
-        // */
-        // if (p.getRawButton(7))
-        // {
-        //     climb.climb(0.5);
-        // }
-        // else if (p.getRawButton(8))
-        // {
-        //     climb.climb(-0.5);
-        // }
-        // else
-        // {
-        //     climb.climb(0.0);
-        // }
+        /**
+         * Climb
+        */
+        if (p.getRawButton(7))
+        {
+            climb.climb(0.5);
+        }
+        else if (p.getRawButton(8))
+        {
+            climb.climb(-0.5);
+        }
+        else
+        {
+            climb.climb(0.0);
+        }
 
 
     }

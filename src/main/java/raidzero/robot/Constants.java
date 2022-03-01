@@ -262,6 +262,8 @@ public class Constants {
         public static final IdleMode NEUTRAL_MODE = IdleMode.kBrake;
         public static final boolean INVERSION = false;
 
+        public static final boolean FORWARD_LIMIT_ENABLE = true;
+        public static final int MAX_EXTENSION = 387914;
         public static final double TICKS_PER_DEGREE = 10732 / 90;
 
         public static final double MAX_INPUT_PERCENTAGE = 1;
@@ -290,5 +292,5 @@ public class Constants {
 
     public static final double SQRTTWO = Math.sqrt(2);
 
-    public static final String CANBUS_STRING = "CANIVORE";
+    public static final String CANBUS_STRING = "seCANdary";
 }
