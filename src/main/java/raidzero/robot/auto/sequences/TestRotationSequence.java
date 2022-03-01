@@ -43,59 +43,16 @@ public class TestRotationSequence extends AutoSequence {
 
     private static final Path PATH3 = Path.fromWaypoints(
         Arrays.asList(  
-            new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-167.0),
+            new Pose2d( 
+                Units.inchesToMeters(18.7), Units.inchesToMeters(-242.8),
                 Rotation2d.fromDegrees(0)
-            ),
+            ),            
             new Pose2d(
-                Units.inchesToMeters(64.0), Units.inchesToMeters(-209.5),
-                Rotation2d.fromDegrees(0)
-            )
-        ),
-        false, 2.33, 2.33 
-    );
-
-    private static final Path PATH4 = Path.fromWaypoints(
-        Arrays.asList(  
-            new Pose2d(
-                Units.inchesToMeters(64.0), Units.inchesToMeters(-209.5),
-                Rotation2d.fromDegrees(0)
-            ),
-            new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-167.0),
+                Units.inchesToMeters(1.06), Units.inchesToMeters(-266.2),
                 Rotation2d.fromDegrees(0)
             )
         ),
-        true, 2.33, 2.33 
-    );
-
-    // Last two points for grabbing excess preload (if any)
-    private static final Path PATH5 = Path.fromWaypoints(
-        Arrays.asList(  
-            new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-167.0),
-                Rotation2d.fromDegrees(0)
-            ),
-            new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-247.5),
-                Rotation2d.fromDegrees(0)
-            )
-        ),
-        true, 2.33, 2.33 
-    );
-
-    private static final Path PATH6 = Path.fromWaypoints(
-        Arrays.asList(  
-            new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-247.5),
-                Rotation2d.fromDegrees(0)
-            ),
-            new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-167.0),
-                Rotation2d.fromDegrees(0)
-            )
-        ),
-        true, 2.33, 2.33 
+        false, 1.33, 1.33 
     );
 
     private static final Swerve swerve = Swerve.getInstance();
@@ -117,7 +74,7 @@ public class TestRotationSequence extends AutoSequence {
                     new Pose2d(
                         Units.inchesToMeters(0.0),
                         Units.inchesToMeters(0.0), 
-                        new Rotation2d(-24)
+                        new Rotation2d()
                     )
                 );
             }),

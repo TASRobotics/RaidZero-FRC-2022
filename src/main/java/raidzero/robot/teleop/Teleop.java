@@ -71,7 +71,7 @@ public class Teleop {
         swerve.drive(
             JoystickUtils.deadband(p.getLeftY()) * SwerveConstants.MAX_SPEED_MPS * (p.getRawButton(1) ? 1 : 0.5),
             JoystickUtils.deadband(p.getLeftX()) * SwerveConstants.MAX_SPEED_MPS * (p.getRawButton(1) ? 1 : 0.5),
-            (turning) ? JoystickUtils.deadband(p.getRawAxis(2)) * (p.getRawButton(1) ? -2 : -3) : 0,
+            (turning) ? JoystickUtils.deadband(p.getRawAxis(2)) * (p.getRawButton(1) ? -4 : -3) : 0,
             true
         );
         // swerve.fieldOrientedDrive(
@@ -106,32 +106,32 @@ public class Teleop {
         /**
          * Climb Hook
         */
-        if (p.getRawButton(9)){
-            climb.toggleSolenoid();
+        if (p.getRawButtonPressed(9)){
+            climb.setSolenoid(!(climb.getSolenoid()));
         }
 
-        // /**
-        //  * Intake Release
-        // */
-        // if (p.getRawButton(10)){
-        //     intake.toggleSolenoid();
-        // }
+        /**
+         * Intake Release
+        */
+        if (p.getRawButtonPressed(10)){
+            intake.setSolenoid(!(intake.getSolenoid()));
+        }
 
-        // /**
-        //  * Climb
-        // */
-        // if (p.getRawButton(7))
-        // {
-        //     climb.climb(0.5);
-        // }
-        // else if (p.getRawButton(8))
-        // {
-        //     climb.climb(-0.5);
-        // }
-        // else
-        // {
-        //     climb.climb(0.0);
-        // }
+        /**
+         * Climb
+        */
+        if (p.getRawButton(7))
+        {
+            climb.climb(0.5);
+        }
+        else if (p.getRawButton(8))
+        {
+            climb.climb(-0.5);
+        }
+        else
+        {
+            climb.climb(0.0);
+        }
 
 
     }
@@ -199,16 +199,17 @@ public class Teleop {
         /**
          * Intake Release
         */
-        if (p.getRawButton(7)){
-            intake.setSolenoid(false);
-        }
-        else if (p.getRawButton(8)){
-            intake.setSolenoid(true);
+        if (p.getRawButtonPressed(7)){
+            intake.setSolenoid(!(intake.getSolenoid()));
         }
 
         /**
          * Climb Hook
         */
+        if (p.getRawButtonPressed(8)){
+            climb.setSolenoid(!(climb.getSolenoid()));
+        }
+
 
 
         // /**
@@ -224,7 +225,6 @@ public class Teleop {
         //     throaty.moveBalls(0.0);
         // }
 
-
-
     }
 }
+
