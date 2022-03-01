@@ -1,6 +1,7 @@
 package raidzero.robot.submodules;
 
 import raidzero.robot.auto.actions.TurnToGoal;
+import raidzero.robot.submodules.Shooter;
 
 public class Superstructure extends Submodule {
 
@@ -18,15 +19,18 @@ public class Superstructure extends Submodule {
 
     private TurnToGoal autoaim;
     public double shooterVelocity;
+    public Shooter shooter;
 
     @Override
     public void onStart(double timestamp) {
         autoaim = new TurnToGoal();
+        shooter = Shooter.getInstance();
     }
 
     @Override
     public void update(double timestamp) {
         autoaim.update();
+        shooter.shoot(autoaim.getShooterSpeed(), false);
     }
 
     @Override
@@ -36,5 +40,6 @@ public class Superstructure extends Submodule {
     public double getspeed(){
         return autoaim.getShooterSpeed();
     }
+
     
 }
