@@ -11,6 +11,10 @@ public class SendablePigeon extends Pigeon2 implements Sendable {
     public SendablePigeon(int deviceNumber) {
         super(deviceNumber);
     }
+
+    public SendablePigeon(int deviceNumber, String canbus) {
+        super(deviceNumber, canbus);
+    }
     
     public double getHeading() {
         return getYaw();

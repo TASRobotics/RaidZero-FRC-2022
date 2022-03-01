@@ -74,8 +74,8 @@ public class Turret extends Submodule {
 
         forwardLimitSwitch = turret.getForwardLimitSwitch(Type.kNormallyClosed);
         reverseLimitSwitch = turret.getReverseLimitSwitch(Type.kNormallyClosed);
-        forwardLimitSwitch.enableLimitSwitch(false);
-        reverseLimitSwitch.enableLimitSwitch(false);
+        forwardLimitSwitch.enableLimitSwitch(true);
+        reverseLimitSwitch.enableLimitSwitch(true);
 
         pidController = turret.getPIDController();
         pidController.setP(TurretConstants.KP);

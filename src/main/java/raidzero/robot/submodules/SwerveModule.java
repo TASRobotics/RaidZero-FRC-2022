@@ -58,16 +58,17 @@ public class SwerveModule extends Submodule implements Sendable {
         this.quadrant = quadrant;
         this.forwardAngle = forwardAngle;
 
-        motor = new LazyTalonFX(motorId);
+        motor = new LazyTalonFX(motorId, Constants.CANBUS_STRING);
         initMotor(motor);
 
-        rotorExternalEncoder = new CANCoder(quadrant);
+        //rotorExternalEncoder = new CANCoder(quadrant);
+        rotorExternalEncoder = new CANCoder(quadrant, Constants.CANBUS_STRING);
         rotorExternalEncoder.configFactoryDefault();
         rotorExternalEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360, Constants.TIMEOUT_MS);
         rotorExternalEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToZero, Constants.TIMEOUT_MS);
         // rotorExternalEncoder.configMagnetOffset(forwardAngle, Constants.TIMEOUT_MS);
 
-        rotor = new LazyTalonFX(rotorId);
+        rotor = new LazyTalonFX(rotorId, Constants.CANBUS_STRING);
         initRotor(rotor, rotorExternalEncoder);
 
         int column = 0;

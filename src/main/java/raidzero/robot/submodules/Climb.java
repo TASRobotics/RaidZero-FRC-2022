@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import raidzero.robot.Constants;
 import raidzero.robot.Constants.ClimbConstants;
 import raidzero.robot.wrappers.InactiveDoubleSolenoid;
 import raidzero.robot.wrappers.LazyTalonFX;
@@ -31,10 +32,12 @@ public class Climb extends Submodule {
 
     @Override
     public void onInit() {
-        extensionMotor = new LazyTalonFX(ClimbConstants.MOTOR_ID);
+        extensionMotor = new LazyTalonFX(ClimbConstants.MOTOR_ID, Constants.CANBUS_STRING);
         extensionMotor.configFactoryDefault();
         extensionMotor.setNeutralMode(ClimbConstants.NEUTRAL_MODE);
         extensionMotor.setInverted(ClimbConstants.INVERSION);
+        extensionMotor.configForwardSoftLimitThreshold(Constants.ExtensionConstants.MAX_EXTENSION);
+        extensionMotor.configForwardSoftLimitEnable(Constants.ExtensionConstants.FORWARD_LIMIT_ENABLE);
 
         extensionMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
