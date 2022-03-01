@@ -85,7 +85,7 @@ public class TurnToGoal implements Action {
             }
             return;
 		}
-        headingError = -limelight.getTx();
+        headingError = limelight.getTx();
 
         double output = MathUtil.clamp(
             pidController.calculate(headingError),
@@ -94,7 +94,6 @@ public class TurnToGoal implements Action {
         );
         System.out.println(headingError);
         turret.rotateManual(output);
-        shooter.shoot(getShooterSpeed(), false);
         
         onTarget.update(pidController.atSetpoint());
     }
@@ -106,12 +105,10 @@ public class TurnToGoal implements Action {
         turret.stop();
     }
 
-    private double getShooterSpeed() {
+    public double getShooterSpeed() {
         double a = 7.956e-05;
         double b = 2.554;
         double c = 0.3648;
-        return a*Math.pow(limelight.getTy(), b)+c;
+        return a * Math.pow(Math.abs(limelight.getTy()), b) + c;
     }
-
-
 }
