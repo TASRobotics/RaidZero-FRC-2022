@@ -26,7 +26,6 @@ public class Superstructure extends Submodule {
 
     @Override
     public void update(double timestamp) {
-        shooterVelocity = autoaim.getShooterSpeed();
         autoaim.update();
     }
 
@@ -35,8 +34,7 @@ public class Superstructure extends Submodule {
     }
 
     public double getspeed(){
-        return shooterVelocity;
+        return autoaim.getShooterSpeed();
     }
-
-
+    
 }
