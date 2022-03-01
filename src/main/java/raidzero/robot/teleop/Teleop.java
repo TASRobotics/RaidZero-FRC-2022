@@ -6,6 +6,7 @@ import raidzero.robot.submodules.Swerve;
 import raidzero.robot.submodules.Limelight.LedMode;
 import raidzero.robot.submodules.*;
 import raidzero.robot.Constants.SwerveConstants;
+import raidzero.robot.auto.actions.TurnToGoal;
 import raidzero.robot.Constants.IntakeConstants;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.utils.JoystickUtils;
@@ -24,6 +25,7 @@ public class Teleop {
     private static final ThroatY throaty = ThroatY.getInstance();
     private static final AdjustableHood hood = AdjustableHood.getInstance();
     private static final Turret turret = Turret.getInstance();
+    private static final Superstructure autoaim = Superstructure.getInstance();
 
     private static boolean intakeshift = false;
     private static double intakeOut = 0;
@@ -140,7 +142,7 @@ public class Teleop {
          * Shooter
          */
         if (p.getAButtonPressed()) {
-            shooter.shoot(0.412, false); //Manual shooter power: 0.412
+            shooter.shoot(autoaim.shooterVelocity, false); //Manual shooter power: 0.412
         }
         else if (p.getBButtonPressed()) {
             shooter.shoot(0.0, false);
