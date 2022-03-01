@@ -11,6 +11,7 @@ import raidzero.robot.Constants.TurretConstants;
 import raidzero.robot.dashboard.Tab;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.submodules.Turret;
+import raidzero.robot.submodules.Shooter;
 import raidzero.robot.submodules.Limelight.CameraMode;
 import raidzero.robot.submodules.Limelight.LedMode;
 
@@ -26,7 +27,9 @@ public class TurnToGoal implements Action {
     }
 
     private static final Turret turret = Turret.getInstance();
+    private static final Shooter shooter = Shooter.getInstance();
     private static final Limelight limelight = Limelight.getInstance();
+    
 
     private PIDController pidController;
     private double headingError;
@@ -91,6 +94,7 @@ public class TurnToGoal implements Action {
         );
         System.out.println(headingError);
         turret.rotateManual(output);
+        shooter.shoot(getShooterSpeed(), false);
         
         onTarget.update(pidController.atSetpoint());
     }
@@ -101,4 +105,13 @@ public class TurnToGoal implements Action {
         //limelight.setLedMode(LedMode.Off);
         turret.stop();
     }
+
+    private double getShooterSpeed() {
+        double a = 7.956e-05;
+        double b = 2.554;
+        double c = 0.3648;
+        return a*Math.pow(limelight.getTy(), b)+c;
+    }
+
+
 }

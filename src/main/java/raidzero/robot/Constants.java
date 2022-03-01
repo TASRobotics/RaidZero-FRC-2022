@@ -289,4 +289,6 @@ public class Constants {
     public static final int TIMEOUT_MS = 20;
 
     public static final double SQRTTWO = Math.sqrt(2);
+
+    public static final String CANBUS_STRING = "CANIVORE";
 }
