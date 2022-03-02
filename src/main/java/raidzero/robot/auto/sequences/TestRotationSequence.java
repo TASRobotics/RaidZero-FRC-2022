@@ -20,7 +20,7 @@ public class TestRotationSequence extends AutoSequence {
                 Rotation2d.fromDegrees(0)
             ),
             new Pose2d(
-                Units.inchesToMeters(55.7), Units.inchesToMeters(-32.6),
+                Units.inchesToMeters(55.7), Units.inchesToMeters(-31.3),
                 Rotation2d.fromDegrees(0)
             )
         ),
@@ -30,7 +30,7 @@ public class TestRotationSequence extends AutoSequence {
     private static final Path PATH2 = Path.fromWaypoints(
         Arrays.asList(  
             new Pose2d(
-                Units.inchesToMeters(55.7), Units.inchesToMeters(-32.6),
+                Units.inchesToMeters(55.7), Units.inchesToMeters(-31.3),
                 Rotation2d.fromDegrees(0)
             ),         
             new Pose2d(
@@ -101,6 +101,7 @@ public class TestRotationSequence extends AutoSequence {
     private static final Swerve swerve = Swerve.getInstance();
     private static final Intake intake = Intake.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
+    private static final Superstructure autoaim = Superstructure.getInstance();
     private static final ThroatX throatX = ThroatX.getInstance();
     private static final ThroatY throatY = ThroatY.getInstance();
 
@@ -123,7 +124,7 @@ public class TestRotationSequence extends AutoSequence {
                 intake.setSolenoid(false);
                 intake.intakeBalls(1.0);
                 throatX.moveBalls(0.5); 
-                shooter.shoot(0.439, false); 
+                autoaim.setAiming(true);
             }),
 
             new DrivePath(PATH, Rotation2d.fromDegrees(-27)),
@@ -137,8 +138,8 @@ public class TestRotationSequence extends AutoSequence {
 
             new LambdaAction(() -> {
                 intake.intakeBalls(1.0);
-                Timer.delay(0.5);
                 throatX.moveBalls(0.5);
+                Timer.delay(0.5);
                 throatY.moveBalls(0.7);
             }),
             new LambdaAction(() -> {
@@ -151,20 +152,23 @@ public class TestRotationSequence extends AutoSequence {
             new LambdaAction(() -> {
                 intake.intakeBalls(1.0);
                 throatX.moveBalls(0.5);
-                shooter.shoot(0.448, false);
+                Timer.delay(1);
             }),
 
             new DrivePath(PATH4, Rotation2d.fromDegrees((-90))),
 
             new LambdaAction(() -> {
-                Timer.delay(0.5);
+                intake.intakeBalls(1.0);
                 throatX.moveBalls(0.5);
+                Timer.delay(0.5);
                 throatY.moveBalls(0.7);
             }),
             new LambdaAction(() -> {
                 Timer.delay(2);
-                shooter.shoot(0.0, false);
+                autoaim.setAiming(false);
                 throatY.moveBalls(0);
+                throatX.moveballs(0);
+                intake.intakeBalls(0);
             })
 
             // new LambdaAction(() -> {
