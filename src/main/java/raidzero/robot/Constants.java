@@ -226,7 +226,7 @@ public class Constants {
 
         public static final double MAX_SPEED = 20000; // in ticks per 100ms
         public static final double FAKE_MAX_SPEED = 17000; // in ticks per 100ms
-        public static final double ERROR_TOLERANCE = 300;
+        public static final double ERROR_TOLERANCE = 250;
         public static final double UP_TO_SPEED_DURATION = 0.5; // in seconds
 
         public static final double K_F = 1023.0 / MAX_SPEED;
@@ -246,7 +246,7 @@ public class Constants {
         public static final double MOUNTING_HEIGHT = 0.56; // in meters
 
         // TODO: Improve the constants
-        public static final double AIM_KP = 0.00277;
+        public static final double AIM_KP = 0.0034;
         public static final double AIM_KI = 0;
         public static final double AIM_KD = 0.00;
         public static final double MIN_I = 0;
