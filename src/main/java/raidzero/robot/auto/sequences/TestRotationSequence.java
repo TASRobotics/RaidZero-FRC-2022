@@ -20,7 +20,7 @@ public class TestRotationSequence extends AutoSequence {
                 Rotation2d.fromDegrees(0)
             ),
             new Pose2d(
-                Units.inchesToMeters(27.7), Units.inchesToMeters(-55.0),
+                Units.inchesToMeters(55.7), Units.inchesToMeters(-32.6),
                 Rotation2d.fromDegrees(0)
             )
         ),
@@ -30,11 +30,11 @@ public class TestRotationSequence extends AutoSequence {
     private static final Path PATH2 = Path.fromWaypoints(
         Arrays.asList(  
             new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-57.0),
+                Units.inchesToMeters(55.7), Units.inchesToMeters(-32.6),
                 Rotation2d.fromDegrees(0)
             ),         
             new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-167.0),
+                Units.inchesToMeters(36.0), Units.inchesToMeters(-125.0),
                 Rotation2d.fromDegrees(0)
             )
         ),
@@ -44,11 +44,11 @@ public class TestRotationSequence extends AutoSequence {
     private static final Path PATH3 = Path.fromWaypoints(
         Arrays.asList(  
             new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-167.0),
+                Units.inchesToMeters(36.0), Units.inchesToMeters(-125.0),
                 Rotation2d.fromDegrees(0)
             ),
             new Pose2d(
-                Units.inchesToMeters(64.0), Units.inchesToMeters(-209.5),
+                Units.inchesToMeters(110.0), Units.inchesToMeters(-180.5),
                 Rotation2d.fromDegrees(0)
             )
         ),
@@ -58,11 +58,11 @@ public class TestRotationSequence extends AutoSequence {
     private static final Path PATH4 = Path.fromWaypoints(
         Arrays.asList(  
             new Pose2d(
-                Units.inchesToMeters(64.0), Units.inchesToMeters(-209.5),
+                Units.inchesToMeters(110.0), Units.inchesToMeters(-180.5),
                 Rotation2d.fromDegrees(0)
             ),
             new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-167.0),
+                Units.inchesToMeters(36.0), Units.inchesToMeters(-125.0),
                 Rotation2d.fromDegrees(0)
             )
         ),
@@ -123,33 +123,46 @@ public class TestRotationSequence extends AutoSequence {
                 intake.setSolenoid(false);
             }),
 
-            new DrivePath(PATH),
+            new DrivePath(PATH, Rotation2d.fromDegrees(-27)),
 
             new LambdaAction(() -> {
-                intake.intakeBalls(0.3);
-                throatX.moveBalls(0.2);
-                throatY.moveBalls(0.2);
-                shooter.shoot(1.0, false);
+                intake.intakeBalls(1.0);
+                throatX.moveBalls(0.4);   
             }),
-            // new LambdaAction(() -> {
-            //     Timer.delay(2);
-            //     shooter.shoot(0.0, false);
-            // }),
 
-            new DrivePath(PATH2, Rotation2d.fromDegrees(57.67)),
+            new DrivePath(PATH2, Rotation2d.fromDegrees(-56.5)),
 
             new LambdaAction(() -> {
-                Timer.delay(2);
+                shooter.shoot(0.42, false);
+                throatY.moveBalls(0.7);
+            }),
+            new LambdaAction(() -> {
+                Timer.delay(1);
+                shooter.shoot(0.0, false);
+            }),
+
+            new DrivePath(PATH3, Rotation2d.fromDegrees((-56.5))),
+
+            new LambdaAction(() -> {
+                intake.intakeBalls(1.0);
+                throatX.moveBalls(0.4);
+                //throatY.moveBalls(0.2);
+                Timer.delay(2.5);
+            }),
+
+            new DrivePath(PATH4, Rotation2d.fromDegrees((-90))),
+
+            new LambdaAction(() -> {
+                shooter.shoot(0.42, false);
+                throatY.moveBalls(0.7);
+            }),
+            new LambdaAction(() -> {
+                Timer.delay(1);
                 shooter.shoot(0.0, false);
             })
 
-            // new DrivePath(PATH3),
-
             // new LambdaAction(() -> {
-            //     intake.intakeBalls(0.3);
-            //     throatX.moveBalls(0.3);
-            //     throatY.moveBalls(0.2);
-            //     shooter.shoot(1.0, false);
+            //     shooter.shoot(0.0, false);
             // }),
             // new LambdaAction(() -> {
             //     Timer.delay(2);
