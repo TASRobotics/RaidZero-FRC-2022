@@ -20,14 +20,15 @@ public class Superstructure extends Submodule {
     private TurnToGoal autoaim;
     public Shooter shooter;
 
-    @Override
-    public void onInit(){
-        autoaim = new TurnToGoal();
-        shooter = Shooter.getInstance();
-    }
+    // @Override
+    // public void onInit(){
+
+    // }
 
     @Override
     public void onStart(double timestamp) {
+        autoaim = new TurnToGoal();
+        shooter = Shooter.getInstance();
     }
 
     @Override
