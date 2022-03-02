@@ -163,9 +163,9 @@ public class Teleop {
         if (shooter.isUpToSpeed() && p.getXButton()){
             throaty.moveBalls(0.7);
         }
-        else if (p.getRawButton(13)){
-            throaty.moveBalls(-0.3);
-        }
+        // else if (p.getRawButton(13)){
+        //     throaty.moveBalls(-0.3);
+        // }
         else{
             throaty.moveBalls(0.0);
         }
@@ -174,13 +174,13 @@ public class Teleop {
         /**
          * Intake
         */
-        intakeshift =  p.getRawButton(6);
-        intakeOut = ((p.getRawButton(5) || intakeshift) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
+        intakeshift =  p.getRawButton(5);
+        intakeOut = ((p.getRawButton(6) || intakeshift) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
         System.out.println("intake: " + intakeOut);
         if (p.getRawButton(6)) {
             intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
             throatx.moveBalls(0.7);
-        }
+        }   
         else if (p.getRawButton(5)) {
             intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
             throatx.moveBalls(-0.7);
