@@ -161,7 +161,7 @@ public class Teleop {
          * Fire
          */
         if (shooter.isUpToSpeed() && p.getXButton()){
-            throaty.moveBalls(1.0);
+            throaty.moveBalls(0.7);
         }
         else if (p.getRawButton(13)){
             throaty.moveBalls(-0.3);
@@ -177,11 +177,11 @@ public class Teleop {
         intakeshift =  p.getRawButton(6);
         intakeOut = ((p.getRawButton(5) || intakeshift) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
         System.out.println("intake: " + intakeOut);
-        if (p.getRawButton(5)) {
+        if (p.getRawButton(6)) {
             intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
             throatx.moveBalls(0.7);
         }
-        else if (p.getRawButton(6)) {
+        else if (p.getRawButton(5)) {
             intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
             throatx.moveBalls(-0.7);
         }
