@@ -139,15 +139,19 @@ public class Teleop {
     private void p2Loop(XboxController p) {
 
         /**
-         * Shooter
+         * Shooter + Turret
          */
+        // Turn turret using right joystick
         if (p.getAButtonPressed()) {
+            autoaim.setAiming(true);
+            turret.rotateManual(JoystickUtils.deadband(p.getRawAxis(4)*-0.2));
             shooter.shoot(autoaim.getspeed(), false); //Manual shooter power: 0.412
-        }
-        else if (p.getBButtonPressed()) {
-            shooter.shoot(0.0, false);
+        } else if (p.getBButtonPressed()){
+            shooter.shoot(0.0, false); 
+            autoaim.setAiming(false);
         }
 
+        
         /**
          * Fire
          */
@@ -193,7 +197,7 @@ public class Teleop {
         // else {
         //     turret.rotateManual(0.0);
         // }
-        turret.rotateManual(JoystickUtils.deadband(p.getRawAxis(4)*-0.2));
+        
 
 
         /**

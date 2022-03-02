@@ -15,26 +15,48 @@ public class Superstructure extends Submodule {
     }
 
     private Superstructure() {
+        
     }
+
+    private boolean isAiming = false;
 
     private TurnToGoal autoaim;
     public double shooterVelocity;
-    public Shooter shooter;
 
     @Override
     public void onStart(double timestamp) {
         autoaim = new TurnToGoal();
-        shooter = Shooter.getInstance();
     }
 
     @Override
     public void update(double timestamp) {
-        autoaim.update();
-        shooter.shoot(autoaim.getShooterSpeed(), false);
+        if(isAiming) autoaim.update();
     }
 
     @Override
     public void stop() {
+        setAiming(false);
+    }
+
+    public boolean isAiming() {
+        return isAiming;
+    }
+
+    public void setAiming(boolean status) {
+        if (status == isAiming) {
+            return;
+        }
+        isAiming = status;
+        if (status) {
+            // // Don't aim if the robot is aiming and shooting already
+            // if (isAiming) {
+            //     isAiming = false;
+            //     return;
+            // }
+            autoaim.start();
+        } else {
+            autoaim.done();
+        }
     }
 
     public double getspeed(){
