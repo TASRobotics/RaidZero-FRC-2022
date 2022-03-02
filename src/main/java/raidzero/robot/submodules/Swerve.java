@@ -75,7 +75,7 @@ public class Swerve extends Submodule {
     }
 
     public void onInit() {
-        pigeon = new SendablePigeon(0);
+        pigeon = new SendablePigeon(0, Constants.CANBUS_STRING);
         Shuffleboard.getTab(Tab.MAIN).add("Pigey", pigeon).withSize(2, 2).withPosition(4, 4);
 
         topRightModule.onInit(

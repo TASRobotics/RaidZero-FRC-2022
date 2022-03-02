@@ -27,4 +27,8 @@ public class InactiveDoubleSolenoid extends DoubleSolenoid {
     public void toggle() {
         super.toggle();
     }
+
+    public Value get() {
+        return super.get();
+    }
 }

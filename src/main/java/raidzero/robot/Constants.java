@@ -246,9 +246,9 @@ public class Constants {
         public static final double MOUNTING_HEIGHT = 0.56; // in meters
 
         // TODO: Improve the constants
-        public static final double AIM_KP = 0.0034;
+        public static final double AIM_KP = 0.0025;
         public static final double AIM_KI = 0;
-        public static final double AIM_KD = 0.0;
+        public static final double AIM_KD = 0.00;
         public static final double MIN_I = 0;
         public static final double MAX_I = 0;
         public static final double ANGLE_ADJUST_THRESHOLD = 2.0;
@@ -262,6 +262,8 @@ public class Constants {
         public static final IdleMode NEUTRAL_MODE = IdleMode.kBrake;
         public static final boolean INVERSION = false;
 
+        public static final boolean FORWARD_LIMIT_ENABLE = true;
+        public static final int MAX_EXTENSION = 387914;
         public static final double TICKS_PER_DEGREE = 10732 / 90;
 
         public static final double MAX_INPUT_PERCENTAGE = 1;
