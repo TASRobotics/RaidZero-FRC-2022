@@ -20,7 +20,7 @@ public class TestRotationSequence extends AutoSequence {
                 Rotation2d.fromDegrees(0)
             ),
             new Pose2d(
-                Units.inchesToMeters(25.0), Units.inchesToMeters(-57.0),
+                Units.inchesToMeters(27.7), Units.inchesToMeters(-55.0),
                 Rotation2d.fromDegrees(0)
             )
         ),
@@ -117,9 +117,10 @@ public class TestRotationSequence extends AutoSequence {
                     new Pose2d(
                         Units.inchesToMeters(0.0),
                         Units.inchesToMeters(0.0), 
-                        new Rotation2d(-24)
+                        new Rotation2d(24)
                     )
                 );
+                intake.setSolenoid(false);
             }),
 
             new DrivePath(PATH),
@@ -135,7 +136,7 @@ public class TestRotationSequence extends AutoSequence {
             //     shooter.shoot(0.0, false);
             // }),
 
-            new DrivePath(PATH2, Rotation2d.fromDegrees(-57.67)),
+            new DrivePath(PATH2, Rotation2d.fromDegrees(57.67)),
 
             new LambdaAction(() -> {
                 Timer.delay(2);
