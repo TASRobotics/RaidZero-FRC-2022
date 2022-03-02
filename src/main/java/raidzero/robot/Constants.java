@@ -230,7 +230,7 @@ public class Constants {
         public static final double UP_TO_SPEED_DURATION = 0.5; // in seconds
 
         public static final double K_F = 1023.0 / MAX_SPEED;
-        public static final double K_P = 0.1;
+        public static final double K_P = 0.12;
         public static final double K_I = 0; // Shouldn't be touched
         public static final double K_D = 5.0; // Shouldn't be touched
         public static final int K_INTEGRAL_ZONE = 0; // Shouldn't be touched
@@ -246,7 +246,7 @@ public class Constants {
         public static final double MOUNTING_HEIGHT = 0.56; // in meters
 
         // TODO: Improve the constants
-        public static final double AIM_KP = 0.0025;
+        public static final double AIM_KP = 0.00277;
         public static final double AIM_KI = 0;
         public static final double AIM_KD = 0.00;
         public static final double MIN_I = 0;

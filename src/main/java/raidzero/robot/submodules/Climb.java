@@ -39,7 +39,7 @@ public class Climb extends Submodule {
         extensionMotor.configForwardSoftLimitThreshold(Constants.ExtensionConstants.MAX_EXTENSION);
         extensionMotor.configForwardSoftLimitEnable(Constants.ExtensionConstants.FORWARD_LIMIT_ENABLE);
 
-        extensionMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+        extensionMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
 
         solenoid = new InactiveDoubleSolenoid(0, 1);
     }

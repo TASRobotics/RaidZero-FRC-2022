@@ -145,11 +145,15 @@ public class Teleop {
         // Turn turret using right joystick
         if (p.getAButtonPressed()) {
             autoaim.setAiming(true);
-            turret.rotateManual(JoystickUtils.deadband(p.getRawAxis(4)*-0.2));
-            shooter.shoot(autoaim.getspeed(), false); //Manual shooter power: 0.412
+            
         } else if (p.getBButtonPressed()){
-            shooter.shoot(0.0, false); 
-            autoaim.setAiming(false);
+            
+            autoaim.setAiming(false);  
+            //turret.rotateManual(JoystickUtils.deadband(p.getRawAxis(4)*-0.2)); 
+            
+            // if (p.getYButtonPressed()){
+            //     shooter.shoot(0.412, false);
+            // }
         }
 
         

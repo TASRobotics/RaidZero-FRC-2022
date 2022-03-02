@@ -22,15 +22,20 @@ public class Superstructure extends Submodule {
 
     private TurnToGoal autoaim;
     public double shooterVelocity;
+    private Shooter shooter;
 
     @Override
     public void onStart(double timestamp) {
         autoaim = new TurnToGoal();
+        shooter = Shooter.getInstance(); 
     }
 
     @Override
     public void update(double timestamp) {
-        if(isAiming) autoaim.update();
+        if(isAiming) {
+            autoaim.update();
+            shooter.shoot(autoaim.getShooterSpeed(), false);
+        }
     }
 
     @Override
@@ -58,10 +63,5 @@ public class Superstructure extends Submodule {
             autoaim.done();
         }
     }
-
-    public double getspeed(){
-        return autoaim.getShooterSpeed();
-    }
-
     
 }
