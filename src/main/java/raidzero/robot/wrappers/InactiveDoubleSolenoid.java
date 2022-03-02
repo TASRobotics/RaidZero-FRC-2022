@@ -28,8 +28,6 @@ public class InactiveDoubleSolenoid extends DoubleSolenoid {
         super.toggle();
     }
 
-    
-    @Override
     public Value get() {
         return super.get();
     }

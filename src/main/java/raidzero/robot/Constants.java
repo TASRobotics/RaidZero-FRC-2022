@@ -157,7 +157,7 @@ public class Constants {
 
         public static final double TICKS_PER_DEGREE = 10732 / 90;
 
-        public static final double MAX_INPUT_PERCENTAGE = 1;
+        public static final double MAX_INPUT_PERCENTAGE = 0.2;
 
         public static final double KF = 0.0;
         public static final double KP = 0.07;
@@ -203,9 +203,9 @@ public class Constants {
         }
 
         public static final double K_F = 0;
-        public static final double K_P = 0.07;
+        public static final double K_P = 0.04;
         public static final double K_I = 0;
-        public static final double K_D = 0.002;
+        public static final double K_D = 0.01;
         public static final int K_INTEGRAL_ZONE = 0;
 
         public static final int TOLERANCE = 400;
@@ -224,15 +224,15 @@ public class Constants {
         public static final NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
         public static final InvertType INVERSION = InvertType.None;
 
-        public static final double MAX_SPEED = 20000; // in ticks per 100ms
+        public static final double MAX_SPEED = 7900; // in ticks per 100ms
         public static final double FAKE_MAX_SPEED = 17000; // in ticks per 100ms
-        public static final double ERROR_TOLERANCE = 600;
+        public static final double ERROR_TOLERANCE = 250;
         public static final double UP_TO_SPEED_DURATION = 0.5; // in seconds
 
-        public static final double K_F = 1023.0 / MAX_SPEED;
+        public static final double K_F = 1023.0 * 0.4 / MAX_SPEED;
         public static final double K_P = 0.1;
         public static final double K_I = 0; // Shouldn't be touched
-        public static final double K_D = 5.0; // Shouldn't be touched
+        public static final double K_D = 10; // Shouldn't be touched
         public static final int K_INTEGRAL_ZONE = 0; // Shouldn't be touched
     }
 
@@ -246,9 +246,9 @@ public class Constants {
         public static final double MOUNTING_HEIGHT = 0.56; // in meters
 
         // TODO: Improve the constants
-        public static final double AIM_KP = 0.08;
+        public static final double AIM_KP = 0.008;
         public static final double AIM_KI = 0;
-        public static final double AIM_KD = 0.003;
+        public static final double AIM_KD = 0.00;
         public static final double MIN_I = 0;
         public static final double MAX_I = 0;
         public static final double ANGLE_ADJUST_THRESHOLD = 2.0;

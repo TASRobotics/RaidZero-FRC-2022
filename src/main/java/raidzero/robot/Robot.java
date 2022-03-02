@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
     private static final AdjustableHood hood = AdjustableHood.getInstance();
     private static final Turret turret = Turret.getInstance();
     private static final Led led = Led.getInstance();
+    private static final Superstructure autoaim = Superstructure.getInstance();
 
 
     private AutoRunner autoRunner;
@@ -65,7 +66,8 @@ public class Robot extends TimedRobot {
             throaty,
             hood,
             turret,
-            led
+            led,
+            autoaim
         );
         submoduleManager.onInit();
 
@@ -127,5 +129,4 @@ public class Robot extends TimedRobot {
         teleop.onLoop();
         submoduleManager.onLoop(Timer.getFPGATimestamp());
     }
-
 }

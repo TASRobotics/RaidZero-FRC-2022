@@ -4,12 +4,13 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import raidzero.robot.submodules.Swerve;
 import raidzero.robot.submodules.Limelight.LedMode;
+import raidzero.robot.submodules.Superstructure;
 import raidzero.robot.submodules.*;
 import raidzero.robot.Constants.SwerveConstants;
+import raidzero.robot.auto.actions.TurnToGoal;
 import raidzero.robot.Constants.IntakeConstants;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.utils.JoystickUtils;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Teleop {
 
@@ -25,6 +26,7 @@ public class Teleop {
     private static final ThroatY throaty = ThroatY.getInstance();
     private static final AdjustableHood hood = AdjustableHood.getInstance();
     private static final Turret turret = Turret.getInstance();
+    private static final Superstructure autoaim = Superstructure.getInstance();
 
     private static boolean intakeshift = false;
     private static double intakeOut = 0;
@@ -100,6 +102,8 @@ public class Teleop {
             hood.adjust(0.0);
         }
 
+
+
         /**
          * Climb Hook
         */
@@ -119,11 +123,11 @@ public class Teleop {
         */
         if (p.getRawButton(7))
         {
-            climb.climb(0.25);
+            climb.climb(0.5);
         }
         else if (p.getRawButton(8))
         {
-            climb.climb(-0.25);
+            climb.climb(-0.5);
         }
         else
         {
@@ -136,24 +140,32 @@ public class Teleop {
     private void p2Loop(XboxController p) {
 
         /**
-         * Shooter
+         * Shooter + Turret
          */
+        // Turn turret using right joystick
         if (p.getAButtonPressed()) {
-            shooter.shoot(0.412, false); //Manual shooter power: 0.412
-        }
-        else if (p.getBButtonPressed()) {
-            shooter.shoot(0.0, false);
+            autoaim.setAiming(true);
+            
+        } else if (p.getBButtonPressed()){
+            
+            autoaim.setAiming(false);  
+            //turret.rotateManual(JoystickUtils.deadband(p.getRawAxis(4)*-0.2)); 
+            
+            // if (p.getYButtonPressed()){
+            //     shooter.shoot(0.412, false);
+            // }
         }
 
+        
         /**
          * Fire
          */
         if (shooter.isUpToSpeed() && p.getXButton()){
-            throaty.moveBalls(1.0);
+            throaty.moveBalls(0.7);
         }
-        else if (p.getRawButton(13)){
-            throaty.moveBalls(-0.3);
-        }
+        // else if (p.getRawButton(13)){
+        //     throaty.moveBalls(-0.3);
+        // }
         else{
             throaty.moveBalls(0.0);
         }
@@ -162,14 +174,14 @@ public class Teleop {
         /**
          * Intake
         */
-        intakeshift =  p.getRawButton(6);
-        intakeOut = ((p.getRawButton(5) || intakeshift) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
+        intakeshift =  p.getRawButton(5);
+        intakeOut = ((p.getRawButton(6) || intakeshift) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
         System.out.println("intake: " + intakeOut);
-        if (p.getRawButton(5)) {
+        if (p.getRawButton(6)) {
             intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
             throatx.moveBalls(0.7);
-        }
-        else if (p.getRawButton(6)) {
+        }   
+        else if (p.getRawButton(5)) {
             intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
             throatx.moveBalls(-0.7);
         }
@@ -190,7 +202,7 @@ public class Teleop {
         // else {
         //     turret.rotateManual(0.0);
         // }
-        turret.rotateManual(JoystickUtils.deadband(p.getRawAxis(4)*-0.2));
+        
 
 
         /**
@@ -208,6 +220,7 @@ public class Teleop {
         }
 
 
+
         // /**
         //  * ThroatX
         //  */
@@ -221,7 +234,6 @@ public class Teleop {
         //     throaty.moveBalls(0.0);
         // }
 
-
-
     }
 }
+
