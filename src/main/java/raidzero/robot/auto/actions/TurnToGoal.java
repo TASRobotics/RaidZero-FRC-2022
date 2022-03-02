@@ -85,7 +85,7 @@ public class TurnToGoal implements Action {
             }
             return;
 		}
-        headingError = -limelight.getTx();
+        headingError = limelight.getTx();
 
         double output = MathUtil.clamp(
             pidController.calculate(headingError),

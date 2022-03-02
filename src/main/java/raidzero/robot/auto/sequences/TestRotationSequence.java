@@ -121,44 +121,50 @@ public class TestRotationSequence extends AutoSequence {
                     )
                 );
                 intake.setSolenoid(false);
+                intake.intakeBalls(1.0);
+                throatX.moveBalls(0.5); 
+                shooter.shoot(0.439, false); 
             }),
 
             new DrivePath(PATH, Rotation2d.fromDegrees(-27)),
 
             new LambdaAction(() -> {
                 intake.intakeBalls(1.0);
-                throatX.moveBalls(0.4);   
+                throatX.moveBalls(0.5); 
             }),
 
             new DrivePath(PATH2, Rotation2d.fromDegrees(-56.5)),
 
             new LambdaAction(() -> {
-                shooter.shoot(0.42, false);
+                intake.intakeBalls(1.0);
+                Timer.delay(0.5);
+                throatX.moveBalls(0.5);
                 throatY.moveBalls(0.7);
             }),
             new LambdaAction(() -> {
-                Timer.delay(1);
-                shooter.shoot(0.0, false);
+                Timer.delay(2);
+                throatY.moveBalls(0);
             }),
 
             new DrivePath(PATH3, Rotation2d.fromDegrees((-56.5))),
 
             new LambdaAction(() -> {
                 intake.intakeBalls(1.0);
-                throatX.moveBalls(0.4);
-                //throatY.moveBalls(0.2);
-                Timer.delay(2.5);
+                throatX.moveBalls(0.5);
+                shooter.shoot(0.448, false);
             }),
 
             new DrivePath(PATH4, Rotation2d.fromDegrees((-90))),
 
             new LambdaAction(() -> {
-                shooter.shoot(0.42, false);
+                Timer.delay(0.5);
+                throatX.moveBalls(0.5);
                 throatY.moveBalls(0.7);
             }),
             new LambdaAction(() -> {
-                Timer.delay(1);
+                Timer.delay(2);
                 shooter.shoot(0.0, false);
+                throatY.moveBalls(0);
             })
 
             // new LambdaAction(() -> {
