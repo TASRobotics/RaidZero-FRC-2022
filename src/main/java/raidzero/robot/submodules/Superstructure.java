@@ -61,7 +61,7 @@ public class Superstructure extends Submodule {
             autoaim.start();
         } else {
             autoaim.done();
+            
         }
     }
-    
 }

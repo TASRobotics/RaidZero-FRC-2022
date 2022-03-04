@@ -289,7 +289,7 @@ public class Constants {
     /**
      * Universal constants
      */
-    public static final double JOYSTICK_DEADBAND = 0.07;
+    public static final double JOYSTICK_DEADBAND = 0.06;
 
     public static final int TIMEOUT_MS = 20;
 
