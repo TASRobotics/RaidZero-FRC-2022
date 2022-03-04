@@ -72,6 +72,7 @@ public class Swerve extends Submodule {
 
     public void onStart(double timestamp) {
         controlState = ControlState.OPEN_LOOP;
+        zero();
     }
 
     public void onInit() {
