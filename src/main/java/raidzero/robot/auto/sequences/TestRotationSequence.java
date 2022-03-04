@@ -48,7 +48,7 @@ public class TestRotationSequence extends AutoSequence {
                 Rotation2d.fromDegrees(0)
             ),
             new Pose2d(
-                Units.inchesToMeters(110.0), Units.inchesToMeters(-180.5),
+                Units.inchesToMeters(110.0), Units.inchesToMeters(-173.5),
                 Rotation2d.fromDegrees(0)
             )
         ),
@@ -58,7 +58,7 @@ public class TestRotationSequence extends AutoSequence {
     private static final Path PATH4 = Path.fromWaypoints(
         Arrays.asList(  
             new Pose2d(
-                Units.inchesToMeters(110.0), Units.inchesToMeters(-180.5),
+                Units.inchesToMeters(110.0), Units.inchesToMeters(-173.5),
                 Rotation2d.fromDegrees(0)
             ),
             new Pose2d(
