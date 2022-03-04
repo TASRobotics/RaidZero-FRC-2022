@@ -188,11 +188,11 @@ public class Teleop {
         System.out.println("intake: " + intakeOut);
         if (p.getRawButton(6)) {
             intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
-            throatx.moveBalls(0.7);
+            throatx.moveBalls(1.0);
         }   
         else if (p.getRawButton(5)) {
             intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
-            throatx.moveBalls(-0.7);
+            throatx.moveBalls(-1.0);
         }
         else {
             intake.intakeBalls(0.0);
