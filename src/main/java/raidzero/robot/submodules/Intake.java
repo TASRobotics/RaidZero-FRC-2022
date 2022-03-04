@@ -52,7 +52,7 @@ public class Intake extends Submodule {
         motorRight.restoreFactoryDefaults();
         motorRight.setIdleMode(IntakeConstants.NEUTRAL_MODE);
 
-        motorRight.follow(motorLeft, true);
+        motorRight._follow(motorLeft, true);
 
         s_intake = new InactiveDoubleSolenoid(2, 3);
     }

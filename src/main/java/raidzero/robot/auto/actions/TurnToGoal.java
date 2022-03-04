@@ -29,6 +29,8 @@ public class TurnToGoal implements Action {
     private static final Turret turret = Turret.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
     private static final Limelight limelight = Limelight.getInstance();
+
+    public static boolean isAuton = false;
     
 
     private PIDController pidController;
@@ -76,8 +78,11 @@ public class TurnToGoal implements Action {
             onTarget.update(false);
             if (defaultMode == DefaultMode.STOP) {
                 if (turret.isInOpenLoop()) {
-                    turret.stop();
-                }
+                    if (isAuton)
+                        turret.rotateManual(0.2);
+                    else
+                        turret.stop();
+                    }
             } else {
                 double output = TurretConstants.MAX_INPUT_PERCENTAGE;
                 output *= (defaultMode == DefaultMode.CLOCKWISE) ? 1 : -1;
@@ -108,7 +113,7 @@ public class TurnToGoal implements Action {
     public double getShooterSpeed() {
         double a = 7.956e-05;
         double b = 2.554;
-        double c = 0.3607;
+        double c = 0.3821;
         return a * Math.pow(Math.abs(limelight.getTy()), b) + c;
     }
 }

@@ -55,6 +55,7 @@ public class Turret extends Submodule {
     private double outputOpenLoop = 0.0;
     private double outputPosition = 0.0;
     private ControlState controlState = ControlState.OPEN_LOOP;
+    private int smartMotionSlot = 0;
 
     // private NetworkTableEntry shooterVelocityEntry =
     //         Shuffleboard.getTab(Tab.MAIN).add("Shooter Vel", 0).withWidget(BuiltInWidgets.kTextView)
@@ -82,7 +83,13 @@ public class Turret extends Submodule {
         pidController.setI(TurretConstants.KI);
         pidController.setD(TurretConstants.KD);
         pidController.setFF(TurretConstants.KF);
+        pidController.setOutputRange(TurretConstants.MINOUT, TurretConstants.MAXOUT);
         zeroing = false;
+
+        pidController.setSmartMotionMaxVelocity(TurretConstants.MAXVEL, smartMotionSlot);
+        pidController.setSmartMotionMinOutputVelocity(0, smartMotionSlot);
+        pidController.setSmartMotionMaxAccel(TurretConstants.MAXACC, smartMotionSlot);
+        pidController.setSmartMotionAllowedClosedLoopError(0, smartMotionSlot);
     }
 
     @Override
@@ -113,7 +120,7 @@ public class Turret extends Submodule {
                 pidController.setReference(outputOpenLoop, ControlType.kDutyCycle);
                 break;
             case POSITION:
-                pidController.setReference(outputPosition, ControlType.kPosition);
+                pidController.setReference(outputPosition, ControlType.kSmartMotion);
                 break;
         }
     }
@@ -165,5 +172,10 @@ public class Turret extends Submodule {
     public boolean isAtPosition() {
         return controlState == ControlState.POSITION &&
                Math.abs(turret.getEncoder().getPosition()) < TurretConstants.TOLERANCE;
+    }
+
+    public void moveToPosition(double setPoint) {
+        controlState = ControlState.POSITION;
+        outputPosition = setPoint;
     }
 }

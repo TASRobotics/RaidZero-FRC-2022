@@ -159,19 +159,22 @@ public class Constants {
 
         public static final double MAX_INPUT_PERCENTAGE = 0.2;
 
-        public static final double KF = 0.0;
-        public static final double KP = 0.07;
+        public static final double KF = 1/11000;
+        public static final double KP = 0.0;
         public static final double KI = 0.0;
-        public static final double KD = 0.001;
+        public static final double KD = 0.0;
         public static final int IZONE = 0;
 
         public static final double MINOUT = -1;
         public static final double MAXOUT = 1;
-        public static final double MAXRPM = 5000;
 
         public static final int TOLERANCE = 1000;
         public static final double MANUAL_COEF = 0.3;
         public static final double AT_SETPOINT_DURATION = 0.05;
+
+        //SmartMotion Coefficients
+        public static final double MAXVEL = 2000;
+        public static final double MAXACC = 4000;
     }
 
     public static final class HoodConstants {
@@ -246,7 +249,7 @@ public class Constants {
         public static final double MOUNTING_HEIGHT = 0.56; // in meters
 
         // TODO: Improve the constants
-        public static final double AIM_KP = 0.008;
+        public static final double AIM_KP = 0.0088;
         public static final double AIM_KI = 0;
         public static final double AIM_KD = 0.00;
         public static final double MIN_I = 0;
@@ -286,7 +289,7 @@ public class Constants {
     /**
      * Universal constants
      */
-    public static final double JOYSTICK_DEADBAND = 0.06;
+    public static final double JOYSTICK_DEADBAND = 0.07;
 
     public static final int TIMEOUT_MS = 20;
 

@@ -104,6 +104,7 @@ public class TestRotationSequence extends AutoSequence {
     private static final Superstructure autoaim = Superstructure.getInstance();
     private static final ThroatX throatX = ThroatX.getInstance();
     private static final ThroatY throatY = ThroatY.getInstance();
+    private static final Turret turret = Turret.getInstance();
 
 
     public TestRotationSequence() {
@@ -123,8 +124,10 @@ public class TestRotationSequence extends AutoSequence {
                 );
                 intake.setSolenoid(false);
                 intake.intakeBalls(1.0);
-                throatX.moveBalls(0.5); 
+                throatX.moveBalls(0.5);
+                
                 autoaim.setAiming(true);
+                // turret.moveToPosition(-18);
             }),
 
             new DrivePath(PATH, Rotation2d.fromDegrees(-27)),
@@ -167,7 +170,7 @@ public class TestRotationSequence extends AutoSequence {
                 Timer.delay(2);
                 autoaim.setAiming(false);
                 throatY.moveBalls(0);
-                throatX.moveballs(0);
+                throatX.moveBalls(0);
                 intake.intakeBalls(0);
             })
 
