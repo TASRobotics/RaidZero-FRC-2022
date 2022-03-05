@@ -98,7 +98,9 @@ public class Turret extends Submodule {
     @Override
     public void onStart(double timestamp) {
         controlState = ControlState.OPEN_LOOP;
-        zero();
+
+        outputOpenLoop = 0.0;
+        outputPosition = 0.0;
     }
 
     @Override
@@ -136,8 +138,6 @@ public class Turret extends Submodule {
 
     @Override
     public void zero() {
-        outputOpenLoop = 0.0;
-        outputPosition = 0.0;
         encoder.setPosition(0.0);
     }
 

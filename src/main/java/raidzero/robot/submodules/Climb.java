@@ -46,7 +46,7 @@ public class Climb extends Submodule {
 
     @Override
     public void onStart(double timestamp) {
-        zero();
+        outputOpenLoop = 0.0;
         solenoid.setActive(true);
         solenoid.set(Value.kForward);
     }
@@ -73,7 +73,6 @@ public class Climb extends Submodule {
 
     @Override
     public void zero() {
-        outputOpenLoop = 0.0;
         extensionMotor.setSelectedSensorPosition(0.0);
     }
 
