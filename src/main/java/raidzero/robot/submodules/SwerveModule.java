@@ -114,6 +114,7 @@ public class SwerveModule extends Submodule implements Sendable {
         rotor.setInverted(SwerveConstants.ROTOR_INVERSION);
         rotor.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0);
         rotor.setSensorPhase(SwerveConstants.ROTOR_INVERT_SENSOR_PHASE);
+        rotor.setNeutralMode(NeutralMode.Brake);
         rotor.configRemoteFeedbackFilter(encoder, 0);
         rotor.selectProfileSlot(0, SwerveConstants.PID_PRIMARY_SLOT);
         rotor.config_kF(0, SwerveConstants.ROTOR_KF);
