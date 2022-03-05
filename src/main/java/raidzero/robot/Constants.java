@@ -286,6 +286,10 @@ public class Constants {
         public static final double AT_SETPOINT_DURATION = 0.05;
     }
 
+    public static final class TOFSensorConstants {
+        public static final int SENSOR_ID = 0;   
+    }
+
     /**
      * Universal constants
      */

@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
     private static final Turret turret = Turret.getInstance();
     private static final Led led = Led.getInstance();
     private static final Superstructure autoaim = Superstructure.getInstance();
+    private static final TOFSensor sensor = TOFSensor.getInstance();
 
 
     private AutoRunner autoRunner;
@@ -68,7 +69,8 @@ public class Robot extends TimedRobot {
             hood,
             turret,
             led,
-            autoaim
+            autoaim,
+            sensor
         );
         submoduleManager.onInit();
 
