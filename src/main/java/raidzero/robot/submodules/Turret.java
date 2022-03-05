@@ -19,9 +19,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import raidzero.robot.Constants;
 import raidzero.robot.Constants.TurretConstants;
-import raidzero.robot.dashboard.Tab;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import raidzero.robot.wrappers.LazyCANSparkMax;
 
 
 public class Turret extends Submodule {
@@ -90,6 +87,12 @@ public class Turret extends Submodule {
         pidController.setSmartMotionMinOutputVelocity(0, smartMotionSlot);
         pidController.setSmartMotionMaxAccel(TurretConstants.MAXACC, smartMotionSlot);
         pidController.setSmartMotionAllowedClosedLoopError(0, smartMotionSlot);
+
+        // turret.enableSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, true);
+        // turret.enableSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, true);
+        
+        // turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, 15);
+        // turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, 0);
     }
 
     @Override
