@@ -134,14 +134,11 @@ public class Teleop {
         {
             climb.climb(0.0);
         }
-
-
     }
 
     private int mode = 0;
-
     private void p2Loop(XboxController p) {
-        
+
         /**
          * Shooter + Turret
          */
@@ -167,19 +164,15 @@ public class Teleop {
             shooter.shoot(0, false);
         }
         
+        
+        boolean firing = false;
+        boolean moving = false;
         /**
          * Fire
          */
         if (shooter.isUpToSpeed() && p.getXButton()){
-            throaty.moveBalls(0.7);
+            firing = true;
         }
-        // else if (p.getRawButton(13)){
-        //     throaty.moveBalls(-0.3);
-        // }
-        else{
-            throaty.moveBalls(0.0);
-        }
-
 
         /**
          * Intake
@@ -189,19 +182,30 @@ public class Teleop {
         System.out.println("intake: " + intakeOut);
         if (p.getRawButton(6)) {
             intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
-            throatx.moveBalls(0.295);
+            throatx.moveBalls(0.7);
             if (!sensor.isDetecting())
-                throaty.moveBalls(0.277);
+                moving = true;
         }   
         else if (p.getRawButton(5)) {
             intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
-            throatx.moveBalls(-0.295);
+            throatx.moveBalls(-0.7);
         }
         else {
             intake.intakeBalls(0.0);
             throatx.moveBalls(0.0);
-            throaty.moveBalls(0.0);
         }
+
+        if (firing) {
+            throaty.moveBalls(0.7);
+        }
+        else {
+            if (moving)
+                throaty.moveBalls(0.3);
+            else
+                throaty.moveBalls(0.0);
+        }
+
+
 
         // /**
         //  * Turret
