@@ -91,8 +91,8 @@ public class Turret extends Submodule {
         turret.enableSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, true);
         turret.enableSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, true);
         
-        turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, 45);
-        turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, -3);
+        turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, 44);
+        turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, -2);
     }
 
     @Override

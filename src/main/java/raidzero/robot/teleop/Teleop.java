@@ -102,8 +102,6 @@ public class Teleop {
             hood.adjust(0.0);
         }
 
-
-
         /**
          * Climb Hook
         */
