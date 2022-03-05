@@ -113,7 +113,7 @@ public class TurnToGoal implements Action {
     public double getShooterSpeed() {
         double a = 7.956e-05;
         double b = 2.554;
-        double c = 0.3821;
+        double c = 0.3877; //3.823 3.886
         return a * Math.pow(Math.abs(limelight.getTy()), b) + c;
     }
 }

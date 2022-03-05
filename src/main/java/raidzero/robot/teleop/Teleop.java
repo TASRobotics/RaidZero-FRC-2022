@@ -138,25 +138,34 @@ public class Teleop {
 
     }
 
-    private void p2Loop(XboxController p) {
+    private int mode = 0;
 
+    private void p2Loop(XboxController p) {
+        
         /**
          * Shooter + Turret
          */
         // Turn turret using right joystick
         if (p.getAButtonPressed()) {
             autoaim.setAiming(true);
+            mode = 1;
             
         } else if (p.getBButtonPressed()){
-            
-            autoaim.setAiming(false);  
-            //turret.rotateManual(JoystickUtils.deadband(p.getRawAxis(4)*-0.2)); 
-            
-            // if (p.getYButtonPressed()){
-            //     shooter.shoot(0.412, false);
-            // }
-        }
+            autoaim.setAiming(false); 
+            mode = 2;
 
+        } else if (p.getYButtonPressed()){
+            mode = 3;
+        } 
+        
+        if (mode == 2) {
+            turret.rotateManual(p.getRightX()*-0.2);
+            shooter.shoot(0.412, false);
+        }
+        else if (mode == 3){
+            turret.rotateManual(p.getRightX()*-0.2);
+            shooter.shoot(0, false);
+        }
         
         /**
          * Fire
@@ -180,13 +189,13 @@ public class Teleop {
         System.out.println("intake: " + intakeOut);
         if (p.getRawButton(6)) {
             intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
-            throatx.moveBalls(0.7);
+            throatx.moveBalls(0.295);
             if (!sensor.isDetecting())
                 throaty.moveBalls(0.7);
         }   
         else if (p.getRawButton(5)) {
             intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
-            throatx.moveBalls(-0.7);
+            throatx.moveBalls(-0.295);
         }
         else {
             intake.intakeBalls(0.0);
