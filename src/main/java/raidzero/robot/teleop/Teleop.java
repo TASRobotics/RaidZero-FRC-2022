@@ -182,7 +182,7 @@ public class Teleop {
             intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
             throatx.moveBalls(0.7);
             if (!sensor.isDetecting())
-                throaty.moveBalls(0.7);
+                throaty.moveBalls(0.277);
         }   
         else if (p.getRawButton(5)) {
             intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));

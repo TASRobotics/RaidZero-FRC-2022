@@ -24,7 +24,7 @@ public class TOFSensor extends Submodule {
     @Override
     public void onInit() {
         sensor = new TimeOfFlight(TOFSensorConstants.SENSOR_ID);
-        sensor.setRangingMode(RangingMode.Short, 24);
+        sensor.setRangingMode(RangingMode.Medium, 24);
         // sensor.setRangeOfInterest(topLeftX, topLeftY, bottomRightX, bottomRightY);
     }
 
@@ -33,7 +33,7 @@ public class TOFSensor extends Submodule {
 
     public boolean isDetecting()
     {
-        return sensor.getRange() < 40.0;
+        return sensor.getRange() < 100.0;
     }
 
 }
