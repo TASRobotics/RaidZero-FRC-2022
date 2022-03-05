@@ -122,11 +122,10 @@ public class TestRotationSequence extends AutoSequence {
                         new Rotation2d(24)
                     )
                 );
+                autoaim.setAiming(true);
                 intake.setSolenoid(false);
                 intake.intakeBalls(1.0);
-                throatX.moveBalls(1.0);
-                
-                autoaim.setAiming(true);
+                throatX.moveBalls(0.295);                
                 // turret.moveToPosition(-18);
             }),
 
@@ -134,14 +133,14 @@ public class TestRotationSequence extends AutoSequence {
 
             new LambdaAction(() -> {
                 intake.intakeBalls(1.0);
-                throatX.moveBalls(1.0); 
+                throatX.moveBalls(0.295); 
             }),
 
             new DrivePath(PATH2, Rotation2d.fromDegrees(-56.5)),
 
             new LambdaAction(() -> {
                 intake.intakeBalls(1.0);
-                throatX.moveBalls(1.0);
+                throatX.moveBalls(0.295);
                 Timer.delay(0.5);
                 throatY.moveBalls(0.7);
             }),
@@ -154,7 +153,7 @@ public class TestRotationSequence extends AutoSequence {
 
             new LambdaAction(() -> {
                 intake.intakeBalls(1.0);
-                throatX.moveBalls(1.0);
+                throatX.moveBalls(0.295);
                 Timer.delay(1);
             }),
 
@@ -162,7 +161,7 @@ public class TestRotationSequence extends AutoSequence {
 
             new LambdaAction(() -> {
                 intake.intakeBalls(1.0);
-                throatX.moveBalls(1.0);
+                throatX.moveBalls(0.295);
                 Timer.delay(0.5);
                 throatY.moveBalls(0.7);
             }),

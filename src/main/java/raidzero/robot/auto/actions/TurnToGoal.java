@@ -106,14 +106,14 @@ public class TurnToGoal implements Action {
     @Override
     public void done() {
         System.out.println("[Auto] Action '" + getClass().getSimpleName() + "' finished!");
-        limelight.setLedMode(LedMode.Off);
+        //limelight.setLedMode(LedMode.Off);
         turret.stop();
     }
 
     public double getShooterSpeed() {
         double a = 7.956e-05;
         double b = 2.554;
-        double c = 0.3886; //3.823
+        double c = 0.3877; //3.823 3.886
         return a * Math.pow(Math.abs(limelight.getTy()), b) + c;
     }
 }
