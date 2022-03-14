@@ -11,15 +11,14 @@ import com.revrobotics.CANSparkMax.ControlType;
 import raidzero.robot.wrappers.LazyCANSparkMax;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.SparkMaxLimitSwitch.Type;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import raidzero.robot.Constants;
 import raidzero.robot.Constants.TurretConstants;
-import raidzero.robot.dashboard.Tab;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import raidzero.robot.wrappers.LazyCANSparkMax;
 
 
 public class Turret extends Submodule {
@@ -37,6 +36,11 @@ public class Turret extends Submodule {
     }
 
     private LazyCANSparkMax turret;
+    private SparkMaxPIDController pidController;
+    private RelativeEncoder encoder;
+    private SparkMaxLimitSwitch reverseLimitSwitch;
+    private SparkMaxLimitSwitch forwardLimitSwitch;
+    private boolean zeroing = false;
 
     public static enum ControlState {
         OPEN_LOOP, POSITION
@@ -48,6 +52,7 @@ public class Turret extends Submodule {
     private double outputOpenLoop = 0.0;
     private double outputPosition = 0.0;
     private ControlState controlState = ControlState.OPEN_LOOP;
+    private int smartMotionSlot = 0;
 
     // private NetworkTableEntry shooterVelocityEntry =
     //         Shuffleboard.getTab(Tab.MAIN).add("Shooter Vel", 0).withWidget(BuiltInWidgets.kTextView)
@@ -58,30 +63,84 @@ public class Turret extends Submodule {
 
     @Override
     public void onInit() {
-
-
         turret = new LazyCANSparkMax(TurretConstants.MOTOR_ID, MotorType.kBrushless);
         turret.restoreFactoryDefaults();
         turret.setIdleMode(TurretConstants.NEUTRAL_MODE);
         turret.setInverted(TurretConstants.INVERSION);
 
+        encoder = turret.getEncoder();
+
+        forwardLimitSwitch = turret.getForwardLimitSwitch(Type.kNormallyClosed);
+        reverseLimitSwitch = turret.getReverseLimitSwitch(Type.kNormallyClosed);
+        forwardLimitSwitch.enableLimitSwitch(false);
+        reverseLimitSwitch.enableLimitSwitch(false);
+
+        pidController = turret.getPIDController();
+        pidController.setP(TurretConstants.KP);
+        pidController.setI(TurretConstants.KI);
+        pidController.setD(TurretConstants.KD);
+        pidController.setFF(TurretConstants.KF);
+        pidController.setOutputRange(TurretConstants.MINOUT, TurretConstants.MAXOUT);
+        zeroing = false;
+
+        pidController.setSmartMotionMaxVelocity(TurretConstants.MAXVEL, smartMotionSlot);
+        pidController.setSmartMotionMinOutputVelocity(0, smartMotionSlot);
+        pidController.setSmartMotionMaxAccel(TurretConstants.MAXACC, smartMotionSlot);
+        pidController.setSmartMotionAllowedClosedLoopError(0, smartMotionSlot);
+
+        // turret.enableSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, true);
+        // turret.enableSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, true);
+        
+        // turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, 48);
+        // turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, -8);
     }
 
     @Override
     public void onStart(double timestamp) {
-        outputPercentSpeed = 0.0;
+        controlState = ControlState.OPEN_LOOP;
+
+        outputOpenLoop = 0.0;
+        outputPosition = 0.0;
     }
 
     @Override
+    public void update(double timestamp) {
+        if ((reverseLimitSwitch.isPressed() || forwardLimitSwitch.isPressed()) && zeroing) {
+            zero();
+            zeroing = false;
+        }
+    }
+
+
+    @Override
     public void run() {
-        turret.set(outputPercentSpeed);
+        if(zeroing) {
+            pidController.setReference(-0.6, ControlType.kDutyCycle);
+            return;
+        }
+        switch (controlState) {
+            case OPEN_LOOP:
+                pidController.setReference(outputOpenLoop, ControlType.kDutyCycle);
+                break;
+            case POSITION:
+                pidController.setReference(outputPosition, ControlType.kSmartMotion);
+                break;
+        }
     }
 
     @Override
     public void stop() {
-        outputPercentSpeed = 0.0;
-        turret.set(outputPercentSpeed);
+        controlState = ControlState.OPEN_LOOP;
+        outputOpenLoop = 0.0;
+        outputPosition = 0.0;
+        pidController.setReference(0.0, ControlType.kDutyCycle);
     }
+
+    @Override
+    public void zero() {
+        encoder.setPosition(0.0);
+    }
+
 
     public void spin(double percentOutput) {
         outputPercentSpeed = percentOutput;
@@ -106,7 +165,7 @@ public class Turret extends Submodule {
      */
     public void rotateManual(double percentOutput) {
         controlState = ControlState.OPEN_LOOP;
-        outputOpenLoop = percentOutput * TurretConstants.MANUAL_COEF;
+        outputOpenLoop = percentOutput;
     }
 
     public boolean isInOpenLoop() {
@@ -116,5 +175,10 @@ public class Turret extends Submodule {
     public boolean isAtPosition() {
         return controlState == ControlState.POSITION &&
                Math.abs(turret.getEncoder().getPosition()) < TurretConstants.TOLERANCE;
+    }
+
+    public void moveToPosition(double setPoint) {
+        controlState = ControlState.POSITION;
+        outputPosition = setPoint;
     }
 }

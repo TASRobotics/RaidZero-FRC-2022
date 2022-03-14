@@ -1,6 +1,5 @@
 package raidzero.robot.wrappers;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -12,14 +11,17 @@ public class SendablePigeon extends Pigeon2 implements Sendable {
     public SendablePigeon(int deviceNumber) {
         super(deviceNumber);
     }
+
+    public SendablePigeon(int deviceNumber, String canbus) {
+        super(deviceNumber, canbus);
+    }
     
     public double getHeading() {
-        getYawPitchRoll(ypr);
-        return ypr[0];
+        return getYaw();
     }
 
     public double getNegatedHeading() {
-        return -getHeading();
+        return -1*getHeading();
     }
 
     @Override

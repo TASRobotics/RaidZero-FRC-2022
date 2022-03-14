@@ -12,6 +12,10 @@ public class LazyTalonFX extends TalonFX {
         super(deviceNumber);
     }
 
+    public LazyTalonFX(int deviceNumber, String canbus) {
+        super(deviceNumber, canbus);
+    }
+
     public double getLastSet() {
         return prevVal;
     }

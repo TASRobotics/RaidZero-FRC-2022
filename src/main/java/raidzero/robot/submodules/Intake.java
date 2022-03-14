@@ -51,8 +51,8 @@ public class Intake extends Submodule {
         motorRight = new LazyCANSparkMax(IntakeConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
         motorRight.restoreFactoryDefaults();
         motorRight.setIdleMode(IntakeConstants.NEUTRAL_MODE);
-        // motorRight.setInverted(IntakeConstants.RIGHT_INVERSION);
-        motorRight.follow(motorLeft, true);
+
+        motorRight._follow(motorLeft, true);
 
         s_intake = new InactiveDoubleSolenoid(2, 3);
     }
@@ -98,9 +98,24 @@ public class Intake extends Submodule {
     
     public void setSolenoid(boolean value)
     {
-        if (value)
+        if (value){
             s_intake.set(Value.kForward);
-        else 
+        }
+        else{
             s_intake.set(Value.kReverse);
+        }
+    }
+
+    public void toggleSolenoid()
+    {
+        s_intake.toggle();
+    }
+
+    public boolean getSolenoid()
+    {
+        if(s_intake.get() == Value.kForward)
+            return true;
+        else
+            return false;
     }
 }

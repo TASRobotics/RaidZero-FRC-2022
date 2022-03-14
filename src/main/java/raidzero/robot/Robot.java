@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import raidzero.robot.auto.AutoRunner;
 import raidzero.robot.auto.DetermineGSCPath;
+import raidzero.robot.auto.actions.TurnToGoal;
 import raidzero.robot.auto.sequences.EmptySequence;
 import raidzero.robot.auto.sequences.TestRotationSequence;
 import raidzero.robot.dashboard.Tab;
@@ -39,6 +40,8 @@ public class Robot extends TimedRobot {
     private static final AdjustableHood hood = AdjustableHood.getInstance();
     private static final Turret turret = Turret.getInstance();
     private static final Led led = Led.getInstance();
+    private static final Superstructure autoaim = Superstructure.getInstance();
+    private static final TOFSensor sensor = TOFSensor.getInstance();
 
 
     private AutoRunner autoRunner;
@@ -65,7 +68,9 @@ public class Robot extends TimedRobot {
             throaty,
             hood,
             turret,
-            led
+            led,
+            autoaim,
+            sensor
         );
         submoduleManager.onInit();
 
@@ -90,6 +95,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         submoduleManager.onStart(Timer.getFPGATimestamp());
+        TurnToGoal.isAuton = true;
         
         autoRunner.readSendableSequence();
         autoRunner.start();
@@ -113,6 +119,8 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         // Stop the autonomous
         autoRunner.stop();
+        
+        TurnToGoal.isAuton = false;
 
         // Start the teleop handler
         teleop.onStart();
@@ -127,5 +135,4 @@ public class Robot extends TimedRobot {
         teleop.onLoop();
         submoduleManager.onLoop(Timer.getFPGATimestamp());
     }
-
 }

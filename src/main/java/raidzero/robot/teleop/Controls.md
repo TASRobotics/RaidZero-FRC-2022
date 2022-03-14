@@ -7,18 +7,17 @@ Keybind | Hand | Action
 Joystick | Right | Swerve Drive
 Trigger | Right | Turbo Toggle
 Button 2 (thumb) | Right | Reset Orientation
-Button 3 | Right | Hood Up
-Button 4 | Right | Hood Down
-Button 5 | Right | Turret Left
-Button 6 | Left | Turret Right
+Button 3 | Right | Turret Left
+Button 4 | Right | Turret Right
+Button 5 | Right | Hood Up
+Button 6 | Left | Hood Down
 Button 7 | Left | Climb Up
 Button 8 | Left | Climb Down
-Button 9 | Left | Climb Hook Release
-Button 10 | Left | Climb Hook Contract
-Button 11 | Left | Intake Release
-Button 12 | Left | Intake Contract
+Button 9 | Left | Climb Hook Toggle
+Button 10 | Left | Intake Release Toggle
+Button 11 | Left | None
+Button 12 | Left | Turning Toggle
 Flap | Left | Intake Speed
-Button 2 (thumb) | Right | Shoot (run throatY) 
 
 ## P2 (Xbox Controller)
 Keybind | Hand | Action
@@ -29,5 +28,5 @@ Button Y | Right | None
 Button B | Right | None
 Left Bumper | Left | Intake + ThroatX intake
 Right Bumper | Right | Outtake + ThroatX outtake
-Back | Left | Intake Release
-Start | Right | Intake Contract
+Back | Left | Intake Release Toggle
+Start | Right | None

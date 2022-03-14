@@ -1,12 +1,14 @@
 package raidzero.robot.submodules;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import raidzero.robot.Constants;
 import raidzero.robot.Constants.ClimbConstants;
 import raidzero.robot.wrappers.InactiveDoubleSolenoid;
 import raidzero.robot.wrappers.LazyTalonFX;
-
 
 public class Climb extends Submodule {
 
@@ -26,14 +28,18 @@ public class Climb extends Submodule {
 
     private LazyTalonFX extensionMotor;
     private InactiveDoubleSolenoid solenoid;
-    
+
 
     @Override
     public void onInit() {
-        extensionMotor = new LazyTalonFX(ClimbConstants.MOTOR_ID);
+        extensionMotor = new LazyTalonFX(ClimbConstants.MOTOR_ID, Constants.CANBUS_STRING);
         extensionMotor.configFactoryDefault();
         extensionMotor.setNeutralMode(ClimbConstants.NEUTRAL_MODE);
         extensionMotor.setInverted(ClimbConstants.INVERSION);
+        extensionMotor.configForwardSoftLimitThreshold(Constants.ExtensionConstants.MAX_EXTENSION);
+        extensionMotor.configForwardSoftLimitEnable(Constants.ExtensionConstants.FORWARD_LIMIT_ENABLE);
+
+        extensionMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
         solenoid = new InactiveDoubleSolenoid(0, 1);
     }
@@ -61,6 +67,7 @@ public class Climb extends Submodule {
     public void stop() {
         outputOpenLoop = 0.0;
         extensionMotor.set(ControlMode.PercentOutput, 0.0);
+
         solenoid.setActive(false);
     }
 
@@ -80,9 +87,24 @@ public class Climb extends Submodule {
 
     public void setSolenoid(boolean value)
     {
-        if (value)
+        if (value){
             solenoid.set(Value.kForward);
-        else 
+        }
+        else {
             solenoid.set(Value.kReverse);
+        }
+    }
+
+    public void toggleSolenoid()
+    {
+        solenoid.toggle();
+    }
+
+    public boolean getSolenoid()
+    {
+        if(solenoid.get() == Value.kForward)
+            return true;
+        else
+            return false;
     }
 }

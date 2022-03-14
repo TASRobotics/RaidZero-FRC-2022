@@ -3,6 +3,8 @@ package raidzero.robot.teleop;
 import edu.wpi.first.wpilibj.XboxController;
 
 import raidzero.robot.submodules.Swerve;
+import raidzero.robot.submodules.Limelight.LedMode;
+import raidzero.robot.submodules.Superstructure;
 import raidzero.robot.submodules.*;
 import raidzero.robot.Constants.SwerveConstants;
 import raidzero.robot.auto.actions.TurnToGoal;
@@ -24,7 +26,8 @@ public class Teleop {
     private static final ThroatY throaty = ThroatY.getInstance();
     private static final AdjustableHood hood = AdjustableHood.getInstance();
     private static final Turret turret = Turret.getInstance();
-    private static final TurnToGoal teleautoaim = new TurnToGoal();
+    private static final Superstructure autoaim = Superstructure.getInstance();
+    private static final TOFSensor sensor = TOFSensor.getInstance();
 
     private static boolean intakeshift = false;
     private static double intakeOut = 0;
@@ -38,7 +41,7 @@ public class Teleop {
 
     public void onStart() {
         swerve.zero();
-        teleautoaim.start();
+        Limelight.getInstance().setLedMode(LedMode.On);
     }
 
     /**
@@ -68,9 +71,9 @@ public class Teleop {
         */
         boolean turning = p.getRawButton(12);
         swerve.drive(
-            JoystickUtils.deadband(-p.getLeftY()) * SwerveConstants.MAX_SPEED_MPS * (p.getRawButton(1) ? 1 : 0.5),
-            JoystickUtils.deadband(-p.getLeftX()) * SwerveConstants.MAX_SPEED_MPS * (p.getRawButton(1) ? 1 : 0.5),
-            (turning) ? JoystickUtils.deadband(p.getRawAxis(2)) * (p.getRawButton(1) ? -0.9 : -0.9) : 0,
+            JoystickUtils.deadband(p.getLeftY()) * SwerveConstants.MAX_SPEED_MPS * (p.getRawButton(1) ? 1 : 0.5),
+            JoystickUtils.deadband(p.getLeftX()) * SwerveConstants.MAX_SPEED_MPS * (p.getRawButton(1) ? 1 : 0.5),
+            (turning) ? JoystickUtils.deadband(p.getRawAxis(2)) * (p.getRawButton(1) ? -4 : -3) : 0,
             true
         );
         // swerve.fieldOrientedDrive(
@@ -100,37 +103,20 @@ public class Teleop {
             hood.adjust(0.0);
         }
 
+
+
         /**
-         * Turret
+         * Climb Hook
         */
-        if (p.getRawButton(3)) {
-            turret.spin(0.3);
-        }
-        else if (p.getRawButton(4)) {
-            turret.spin(-0.3);
-        }
-        else {
-            turret.spin(0.0);
+        if (p.getRawButtonPressed(9)){
+            climb.setSolenoid(!(climb.getSolenoid()));
         }
 
         /**
          * Intake Release
         */
-        if (p.getRawButton(11)){
-            intake.setSolenoid(true);
-        }
-        else if(p.getRawButton(12)){
-            intake.setSolenoid(false);
-        }
-
-        /**
-         * Climb Hook
-        */
-        if (p.getRawButton(9)){
-            intake.setSolenoid(true);
-        }
-        else if(p.getRawButton(10)){
-            intake.setSolenoid(false);
+        if (p.getRawButtonPressed(10)){
+            intake.setSolenoid(!(intake.getSolenoid()));
         }
 
         /**
@@ -148,52 +134,59 @@ public class Teleop {
         {
             climb.climb(0.0);
         }
-
-
     }
 
+    private int mode = 0;
     private void p2Loop(XboxController p) {
 
         /**
-         * Shooter
+         * Shooter + Turret
          */
-        if (p.getAButton()) {
-            shooter.shoot(0.4, false);
-        }
-        else if (p.getAButtonReleased()) {
-            shooter.shoot(0.0, false);
-        }
+        // Turn turret using right joystick
+        if (p.getAButtonPressed()) {
+            autoaim.setAiming(true);
+            mode = 1;
+            
+        } else if (p.getBButtonPressed()){
+            autoaim.setAiming(false); 
+            mode = 2;
 
-        if (p.getBButtonPressed()){
-            teleautoaim.update();
-        } else {
-            teleautoaim.done();
+        } else if (p.getYButtonPressed()){
+            mode = 3;
+        } 
+        
+        if (mode == 2) {
+            turret.rotateManual(p.getRightX()*-0.2);
+            shooter.shoot(0.412, false);
         }
+        else if (mode == 3){
+            turret.rotateManual(p.getRightX()*-0.2);
+            shooter.shoot(0, false);
+        }
+        
+        
+        boolean firing = false;
+        boolean moving = false;
         /**
          * Fire
          */
         if (shooter.isUpToSpeed() && p.getXButton()){
-            throaty.moveBalls(1.0);
+            firing = true;
         }
-        else if (p.getRawButton(13)){
-            throaty.moveBalls(-0.3);
-        }
-        else{
-            throaty.moveBalls(0.0);
-        }
-
 
         /**
          * Intake
         */
-        intakeshift =  p.getRawButton(6);
-        intakeOut = ((p.getRawButton(5) || intakeshift) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
+        intakeshift =  p.getRawButton(5);
+        intakeOut = ((p.getRawButton(6) || intakeshift) ? 1 : 0) * ((-p.getRawAxis(3))+1) / 2;
         System.out.println("intake: " + intakeOut);
-        if (p.getRawButton(5)) {
+        if (p.getRawButton(6)) {
             intake.intakeBalls((IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
             throatx.moveBalls(0.7);
-        }
-        else if (p.getRawButton(6)) {
+            if (!sensor.isDetecting())
+                moving = true;
+        }   
+        else if (p.getRawButton(5)) {
             intake.intakeBalls(-1*(IntakeConstants.CONTROL_SCALING_FACTOR * intakeOut));
             throatx.moveBalls(-0.7);
         }
@@ -202,15 +195,48 @@ public class Teleop {
             throatx.moveBalls(0.0);
         }
 
+        if (firing) {
+            throaty.moveBalls(0.7);
+        }
+        else {
+            if (moving)
+                throaty.moveBalls(0.3);
+            else
+                throaty.moveBalls(0.0);
+        }
+
+
+
+        // /**
+        //  * Turret
+        // */
+        // if (p.getYButton()) {
+        //     turret.rotateManual(0.2);
+        // }
+        // else if (p.getBButton()) {
+        //     turret.rotateManual(-0.2);
+        // }
+        // else {
+        //     turret.rotateManual(0.0);
+        // }
+        
+
+
         /**
          * Intake Release
         */
-        if (p.getRawButton(7)){
-            intake.setSolenoid(true);
+        if (p.getRawButtonPressed(7)){
+            intake.setSolenoid(!(intake.getSolenoid()));
         }
-        else if(p.getRawButton(8)){
-            intake.setSolenoid(false);
+
+        /**
+         * Climb Hook
+        */
+        if (p.getRawButtonPressed(8)){
+            climb.setSolenoid(!(climb.getSolenoid()));
         }
+
+
 
         // /**
         //  * ThroatX
@@ -225,7 +251,6 @@ public class Teleop {
         //     throaty.moveBalls(0.0);
         // }
 
-
-
     }
 }
+

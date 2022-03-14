@@ -14,6 +14,10 @@ public class LazyCANSparkMax extends CANSparkMax {
         return prevVal;
     }
 
+    public void _follow(CANSparkMax leader, boolean invert) {
+        this.follow(leader, invert);
+    }
+
     @Override
     public void set(double value) {
         if (value != prevVal) {

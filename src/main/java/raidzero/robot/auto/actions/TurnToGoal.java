@@ -13,7 +13,6 @@ import raidzero.robot.Constants.TurretConstants;
 import raidzero.robot.dashboard.Tab;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.submodules.Turret;
-import raidzero.robot.submodules.AdjustableHood;
 import raidzero.robot.submodules.Shooter;
 import raidzero.robot.submodules.Limelight.CameraMode;
 import raidzero.robot.submodules.Limelight.LedMode;
@@ -30,9 +29,11 @@ public class TurnToGoal implements Action {
     }
 
     private static final Turret turret = Turret.getInstance();
-    private static final AdjustableHood hood = AdjustableHood.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
     private static final Limelight limelight = Limelight.getInstance();
+
+    public static boolean isAuton = false;
+    
 
     private PIDController pidController;
     private double headingError;
@@ -80,8 +81,11 @@ public class TurnToGoal implements Action {
             onTarget.update(false);
             if (defaultMode == DefaultMode.STOP) {
                 if (turret.isInOpenLoop()) {
-                    turret.stop();
-                }
+                    if (isAuton)
+                        turret.rotateManual(0.2);
+                    else
+                        turret.stop();
+                    }
             } else {
                 double output = TurretConstants.MAX_INPUT_PERCENTAGE;
                 output *= (defaultMode == DefaultMode.CLOCKWISE) ? 1 : -1;
@@ -89,7 +93,7 @@ public class TurnToGoal implements Action {
             }
             return;
 		}
-        headingError = -limelight.getTx();
+        headingError = limelight.getTx();
 
         double output = MathUtil.clamp(
             pidController.calculate(headingError),
@@ -122,5 +126,12 @@ public class TurnToGoal implements Action {
 
     private int calculateHood() {
         return (int)limelight.getTy();
+    }
+
+    public double getShooterSpeed() {
+        double a = 7.956e-05;
+        double b = 2.554;
+        double c = 0.3877; //3.823 3.886
+        return a * Math.pow(Math.abs(limelight.getTy()), b) + c;
     }
 }
