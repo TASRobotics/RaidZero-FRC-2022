@@ -82,17 +82,18 @@ public class Turret extends Submodule {
         pidController.setFF(TurretConstants.KF);
         pidController.setOutputRange(TurretConstants.MINOUT, TurretConstants.MAXOUT);
         zeroing = false;
+        this.zero();
 
         pidController.setSmartMotionMaxVelocity(TurretConstants.MAXVEL, smartMotionSlot);
         pidController.setSmartMotionMinOutputVelocity(0, smartMotionSlot);
         pidController.setSmartMotionMaxAccel(TurretConstants.MAXACC, smartMotionSlot);
         pidController.setSmartMotionAllowedClosedLoopError(0, smartMotionSlot);
 
-        // turret.enableSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, true);
-        // turret.enableSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, true);
+        turret.enableSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, true);
+        turret.enableSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, true);
         
-        // turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, 48);
-        // turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, -8);
+        turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kForward, 42);
+        turret.setSoftLimit(LazyCANSparkMax.SoftLimitDirection.kReverse, -1);
     }
 
     @Override

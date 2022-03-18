@@ -103,8 +103,6 @@ public class Teleop {
             hood.adjust(0.0);
         }
 
-
-
         /**
          * Climb Hook
         */
@@ -112,12 +110,12 @@ public class Teleop {
             climb.setSolenoid(!(climb.getSolenoid()));
         }
 
-        /**
-         * Intake Release
-        */
-        if (p.getRawButtonPressed(10)){
-            intake.setSolenoid(!(intake.getSolenoid()));
-        }
+        // /**
+        //  * Intake Release
+        // */
+        // if (p.getRawButtonPressed(10)){
+        //     intake.setSolenoid(!(intake.getSolenoid()));
+        // }
 
         /**
          * Climb
