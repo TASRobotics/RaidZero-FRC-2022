@@ -231,6 +231,7 @@ public class Constants {
         public static final double FAKE_MAX_SPEED = 17000; // in ticks per 100ms
         public static final double ERROR_TOLERANCE = 250;
         public static final double UP_TO_SPEED_DURATION = 0.5; // in seconds
+        public static final double FLYWHEEL_TO_BALL_VELOCITY = 2000/8.0; // in rpm / m/s
 
         public static final double K_F = 1023.0 * 0.4 / MAX_SPEED;
         public static final double K_P = 0.1;
@@ -257,6 +258,8 @@ public class Constants {
         public static final double ANGLE_ADJUST_THRESHOLD = 2.0;
 
         public static final double AIM_ON_TARGET_DURATION = 0.2;
+
+        public static final double PIXELS_TO_DEGREES = 54.0/320.0;
     }
 
     public static final class ExtensionConstants {

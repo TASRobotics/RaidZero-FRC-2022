@@ -156,6 +156,13 @@ public class Turret extends Submodule {
         outputPosition = -angle * TurretConstants.TICKS_PER_DEGREE;
     }
 
+
+
+
+    public double getAngle(){
+        return turret.getEncoder().getPosition()/TurretConstants.TICKS_PER_DEGREE-90;
+    }
+
     /**
      * Rotates the turret using open-loop control.
      * 

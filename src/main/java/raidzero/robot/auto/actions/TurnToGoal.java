@@ -7,13 +7,14 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.math.MathUtil;
-
+import raidzero.robot.Constants;
 import raidzero.robot.Constants.LimelightConstants;
 import raidzero.robot.Constants.TurretConstants;
 import raidzero.robot.dashboard.Tab;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.submodules.Turret;
 import raidzero.robot.submodules.Shooter;
+import raidzero.robot.submodules.Swerve;
 import raidzero.robot.submodules.Limelight.CameraMode;
 import raidzero.robot.submodules.Limelight.LedMode;
 
@@ -31,9 +32,13 @@ public class TurnToGoal implements Action {
     private static final Turret turret = Turret.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
     private static final Limelight limelight = Limelight.getInstance();
+    private static final Swerve swerve = Swerve.getInstance();
 
     public static boolean isAuton = false;
     
+    private double robotVx = 0.0;
+    private double robotVy = 0.0;
+
 
     private PIDController pidController;
     private double headingError;
@@ -95,6 +100,9 @@ public class TurnToGoal implements Action {
 		}
         headingError = limelight.getTx();
 
+        robotVx = swerve.getChassisSpeed().vxMetersPerSecond;
+        robotVy = swerve.getChassisSpeed().vyMetersPerSecond;
+
         double output = MathUtil.clamp(
             pidController.calculate(headingError),
             -TurretConstants.MAX_INPUT_PERCENTAGE,
@@ -103,7 +111,7 @@ public class TurnToGoal implements Action {
         System.out.println(headingError);
         turret.rotateManual(output);
         shooter.shoot(this.calculateSpeed(), false);
-        hood.moveToTick(this.calculateHood());
+        // hood.moveToTick(this.calculateHood());
         
         onTarget.update(pidController.atSetpoint());
     }
@@ -114,24 +122,40 @@ public class TurnToGoal implements Action {
         //limelight.setLedMode(LedMode.Off);
         turret.stop();
         shooter.shoot(0.0, false);
-        hood.adjust(0.0);
+        // hood.adjust(0.0);
 
         double offset = inst.getTable("limelight").getEntry("<tx>").getDouble(0);
         Shuffleboard.getTab("Limelight").add("Value Offset", offset);
     }
 
     private int calculateSpeed() {
-        return (int)limelight.getTy();
+        return 0;
     }
 
     private int calculateHood() {
         return (int)limelight.getTy();
     }
 
-    public double getShooterSpeed() {
+    public double getAngleOffset() {
+        double chassisVx = swerve.getChassisSpeed().vxMetersPerSecond;
+        double chassisVy = swerve.getChassisSpeed().vyMetersPerSecond;
+        double strafeSpeed = Math.pow(Math.pow(chassisVx,2)+Math.pow(chassisVy,2),.5);
+        double targetAngleFromRobot = Math.atan2(chassisVy,chassisVx)+Math.toRadians(turret.getAngle())+Math.toRadians(limelight.getTy()*Constants.LimelightConstants.PIXELS_TO_DEGREES);
+        double newShooterSpeed = Math.pow(Math.pow(strafeSpeed,2)+Math.pow(getShooterSpeed(),2)-2*strafeSpeed*getDirectShooterSpeed()*Math.cos(targetAngleFromRobot),0.5);
+        return Math.asin(strafeSpeed/newShooterSpeed*Math.sin(targetAngleFromRobot));
+    }
+
+    private double getDirectShooterSpeed() {
+        //Magic Number 32m/s is max speed shooter can go
+        double speedOffset = swerve.getChassisSpeed().vxMetersPerSecond*Math.cos(Math.toRadians(turret.getAngle()))
+            + swerve.getChassisSpeed().vyMetersPerSecond*Math.sin(Math.toRadians(turret.getAngle()));
         double a = 7.956e-05;
         double b = 2.554;
         double c = 0.3877; //3.823 3.886
-        return a * Math.pow(Math.abs(limelight.getTy()), b) + c;
+        return a * Math.pow(Math.abs(limelight.getTy()), b) + c - speedOffset/Constants.ShooterConstants.FLYWHEEL_TO_BALL_VELOCITY;
+    }
+
+    public double getShooterSpeed() {
+        return getDirectShooterSpeed()/Math.cos(Math.toRadians(headingError));
     }
 }

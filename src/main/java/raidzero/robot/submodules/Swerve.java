@@ -180,6 +180,14 @@ public class Swerve extends Submodule {
         return odometry.getPoseMeters();
     }
 
+    public ChassisSpeeds getChassisSpeed() {
+        return kinematics.toChassisSpeeds(
+            topLeftModule.getState(),
+            topRightModule.getState(),
+            bottomLeftModule.getState(),
+            bottomRightModule.getState());
+    }
+
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
     }
