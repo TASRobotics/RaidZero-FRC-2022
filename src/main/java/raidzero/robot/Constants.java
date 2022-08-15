@@ -8,6 +8,8 @@ import org.apache.commons.math3.util.FastMath;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import raidzero.robot.utils.InterpolatingDouble;
+import raidzero.robot.utils.InterpolatingTreeMap;
 
 public class Constants {
     /**
@@ -258,6 +260,12 @@ public class Constants {
         public static final double ANGLE_ADJUST_THRESHOLD = 2.0;
 
         public static final double AIM_ON_TARGET_DURATION = 0.2;
+
+        public static InterpolatingTreeMap<InterpolatingDouble, InterpolatingDouble> DIST_TO_TICK_ESTIMATOR = new InterpolatingTreeMap<>();
+        static {
+            DIST_TO_TICK_ESTIMATOR.put(new InterpolatingDouble(0.0), new InterpolatingDouble(0.0));
+            DIST_TO_TICK_ESTIMATOR.put(new InterpolatingDouble(1.0), new InterpolatingDouble(1.0));
+        }
     }
 
     public static final class ExtensionConstants {

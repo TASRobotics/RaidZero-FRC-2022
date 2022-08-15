@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import raidzero.robot.Constants.LimelightConstants;
 import raidzero.robot.dashboard.Tab;
+import raidzero.robot.utils.InterpolatingDouble;
+import raidzero.robot.Constants.LimelightConstants;
 
 // Reference:
 // http://docs.limelightvision.io/en/latest/networktables_api.html
@@ -88,6 +90,10 @@ public class Limelight extends Submodule {
 	public double getTy() {
 		return getValue("ty").getDouble(0.0);
 	}
+
+	// public double getEstimatedDistance() {
+	// 	return LimelightConstants.DIST_ESTIMATOR.getInterpolated(new InterpolatingDouble(getTy())).value;
+	// }
 
 	/**
 	 * Area that the detected target takes up in total camera FOV (0% to 100%).

@@ -56,6 +56,7 @@ public class Swerve extends Submodule {
 
     private SwerveDriveOdometry odometry;
     private Pose2d currentPose;
+    private Pose2d prevPose;
 
     private HolonomicDriveController pathController;
     private Trajectory currentTrajectory;
@@ -116,6 +117,7 @@ public class Swerve extends Submodule {
         );
 
         zero();
+        prevPose = new Pose2d();
     }
 
     @Override
@@ -127,6 +129,8 @@ public class Swerve extends Submodule {
         topLeftModule.update(timestamp);
         bottomLeftModule.update(timestamp);
         bottomRightModule.update(timestamp);
+
+        prevPose = currentPose;
         currentPose = updateOdometry();
 
         xPositionEntry.setDouble(currentPose.getX());
@@ -179,6 +183,10 @@ public class Swerve extends Submodule {
 
     public Pose2d getPose() {
         return odometry.getPoseMeters();
+    }
+
+    public Pose2d getPrevPose() {
+        return prevPose;
     }
 
     public SwerveDriveKinematics getKinematics() {

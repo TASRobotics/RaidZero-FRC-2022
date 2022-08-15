@@ -1,17 +1,14 @@
 package raidzero.robot.auto.actions;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.math.MathUtil;
 
 import raidzero.robot.Constants.LimelightConstants;
 import raidzero.robot.Constants.TurretConstants;
-import raidzero.robot.dashboard.Tab;
 import raidzero.robot.submodules.Limelight;
 import raidzero.robot.submodules.Turret;
 import raidzero.robot.submodules.Shooter;
+import raidzero.robot.submodules.Swerve;
 import raidzero.robot.submodules.Limelight.CameraMode;
 import raidzero.robot.submodules.Limelight.LedMode;
 
@@ -29,9 +26,9 @@ public class TurnToGoal implements Action {
     private static final Turret turret = Turret.getInstance();
     private static final Shooter shooter = Shooter.getInstance();
     private static final Limelight limelight = Limelight.getInstance();
+    private static final Swerve swerve = Swerve.getInstance();
 
     public static boolean isAuton = false;
-    
 
     private PIDController pidController;
     private double headingError;

@@ -8,6 +8,9 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -15,6 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import raidzero.robot.wrappers.LazyCANSparkMax;
 import raidzero.robot.Constants.HoodConstants;
 import raidzero.robot.dashboard.Tab;
+import raidzero.robot.utils.InterpolatingDouble;
+import raidzero.robot.Constants.LimelightConstants;
 
 public class AdjustableHood extends Submodule {
 
@@ -33,6 +38,9 @@ public class AdjustableHood extends Submodule {
 
     private AdjustableHood() {
     }
+
+    private static final Limelight limelight = Limelight.getInstance();
+    private static final Swerve swerve = Swerve.getInstance();
 
     private LazyCANSparkMax hoodMotor;
     private SparkMaxPIDController pidController;
@@ -155,15 +163,20 @@ public class AdjustableHood extends Submodule {
     }
 
     /**
-     *  Automatically adjusts the hood based on
-     *  the area of the target.
-     * @param targetArea  the area of the target
+     *  Automatically adjusts the hood 
+     * 
      */
+    public void autoPosition() {
+        Pose2d currPose = swerve.getPose();
+        Pose2d prevPose = swerve.getPrevPose();
+        Pose2d deltaPose = new Pose2d(currPose.getX() - prevPose.getX(), 
+                                      currPose.getY() - prevPose.getY(), 
+                                      new Rotation2d(currPose.getRotation().getRadians() - prevPose.getRotation().getRadians()));
+        
 
-    public void autoPosition(double targetArea) {
-        //double interposition = 78.78/(1.0+java.lang.Math.exp(-1.246*(targetArea-2.317)));
-        double interposition = (-10.451) + (23.5693 * targetArea) + (-0.8546 * Math.pow(targetArea,2.0));
-        moveToTick(interposition);
+        moveToTick(LimelightConstants.DIST_TO_TICK_ESTIMATOR.getInterpolated(
+            new InterpolatingDouble(limelight.getTy())).value
+        );
     }
 
     /**
