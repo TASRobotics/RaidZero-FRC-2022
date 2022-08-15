@@ -4,10 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import raidzero.robot.Constants;
 import raidzero.robot.Constants.ClimbConstants;
-import raidzero.robot.wrappers.InactiveDoubleSolenoid;
 import raidzero.robot.wrappers.LazyTalonFX;
 
 public class Climb extends Submodule {
@@ -27,7 +27,7 @@ public class Climb extends Submodule {
     private double outputOpenLoop = 0.0;
 
     private LazyTalonFX extensionMotor;
-    private InactiveDoubleSolenoid solenoid;
+    private DoubleSolenoid solenoid;
 
 
     @Override
@@ -41,13 +41,12 @@ public class Climb extends Submodule {
 
         extensionMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
-        solenoid = new InactiveDoubleSolenoid(0, 1);
+        solenoid = new DoubleSolenoid(Constants.PNEUMATICS_MODULE_TYPE, 0, 1);
     }
 
     @Override
     public void onStart(double timestamp) {
         outputOpenLoop = 0.0;
-        solenoid.setActive(true);
         solenoid.set(Value.kForward);
     }
 
@@ -67,8 +66,6 @@ public class Climb extends Submodule {
     public void stop() {
         outputOpenLoop = 0.0;
         extensionMotor.set(ControlMode.PercentOutput, 0.0);
-
-        solenoid.setActive(false);
     }
 
     @Override

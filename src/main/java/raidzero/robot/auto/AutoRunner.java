@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import raidzero.robot.auto.sequences.*;
-import raidzero.robot.auto.sequences.SearchPathSequence.PathColor;
 import raidzero.robot.dashboard.Tab;
 
 /**
@@ -17,13 +16,6 @@ public class AutoRunner {
     private AutoSequence selectedSequence;
 
     private AutoSequence[] availableSequences = {
-        new SlalomPathSequence(),
-        new BouncePathSequence(),
-        new BarrelRacingPathSequence(),
-        new SearchPathASequence(PathColor.RED),
-        new SearchPathBSequence(PathColor.RED),
-        new SearchPathASequence(PathColor.BLUE),
-        new SearchPathBSequence(PathColor.BLUE),
         new TestRotationSequence()
     };
 

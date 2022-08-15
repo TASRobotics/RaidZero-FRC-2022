@@ -1,7 +1,6 @@
 package raidzero.robot.submodules;
 
 import raidzero.robot.auto.actions.TurnToGoal;
-import raidzero.robot.submodules.Shooter;
 
 public class Superstructure extends Submodule {
 

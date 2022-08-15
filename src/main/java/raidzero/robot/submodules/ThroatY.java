@@ -1,15 +1,10 @@
 package raidzero.robot.submodules;
 
-import raidzero.robot.wrappers.LazyCANSparkMax;
 import raidzero.robot.wrappers.LazyTalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-// import raidzero.robot.Constants.ConveyorConstants;
 import raidzero.robot.Constants.ThroatYConstants;
 
 public class ThroatY extends Submodule {

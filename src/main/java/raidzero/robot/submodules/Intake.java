@@ -1,13 +1,11 @@
 package raidzero.robot.submodules;
 
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import raidzero.robot.Constants;
 import raidzero.robot.Constants.IntakeConstants;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import raidzero.robot.wrappers.InactiveDoubleSolenoid;
 import raidzero.robot.wrappers.LazyCANSparkMax;
 
 
@@ -30,7 +28,7 @@ public class Intake extends Submodule {
     private LazyCANSparkMax motorLeft;
     private LazyCANSparkMax motorRight;
 
-    private InactiveDoubleSolenoid s_intake;
+    private DoubleSolenoid s_intake;
 
 
     // private NetworkTableEntry shooterVelocityEntry =
@@ -52,16 +50,15 @@ public class Intake extends Submodule {
         motorRight.restoreFactoryDefaults();
         motorRight.setIdleMode(IntakeConstants.NEUTRAL_MODE);
 
-        motorRight._follow(motorLeft, true);
+        motorRight.follow(motorLeft, true);
 
-        s_intake = new InactiveDoubleSolenoid(2, 3);
+        s_intake = new DoubleSolenoid(Constants.PNEUMATICS_MODULE_TYPE, 2, 3);
     }
 
     @Override
     public void onStart(double timestamp) {
         outputPercentSpeed = 0.0;
 
-        s_intake.setActive(true);
         s_intake.set(Value.kForward);
     }
 
@@ -79,8 +76,6 @@ public class Intake extends Submodule {
     public void stop() {
         outputPercentSpeed = 0.0;
         motorLeft.set(outputPercentSpeed);
-
-        s_intake.setActive(false);
     }
 
     @Override

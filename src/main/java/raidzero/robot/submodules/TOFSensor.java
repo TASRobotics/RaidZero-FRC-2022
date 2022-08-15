@@ -1,7 +1,6 @@
 package raidzero.robot.submodules;
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
-import com.playingwithfusion.TimeOfFlight.Status;
 
 import raidzero.robot.Constants.TOFSensorConstants;
 

@@ -15,7 +15,7 @@ import raidzero.robot.submodules.Shooter;
 import raidzero.robot.submodules.Limelight.CameraMode;
 import raidzero.robot.submodules.Limelight.LedMode;
 
-import raidzero.lib.util.TimedBoolean;
+import raidzero.robot.utils.TimerBoolean;
 
 /**
  * Action for turning the turret towards the goal using vision.
@@ -37,7 +37,7 @@ public class TurnToGoal implements Action {
     private double headingError;
     private DefaultMode defaultMode = DefaultMode.STOP;
 
-    private TimedBoolean onTarget = new TimedBoolean(LimelightConstants.AIM_ON_TARGET_DURATION);
+    private TimerBoolean onTarget = new TimerBoolean(LimelightConstants.AIM_ON_TARGET_DURATION);
 
     public TurnToGoal() {
         this(DefaultMode.STOP);

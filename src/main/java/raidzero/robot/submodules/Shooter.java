@@ -1,7 +1,6 @@
 package raidzero.robot.submodules;
 
 import raidzero.robot.wrappers.LazyTalonFX;
-import raidzero.robot.wrappers.LazyTalonSRX;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;

@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import org.apache.commons.math3.util.FastMath;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public class Constants {
     /**
@@ -300,4 +301,6 @@ public class Constants {
     public static final double SQRTTWO = Math.sqrt(2);
 
     public static final String CANBUS_STRING = "seCANdary";
+
+    public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
 }

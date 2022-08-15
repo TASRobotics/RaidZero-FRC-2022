@@ -2,6 +2,9 @@ package raidzero.robot.submodules;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Timer;
+
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
+
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -18,8 +21,6 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import raidzero.robot.Constants;
 import raidzero.robot.Constants.SwerveConstants;
 import raidzero.robot.dashboard.Tab;
-import raidzero.robot.wrappers.SendablePigeon;
-
 
 public class Swerve extends Submodule {
 
@@ -44,7 +45,7 @@ public class Swerve extends Submodule {
     private SwerveModule bottomLeftModule = new SwerveModule();
     private SwerveModule bottomRightModule = new SwerveModule();
 
-    private SendablePigeon pigeon;
+    private WPI_Pigeon2 pigeon;
 
     private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
         SwerveConstants.MODULE_TOP_LEFT_POSITION, 
@@ -75,7 +76,7 @@ public class Swerve extends Submodule {
     }
 
     public void onInit() {
-        pigeon = new SendablePigeon(0, Constants.CANBUS_STRING);
+        pigeon = new WPI_Pigeon2(0, Constants.CANBUS_STRING);
         Shuffleboard.getTab(Tab.MAIN).add("Pigey", pigeon).withSize(2, 2).withPosition(4, 4);
 
         topRightModule.onInit(
@@ -104,7 +105,7 @@ public class Swerve extends Submodule {
         );
 
         odometry = new SwerveDriveOdometry(
-            kinematics, Rotation2d.fromDegrees(pigeon.getHeading()));
+            kinematics, Rotation2d.fromDegrees(pigeon.getAngle()));
 
         pathController = new HolonomicDriveController(
             new PIDController(1, 0, 0), 
@@ -173,7 +174,7 @@ public class Swerve extends Submodule {
     }
 
     public void setPose(Pose2d pose) {
-        odometry.resetPosition(pose, Rotation2d.fromDegrees(pigeon.getHeading()));
+        odometry.resetPosition(pose, Rotation2d.fromDegrees(pigeon.getAngle()));
     }
 
     public Pose2d getPose() {
@@ -186,7 +187,7 @@ public class Swerve extends Submodule {
 
     private Pose2d updateOdometry() { 
         return odometry.update(
-            Rotation2d.fromDegrees(pigeon.getHeading()),
+            Rotation2d.fromDegrees(pigeon.getAngle()),
             topLeftModule.getState(),
             topRightModule.getState(),
             bottomLeftModule.getState(),
@@ -204,7 +205,7 @@ public class Swerve extends Submodule {
                 fieldOriented
                 ? ChassisSpeeds.fromFieldRelativeSpeeds(
                     xSpeed, ySpeed, angularSpeed, 
-                    Rotation2d.fromDegrees(pigeon.getHeading())
+                    Rotation2d.fromDegrees(pigeon.getAngle())
                   )
                 : new ChassisSpeeds(xSpeed, ySpeed, angularSpeed)
             );
